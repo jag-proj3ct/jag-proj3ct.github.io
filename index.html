@@ -4,325 +4,149 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Domingo's - Jag Project</title>
-        <link rel="icon" href="https://d1yjjnpx0p53s8.cloudfront.net/pp840x830-pad1000x1000f8f8f8.jpg?9oPTJs..erd0K9tiddIL4J9OjiCfetIN" />
+    <link rel="icon" href="https://d1yjjnpx0p53s8.cloudfront.net/pp840x830-pad1000x1000f8f8f8.jpg?9oPTJs..erd0K9tiddIL4J9OjiCfetIN" />
     <style>
       body {
         color: black;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
-        height: 100vh;
+        justify-content: flex-start;
+        min-height: 100vh;
         margin: 0;
         background: #fff;
         text-align: center;
         font-family: Arial, Helvetica, sans-serif;
         font-weight: bold;
-}
+        padding: 40px 20px;
+        gap: 40px; /* space between sections */
+      }
 
-.player {
-  height: 5vh;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.wrapper {
-  border: 1px solid transparent;
-  padding: 30px;
-  border-radius: 20px;
-  box-shadow: rgba(0, 0, 0, 0.3) 0px 20px 38px,
-              rgba(0, 0, 0, 0.22) 0px 20px 12px;
-
-}
-
-.details {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.track-art {
-  position: relative;
-  margin: 25px;
-  height: 280px;           /* square size */
-  width: 280px;
-  border-radius: 12px;     /* square with rounded corners */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: visible;       /* vinyl can stick out */
-  box-shadow: 0px 2px 8px rgba(0,0,0,0.6);
-}
-
-/* Vinyl disc */
-.vinyl {
-  position: absolute;
-  height: 80%;             /* ~30% smaller than the square */
-  width: 80%;
-  top: 10%;
-  left: 50%;              /* push right so ~30% of vinyl sticks out */
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  background: radial-gradient(circle, #111 60%, #333 85%, #111 100%);
-  animation: rotation 8s infinite linear;
-  z-index: 0;
-}
-
-/* Album cover */
-.cover {
-  position: relative;
-  height: 100%;
-  width: 100%;
-  border-radius: 12px;
-  background-size: cover;
-  background-position: center;
-  z-index: 2;              /* sits above vinyl */
-  box-shadow: 0px 4px 6px rgba(0,0,0,0.5);
-}
-
-/* Only vinyl rotates */
-.track-art.rotate .vinyl {
-  animation-play-state: running;
-}
-.track-art .vinyl {
-  animation-play-state: paused;
-}
-
-@keyframes rotation {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to   { transform: translate(-50%, -50%) rotate(360deg); }
-}
-      
-.track-name {
-  font-size: 2.5rem;
-}
-
-.track-artist {
-  margin-top: 5px;
-  font-size: 1.5rem;
-}
-
-.buttons {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 30px;
-}
-
-.active {
-  color: black;
-}
-
-.repeat-track,
-.random-track,
-.playpause-track,
-.prev-track,
-.next-track {
-  padding: 25px;
-  opacity: 0.8;
-  transition: opacity .2s;
-}
-
-.repeat-track:hover,
-.random-track:hover,
-.playpause-track:hover,
-.prev-track:hover,
-.next-track:hover {
-  opacity: 1.0;
-}
-
-.slider_container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.seek_slider,
-.volume_slider {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  height: 5px;
-  background: #83A9FF;
-  -webkit-transition: .2s;
-  transition: opacity .2s;
-}
-
-.seek_slider::-webkit-slider-thumb,
-.volume_slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  width: 15px;
-  height: 15px;
-  background: white;
-  border: 3px solid #3774FF;
-  cursor: grab;
-  border-radius: 100%;
-}
-
-.seek_slider:hover,
-.volume_slider:hover {
-  opacity: 1.0;
-}
-
-.seek_slider {
-  width: 60%;
-}
-
-.volume_slider {
-  width: 30%;
-}
-
-.current-time,
-.total-duration {
-  padding: 10px;
-}
-
-i.fa-volume-down,
-i.fa-volume-up {
-  padding: 10px;
-}
-
-i,
-i.fa-play-circle,
-i.fa-pause-circle,
-i.fa-step-forward,
-i.fa-step-backward,
-p {
-  cursor: pointer;
-}
-
-.randomActive {
-  color: black;
-}
-
-.rotate {
-  animation: rotation 8s infinite linear;
-}
-
-@keyframes rotation {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(359deg); }
-}
-
-.loader {
-  height: 70px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.loader .stroke {
-  background: #f1f1f1;
-  height: 150%;
-  width: 10px;
-  border-radius: 50px;
-  margin: 0 5px;
-  animation: animate 1.4s linear infinite;
-}
-
-@keyframes animate {
-  50% {
-    height: 20%;
-    background: #4286f4;
-  }
-  100% {
-    background: #4286f4;
-    height: 100%;
-  }
-}
-
-.stroke:nth-child(1) { animation-delay: 0s; }
-.stroke:nth-child(2) { animation-delay: 0.3s; }
-.stroke:nth-child(3) { animation-delay: 0.6s; }
-.stroke:nth-child(4) { animation-delay: 0.9s; }
-.stroke:nth-child(5) { animation-delay: 0.6s; }
-.stroke:nth-child(6) { animation-delay: 0.3s; }
-.stroke:nth-child(7) { animation-delay: 0s; }
-	  
-      .profile-card {
-        width: 600px;
-        height: 300px;
+      /* General card style */
+      .card {
+        width: 100%;
+        max-width: 700px;
         border-radius: 12px;
-        background-color: #ddd;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        padding: 30px;
+      }
+
+      /* Profile card */
+      .profile-card {
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        transition: box-shadow 0.3s ease, transform 0.3s ease;
-        margin-bottom: 20px;
       }
-      .profile-card:hover {
-        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-        transform: translateY(-4px);
-      }
-
-      /* Profile image wrapper for frame + profile pic */
       .profile-pic-wrapper {
         position: relative;
         width: 150px;
         height: 150px;
+        margin-bottom: 15px;
       }
-
       .profile-pic-wrapper img {
         position: absolute;
-        top: 0;
-        left: 0;
+        top: 0; left: 0;
         width: 150px;
         height: 150px;
         border-radius: 50%;
-        transition: transform 0.3s ease, filter 0.3s ease;
-        cursor: pointer;
       }
-
-      /* Main profile image hover effect */
       .profile-pic-wrapper img.profile {
         z-index: 1;
+        transition: transform 0.3s ease, filter 0.3s ease;
+        cursor: pointer;
       }
       .profile-pic-wrapper img.profile:hover {
         transform: scale(1.05);
         filter: brightness(1.0);
       }
-
-      /* Kanye frame on top */
       .profile-pic-wrapper img.frame {
         z-index: 2;
-        pointer-events: none; /* frame won’t block hover */
-        transition: filter 0.3s ease, box-shadow 0.3s ease;
+        pointer-events: none;
       }
-      .profile-pic-wrapper:hover img.frame {
-        filter: brightness(1.2);
-        box-shadow: 0 0 12px #EDA20C;
-      }
-
       h1, p {
-        transition: transform 0.3s ease, color 0.3s ease;
-        cursor: pointer;
+        margin: 8px 0;
       }
       h1:hover, p:hover {
         transform: scale(1.05);
         color:#EDA20C;
+        transition: transform 0.3s ease, color 0.3s ease;
+        cursor: pointer;
+      }
+
+      /* Music player */
+      .player .wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+      }
+      .track-art {
+        position: relative;
+        margin: 15px 0;
+        height: 220px;
+        width: 220px;
+        border-radius: 12px;
+        box-shadow: 0px 2px 8px rgba(0,0,0,0.6);
+      }
+      .vinyl {
+        position: absolute;
+        height: 80%;
+        width: 80%;
+        top: 10%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        background: radial-gradient(circle, #111 60%, #333 85%, #111 100%);
+        animation: rotation 8s infinite linear;
+        z-index: 0;
+      }
+      .cover {
+        position: relative;
+        height: 100%;
+        width: 100%;
+        border-radius: 12px;
+        background-size: cover;
+        background-position: center;
+        z-index: 2;
+      }
+      .track-name {
+        font-size: 1.5rem;
+      }
+      .track-artist {
+        font-size: 1rem;
+        margin-top: 5px;
+      }
+      .buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 15px;
+      }
+      .slider_container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        width: 80%;
+      }
+      .seek_slider, .volume_slider {
+        width: 100%;
+      }
+
+      @keyframes rotation {
+        from { transform: translate(-50%, -50%) rotate(0deg); }
+        to   { transform: translate(-50%, -50%) rotate(360deg); }
       }
 
       /* Game styling */
       .game {
-        margin-top: 20px;
-        padding: 20px;
-        border: 2px solid #ccc;
-        border-radius: 12px;
-        background: #f4f4f4;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        width: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
       }
-      .game h1 {
-        margin: 10px 0;
-      }
-      button {
+      .game button {
         padding: 10px 20px;
         font-size: 18px;
         border: none;
@@ -332,18 +156,18 @@ p {
         cursor: pointer;
         transition: transform 0.2s ease, background 0.3s ease;
       }
-      button:hover {
+      .game button:hover {
         transform: scale(1.1);
         background: #c87f00;
       }
       .stats {
-        margin-top: 15px;
         font-size: 18px;
       }
     </style>
   </head>
   <body>
-    <div class="profile-card">
+    <!-- Profile -->
+    <div class="card profile-card">
       <div class="profile-pic-wrapper">
         <img src="meee.png" alt="Profile" class="profile">
         <img src="frame.png" alt="Kanye Frame" class="frame">
@@ -351,62 +175,41 @@ p {
       <h1>Domingo Gutierrez Ramos</h1>
       <p>JAG 9th · 15 years old</p>
     </div>
-    
-   <div class="player">
-       <div class="wrapper">
-           <div class="details">
-               <div class="now-playing">PLAYING x OF y</div>
-<div class="track-art">
-  <div class="disc"></div>   <!-- spinning vinyl -->
-  <div class="cover"></div>  <!-- static square cover -->
-</div>
-               <div class="track-name">Track Name</div>
-               <div class="track-artist">Track Artist</div>
-           </div>
 
-           <div class="slider_container">
-               <div class="current-time">00:00</div>
-                <input type="range" min="1" max="100" value="0" class="seek_slider" onchange="seekTo()">
-                <div class="total-duration">00:00</div>
-           </div>
+    <!-- Music Player -->
+    <div class="card player">
+      <div class="wrapper">
+        <div class="details">
+          <div class="now-playing">PLAYING x OF y</div>
+          <div class="track-art">
+            <div class="vinyl"></div>
+            <div class="cover"></div>
+          </div>
+          <div class="track-name">Track Name</div>
+          <div class="track-artist">Track Artist</div>
+        </div>
+        <div class="slider_container">
+          <div class="current-time">00:00</div>
+          <input type="range" min="1" max="100" value="0" class="seek_slider">
+          <div class="total-duration">00:00</div>
+        </div>
+        <div class="slider_container">
+          <i class="fa fa-volume-down"></i>
+          <input type="range" min="1" max="100" value="99" class="volume_slider">
+          <i class="fa fa-volume-up"></i>
+        </div>
+        <div class="buttons">
+          <i class="fas fa-random fa-2x"></i>
+          <i class="fa fa-step-backward fa-2x"></i>
+          <i class="fa fa-play-circle fa-4x"></i>
+          <i class="fa fa-step-forward fa-2x"></i>
+          <i class="fa fa-repeat fa-2x"></i>
+        </div>
+      </div>
+    </div>
 
-           <div class="slider_container">
-               <i class="fa fa-volume-down"></i>
-                <input type="range" min="1" max="100" value="99" class="volume_slider" onchange="setVolume()">
-                <i class="fa fa-volume-up"></i>
-           </div>
-
-           <div class="buttons">
-               <div class="random-track" onclick="randomTrack()">
-                   <i class="fas fa-random fa-2x" title="random"></i>
-               </div>
-               <div class="prev-track" onclick="prevTrack()">
-                    <i class="fa fa-step-backward fa-2x"></i>
-                </div>
-                <div class="playpause-track" onclick="playpauseTrack()">
-                    <i class="fa fa-play-circle fa-5x"></i>
-                </div>
-                <div class="next-track" onclick="nextTrack()">
-                    <i class="fa fa-step-forward fa-2x"></i>
-                </div>
-                <div class="repeat-track" onclick="repeatTrack()">
-                    <i class="fa fa-repeat fa-2x" title="repeat"></i>
-                </div>
-           </div>
-
-            <div id="wave">
-                <span class="stroke"></span>
-                <span class="stroke"></span>
-                <span class="stroke"></span>
-                <span class="stroke"></span>
-                <span class="stroke"></span>
-                <span class="stroke"></span>
-                <span class="stroke"></span>
-            </div>  
-       </div>
-   </div>
-
-    <div class="game">
+    <!-- Clicker Game -->
+    <div class="card game">
       <h1>THE VOTE CLICKER GAME!</h1>
       <button id="clickBtn">Click Me!</button>
       <div class="stats">
@@ -448,6 +251,5 @@ p {
 
       updateDisplay();
     </script>
-    <script src="kanye.js"></script>
   </body>
 </html>
