@@ -69,8 +69,8 @@ function renderWave() {
 renderWave();
 
 /* ---- Music list ---- */
-const basePath = "./images";
-const coverDefault = "cover-art.jpg";
+const basePath = "./music";       // where your MP3s live
+const coverDefault = "./images/cover-art.jpg";  // default cover
 
 const music_list = [
   { name: "intro (skit)", file: "intro.mp3" },
@@ -97,7 +97,7 @@ const music_list = [
   img: track.cover || coverDefault,
   name: track.name,
   artist: track.artist || "Kanye West",
-  music: basePath + track.file
+  music: `${basePath}/${track.file}`
 }));
 
 /* ---- Player functions ---- */
