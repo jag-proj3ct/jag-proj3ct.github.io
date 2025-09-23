@@ -69,7 +69,7 @@ function renderWave() {
 renderWave();
 
 /* ---- Music list ---- */
-const basePath = "cover-art.jpg";
+const basePath = "./images";
 const coverDefault = "cover-art.jpg";
 
 const music_list = [
