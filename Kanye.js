@@ -75,8 +75,8 @@ function renderWave() {
 renderWave();
 
 /* ---- Music list (per-track cover allowed) ---- */
-const basePath = "./music/albums/dropout/";
-const coverDefault = "https://raw.githubusercontent.com/bguhm/bguhm.github.io/main/music/albums/dropout/cover.png";
+const basePath = "/";
+const coverDefault = "cover-art.jpg";
 
 /* You can add a `cover` property per track to override the default cover.
    The last track below deliberately has a different cover file "maybe.png". */
