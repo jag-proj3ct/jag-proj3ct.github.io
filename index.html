@@ -4,30 +4,35 @@
     <title>Jag Project</title>
     <style>
       body {
-        color: white;
+        color: black;               /* Text will be black now */
         display: flex;
-        align-items: center;       /* Vertical center */
-        justify-content: center;  /* Horizontal center */
-        height: 100vh;            /* Full viewport height */
-        margin: 0;                /* Remove default margin */
-        background: #000;         /* Optional background */
+        align-items: center;        /* Vertical center */
+        justify-content: center;    /* Horizontal center */
+        height: 100vh;              /* Full viewport height */
+        margin: 0;                  /* Remove default margin */
+        background: #fff;           /* White background */
       }
       div {
-        width: 250px;
-        height: 550px;
+        width: 600px;               /* Thicker (wider) */
+        height: 300px;              /* More block-shaped */
         border-radius: 12px;
-        background-color: #111;
-        display: flex;            /* To center content inside */
+        background-color: #ddd;     /* Light grey */
+        display: flex;              /* To center content inside */
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* Soft shadow */
+      }
+      img {
+        border-radius:50%;
       }
     </style>
   </head>
   <body>
     <div>
-      <h1>Centered Box</h1>
-      <p>This box is perfectly centered.</p>
+      <img src="">
+      <h1>Domingo Gutierrez Ramos</h1>
+      <p>JAG 9th 15 years old</p>
     </div>
   </body>
 </html>
