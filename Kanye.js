@@ -1,12 +1,3 @@
-/***********************
- * music-player.js
- * Merged/updated version:
- * - preserves original variable names
- * - supports per-track cover art
- * - creates .vinyl (rotating) + .cover (static) inside .track-art
- * - last track uses a different cover (maybe.png)
- ***********************/
-
 /* DOM references (kept same as your original) */
 let now_playing = document.querySelector('.now-playing');
 let track_art = document.querySelector('.track-art');
@@ -84,38 +75,37 @@ function renderWave() {
 renderWave();
 
 /* ---- Music list (per-track cover allowed) ---- */
-const basePath = "./music/albums/maybe-maybe/";
-const coverDefault = "https://raw.githubusercontent.com/bguhm/bguhm.github.io/main/music/albums/maybe-maybe/maybe-maybe-cover-art.png";
+const basePath = "./music/albums/dropout/";
+const coverDefault = "https://raw.githubusercontent.com/bguhm/bguhm.github.io/main/music/albums/dropout/cover.png";
 
 /* You can add a `cover` property per track to override the default cover.
    The last track below deliberately has a different cover file "maybe.png". */
 const music_list = [
-  { name: "Slackrr.", file: "slackrr.mp3" },
-  { name: "Caramel eyes.", file: "caramel-eyes.mp3" },
-  { name: "PUNK HAZARD", file: "punk-hazard.mp3" },
-  { name: "HOUND.", file: "hound.mp3" },
-  { name: "Arizona Girl", file: "arizona-girl.mp3" },
-  { name: "MARIGOLD.", file: "marigold.m4a" },
-  { name: "Besto Friendo", file: "besto-friendo.mp3" },
-  { name: "HippoCript.", file: "hippocript.mp3" },
-  { name: "AloneAgain.", file: "alone-again.mp3" },
-  { name: "RoofTop.", file: "rooftop.mp3" },
-  { name: "November.", file: "november.mp3" },
-  { name: "Street.", file: "street.mp3" },
-  { name: "Self Concious.", file: "self-concious.mp3" },
-  { name: "Scribble.", file: "scribble.mp3" },
-  { name: "Feelings In A Bottle.", file: "fiab.mp3" },
-  { name: "SoloCup.", file: "solocup.mp3" },
-  { name: "Bg.uhm", file: "bguhm.mp3" },
-  { name: "6:27", file: "627.mp3" },
-  { name: "Daisy.", file: "daisy.mp3" },
-
-  /* last track overrides cover to maybe.png (relative path to your repo) */
-  { name: "Maybe (Maybe).", file: "maybe-maybe.m4a", cover: "https://raw.githubusercontent.com/bguhm/bguhm.github.io/main/music/albums/maybe-maybe/maybe-cover-art.png" }
+  { name: "intro (skit)", file: "intro.mp3" },
+  { name: "We Dont Care", file: "we-dont-care.mp3" },
+  { name: "Graduation Day", file: "graduation-day.mp3" },
+  { name: "All Falls Down.", file: "all-falls-down.mp3" },
+  { name: "Ill Fly Away", file: "fly-away.mp3" },
+  { name: "Spaceship", file: "spaceship.m4a" },
+  { name: "Jesus Walks", file: "jesuswalks.mp3" },
+  { name: "Never Let Me Down", file: "never-let-me-down.mp3" },
+  { name: "Workout Plan (skit)", file: "get-em-high.mp3" },
+  { name: "The New Workout Plan", file: "new-workout-plan.mp3" },
+  { name: "Slow Jamz", file: "slowjamz.mp3" },
+  { name: "Breathe in Breathe Out", file: "bibo.mp3" },
+  { name: "school spirit (skit 1)", file: "ss-s1.mp3" },
+  { name: "School Spirit", file: "school-spirit.mp3" },
+  { name: "school spirit (skit 2)", file: "ss-s2.mp3" },
+  { name: "Little Jimmy (skit)", file: "liljimmy-s.mp3" },
+  { name: "Two Words", file: "2words.mp3" },
+  { name: "Through The Wire", file: "through-the-wire.mp3" },
+  { name: "Family Business", file: "family-business" },
+  { name: "Last Call", file: "last-call.mp3" }
+  
 ].map(track => ({
   img: track.cover || coverDefault,     // per-track cover or fallback
   name: track.name,
-  artist: track.artist || "Rhap5ody.",
+  artist: track.artist || "Kanye West",
   music: basePath + track.file
 }));
 
