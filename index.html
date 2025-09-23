@@ -216,7 +216,7 @@
     <div class="buttons">
       <i class="fas fa-random fa-2x"></i>
       <i class="fa fa-step-backward fa-2x"></i>
-      <i class="fa fa-play-circle fa-4x"></i>
+      <i id="playBtn" class="fa fa-play-circle fa-4x"></i>
       <i class="fa fa-step-forward fa-2x"></i>
       <i class="fa fa-repeat fa-2x"></i>
     </div>
@@ -266,5 +266,25 @@
 
       updateDisplay();
     </script>
+    <script>
+  const playBtn = document.getElementById("playBtn");
+  const vinyl = document.querySelector(".vinyl");
+
+  let isPlaying = false;
+
+  playBtn.addEventListener("click", () => {
+    isPlaying = !isPlaying;
+
+    if (isPlaying) {
+      vinyl.classList.add("playing");
+      playBtn.classList.remove("fa-play-circle");
+      playBtn.classList.add("fa-pause-circle");
+    } else {
+      vinyl.classList.remove("playing");
+      playBtn.classList.remove("fa-pause-circle");
+      playBtn.classList.add("fa-play-circle");
+    }
+  });
+</script>
   </body>
 </html>
