@@ -75,7 +75,7 @@ function renderWave() {
 renderWave();
 
 /* ---- Music list (per-track cover allowed) ---- */
-const basePath = "/";
+const basePath = "cover-art.jpg";
 const coverDefault = "cover-art.jpg";
 
 /* You can add a `cover` property per track to override the default cover.
