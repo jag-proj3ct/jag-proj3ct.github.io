@@ -1,4 +1,4 @@
-/* DOM references (kept same as your original) */
+/* DOM references */
 let now_playing = document.querySelector('.now-playing');
 let track_art = document.querySelector('.track-art');
 let track_name = document.querySelector('.track-name');
@@ -32,33 +32,27 @@ analyser.fftSize = 256;
 let bufferLength = analyser.frequencyBinCount;
 let dataArray = new Uint8Array(bufferLength);
 
-/* helper: ensure .vinyl and .cover exist inside .track-art */
-let discEl, coverEl;
+/* ---- Vinyl + Cover references ---- */
+let vinylEl, coverEl;
 function ensureArtChildren() {
   if (!track_art) return;
-  discEl = track_art.querySelector('.vinyl');
+  vinylEl = track_art.querySelector('.vinyl');
   coverEl = track_art.querySelector('.cover');
 
-  // Create disc (rotates) if missing
-  if (!discEl) {
-    discEl = document.createElement('div');
-    discEl.className = 'disc';
-    // let CSS control appearance; insert as first child (beneath cover)
-    track_art.insertBefore(discEl, track_art.firstChild);
+  if (!vinylEl) {
+    vinylEl = document.createElement('div');
+    vinylEl.className = 'vinyl';
+    track_art.appendChild(vinylEl);
   }
-
-  // Create cover (top, static) if missing
   if (!coverEl) {
     coverEl = document.createElement('div');
     coverEl.className = 'cover';
     track_art.appendChild(coverEl);
   }
 }
-
-/* call once on load */
 ensureArtChildren();
 
-/* Animate wave (simple scaleY approach like before) */
+/* ---- Wave animation ---- */
 function renderWave() {
   requestAnimationFrame(renderWave);
   if (isPlaying) {
@@ -74,12 +68,10 @@ function renderWave() {
 }
 renderWave();
 
-/* ---- Music list (per-track cover allowed) ---- */
+/* ---- Music list ---- */
 const basePath = "cover-art.jpg";
 const coverDefault = "cover-art.jpg";
 
-/* You can add a `cover` property per track to override the default cover.
-   The last track below deliberately has a different cover file "maybe.png". */
 const music_list = [
   { name: "intro (skit)", file: "intro.mp3" },
   { name: "We Dont Care", file: "we-dont-care.mp3" },
@@ -101,15 +93,14 @@ const music_list = [
   { name: "Through The Wire", file: "through-the-wire.mp3" },
   { name: "Family Business", file: "family-business" },
   { name: "Last Call", file: "last-call.mp3" }
-  
 ].map(track => ({
-  img: track.cover || coverDefault,     // per-track cover or fallback
+  img: track.cover || coverDefault,
   name: track.name,
   artist: track.artist || "Kanye West",
   music: basePath + track.file
 }));
 
-/* ---- Player functions (kept same behavior, updated for disc/cover) ---- */
+/* ---- Player functions ---- */
 loadTrack(track_index);
 document.body.style.background = "#222";
 
@@ -117,21 +108,15 @@ function loadTrack(index) {
   clearInterval(updateTimer);
   reset();
 
-  // Bound check
   if (index < 0) index = 0;
   if (index >= music_list.length) index = music_list.length - 1;
 
   curr_track.src = music_list[index].music;
   curr_track.load();
 
-  // Ensure art children exist (in case HTML changed after load)
   ensureArtChildren();
-
-  // Set cover art on the .cover element
   if (coverEl) coverEl.style.backgroundImage = `url("${music_list[index].img}")`;
 
-  // (Optional) allow a 'disc' visual per-track (not required). If you add a 'disc' property later,
-  // you could set discEl.style.backgroundImage = `url("${music_list[index].vinyl}")`
   track_name.textContent = music_list[index].name;
   track_artist.textContent = music_list[index].artist;
   now_playing.textContent = `Playing music ${index + 1} of ${music_list.length}`;
@@ -146,48 +131,30 @@ function reset() {
   seek_slider.value = 0;
 }
 
-function randomTrack() {
-  isRandom ? pauseRandom() : playRandom();
-}
-function playRandom() {
-  isRandom = true;
-  if (randomIcon) randomIcon.classList.add('randomActive');
-}
-function pauseRandom() {
-  isRandom = false;
-  if (randomIcon) randomIcon.classList.remove('randomActive');
-}
-function repeatTrack() {
-  loadTrack(track_index);
-  playTrack();
-}
 function playpauseTrack() {
   isPlaying ? pauseTrack() : playTrack();
 }
 function playTrack() {
-  // resume audio context for autoplay policies
-  if (audioCtx && audioCtx.state === 'suspended') {
-    audioCtx.resume();
-  }
+  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
 
-  curr_track.play().catch(err => {
-    // Autoplay blocked — user interaction required. Silently ignore here.
-    // You could show a notice prompting user to click to start.
-    // console.warn('Playback failed (autoplay policy):', err);
-  });
-
+  curr_track.play().catch(() => {});
   isPlaying = true;
 
-  // rotate the disc element (not the cover) so the cover stays static
-  if (discEl) discEl.classList.add('rotate');
+  // Vinyl slides out + spins
+  if (vinylEl) vinylEl.classList.add('playing');
+
   playpause_btn.innerHTML = '<i class="fa fa-pause-circle fa-5x"></i>';
 }
 function pauseTrack() {
   curr_track.pause();
   isPlaying = false;
-  if (discEl) discEl.classList.remove('rotate');
+
+  // Vinyl slides back in + stops
+  if (vinylEl) vinylEl.classList.remove('playing');
+
   playpause_btn.innerHTML = '<i class="fa fa-play-circle fa-5x"></i>';
 }
+
 function nextTrack() {
   if (track_index < music_list.length - 1 && !isRandom) {
     track_index++;
@@ -231,8 +198,3 @@ function setUpdate() {
     total_duration.textContent = `${durationMinutes}:${durationSeconds}`;
   }
 }
-
-/* Optional: if you want click handlers in JS instead of inline onclick attributes */
-// playpause_btn && playpause_btn.addEventListener('click', playpauseTrack);
-// next_btn && next_btn.addEventListener('click', nextTrack);
-// prev_btn && prev_btn.addEventListener('click', prevTrack);
