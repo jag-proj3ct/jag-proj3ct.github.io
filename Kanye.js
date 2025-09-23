@@ -34,23 +34,29 @@ let dataArray = new Uint8Array(bufferLength);
 
 /* ---- Vinyl + Cover references ---- */
 let vinylEl, coverEl;
+
 function ensureArtChildren() {
   if (!track_art) return;
-  vinylEl = track_art.querySelector('.vinyl');
-  coverEl = track_art.querySelector('.cover');
 
+  // First try to find existing HTML elements
+  coverEl = track_art.querySelector('.cover');
+  vinylEl = track_art.querySelector('.vinyl');
+
+  // If missing, create and insert in the right order
   if (!vinylEl) {
     vinylEl = document.createElement('div');
     vinylEl.className = 'vinyl';
-    track_art.appendChild(vinylEl);
+    track_art.insertBefore(vinylEl, track_art.firstChild); // vinyl always behind
   }
+
   if (!coverEl) {
     coverEl = document.createElement('div');
     coverEl.className = 'cover';
-    track_art.appendChild(coverEl);
+    track_art.appendChild(coverEl); // cover always above vinyl
   }
 }
 ensureArtChildren();
+
 
 /* ---- Wave animation ---- */
 function renderWave() {
