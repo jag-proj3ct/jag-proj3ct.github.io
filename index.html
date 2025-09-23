@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jag Project</title>
+    <link rel="stylesheet" href="music-player.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
       body {
         color: black;
@@ -18,41 +21,29 @@
       }
       .profile-card {
         width: 600px;
-        height: 300px;
+        min-height: 400px;
         border-radius: 12px;
         background-color: #ddd;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         transition: box-shadow 0.3s ease, transform 0.3s ease;
         margin-bottom: 20px;
+        padding: 20px;
       }
       .profile-card:hover {
         box-shadow: 0 8px 20px rgba(0,0,0,0.2);
         transform: translateY(-4px);
       }
-
-      /* Shared transition styles */
       img, h1, p {
         transition: transform 0.3s ease, filter 0.3s ease, color 0.3s ease;
         cursor: pointer;
       }
-
-      /* Individual hover effects */
-      img:hover {
-        transform: scale(1.05);
-        filter: brightness(1.0);
-      }
-      h1:hover, p:hover {
-        transform: scale(1.05);
-        color:#EDA20C;
-      }
-      img {
-        width:150px;
-        border-radius:50%;
-      }
+      img:hover { transform: scale(1.05); filter: brightness(1.0); }
+      h1:hover, p:hover { transform: scale(1.05); color:#EDA20C; }
+      img { width:150px; border-radius:50%; }
 
       /* Game styling */
       .game {
@@ -64,9 +55,7 @@
         box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         width: 400px;
       }
-      .game h1 {
-        margin: 10px 0;
-      }
+      .game h1 { margin: 10px 0; }
       button {
         padding: 10px 20px;
         font-size: 18px;
@@ -77,13 +66,13 @@
         cursor: pointer;
         transition: transform 0.2s ease, background 0.3s ease;
       }
-      button:hover {
-        transform: scale(1.1);
-        background: #c87f00;
-      }
-      .stats {
-        margin-top: 15px;
-        font-size: 18px;
+      button:hover { transform: scale(1.1); background: #c87f00; }
+      .stats { margin-top: 15px; font-size: 18px; }
+
+      /* Music player wrapper inside card */
+      .player {
+        margin-top: 20px;
+        width: 100%;
       }
     </style>
   </head>
@@ -92,6 +81,61 @@
       <img src="meee.png" alt="Profile">
       <h1>Domingo Gutierrez Ramos</h1>
       <p>JAG 9th · 15 years old</p>
+
+      <!-- Music Player inserted here -->
+      <div class="player">
+        <div class="wrapper">
+          <div class="details">
+            <div class="now-playing">PLAYING x OF y</div>
+            <div class="track-art">
+              <div class="disc"></div>
+              <div class="cover"></div>
+            </div>
+            <div class="track-name">Track Name</div>
+            <div class="track-artist">Track Artist</div>
+          </div>
+
+          <div class="slider_container">
+            <div class="current-time">00:00</div>
+            <input type="range" min="1" max="100" value="0" class="seek_slider" onchange="seekTo()">
+            <div class="total-duration">00:00</div>
+          </div>
+
+          <div class="slider_container">
+            <i class="fa fa-volume-down"></i>
+            <input type="range" min="1" max="100" value="99" class="volume_slider" onchange="setVolume()">
+            <i class="fa fa-volume-up"></i>
+          </div>
+
+          <div class="buttons">
+            <div class="random-track" onclick="randomTrack()">
+              <i class="fas fa-random fa-2x" title="random"></i>
+            </div>
+            <div class="prev-track" onclick="prevTrack()">
+              <i class="fa fa-step-backward fa-2x"></i>
+            </div>
+            <div class="playpause-track" onclick="playpauseTrack()">
+              <i class="fa fa-play-circle fa-5x"></i>
+            </div>
+            <div class="next-track" onclick="nextTrack()">
+              <i class="fa fa-step-forward fa-2x"></i>
+            </div>
+            <div class="repeat-track" onclick="repeatTrack()">
+              <i class="fa fa-repeat fa-2x" title="repeat"></i>
+            </div>
+          </div>
+
+          <div id="wave">
+            <span class="stroke"></span>
+            <span class="stroke"></span>
+            <span class="stroke"></span>
+            <span class="stroke"></span>
+            <span class="stroke"></span>
+            <span class="stroke"></span>
+            <span class="stroke"></span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="game">
@@ -104,6 +148,7 @@
       <button id="resetBtn">Reset Game</button>
     </div>
 
+    <!-- Your clicker game script -->
     <script>
       let clicks = parseInt(localStorage.getItem("clicks")) || 0;
       let best = parseInt(localStorage.getItem("best")) || 0;
@@ -113,13 +158,10 @@
       const clicksDisplay = document.getElementById("clicks");
       const bestDisplay = document.getElementById("best");
 
-      // Update UI
       function updateDisplay() {
         clicksDisplay.textContent = clicks;
         bestDisplay.textContent = best;
       }
-
-      // Click button
       clickBtn.addEventListener("click", () => {
         clicks++;
         if (clicks > best) {
@@ -129,16 +171,15 @@
         localStorage.setItem("clicks", clicks);
         updateDisplay();
       });
-
-      // Reset game
       resetBtn.addEventListener("click", () => {
         clicks = 0;
         localStorage.setItem("clicks", clicks);
         updateDisplay();
       });
-
-      // Initialize
       updateDisplay();
     </script>
+
+    <!-- Music player logic -->
+    <script src="music-player.js"></script>
   </body>
 </html>
