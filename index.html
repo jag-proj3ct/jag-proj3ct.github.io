@@ -2,25 +2,32 @@
 <html>
   <head>
     <title>Jag Project</title>
-  </head>
-  <body>
     <style>
-      Body{
-        color:white;
-        display:flex;
-        align-items:center;
+      body {
+        color: white;
+        display: flex;
+        align-items: center;       /* Vertical center */
+        justify-content: center;  /* Horizontal center */
+        height: 100vh;            /* Full viewport height */
+        margin: 0;                /* Remove default margin */
+        background: #000;         /* Optional background */
       }
-      div{
-        width:250px;
-        height:550px;
-        border-radius:12px;
-        align-items:center;
-        background-color:#111;
+      div {
+        width: 250px;
+        height: 550px;
+        border-radius: 12px;
+        background-color: #111;
+        display: flex;            /* To center content inside */
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
       }
     </style>
+  </head>
+  <body>
     <div>
-      <h1></h1>
-    <p></p>
+      <h1>Centered Box</h1>
+      <p>This box is perfectly centered.</p>
     </div>
   </body>
 </html>
