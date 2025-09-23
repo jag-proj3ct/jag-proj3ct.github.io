@@ -8,13 +8,15 @@
       body {
         color: black;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
         height: 100vh;
         margin: 0;
         background: #fff;
+        text-align: center;
       }
-      div {
+      .profile-card {
         width: 600px;
         height: 300px;
         border-radius: 12px;
@@ -25,8 +27,9 @@
         justify-content: center;
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         transition: box-shadow 0.3s ease, transform 0.3s ease;
+        margin-bottom: 20px;
       }
-      div:hover {
+      .profile-card:hover {
         box-shadow: 0 8px 20px rgba(0,0,0,0.2);
         transform: translateY(-4px);
       }
@@ -42,35 +45,100 @@
         transform: scale(1.05);
         filter: brightness(1.0);
       }
-      h1:hover {
+      h1:hover, p:hover {
         transform: scale(1.05);
         color:#EDA20C;
       }
-      p:hover {
-        transform: scale(1.05);
-        color:#EDA20C;
-      }
-      img{
+      img {
         width:150px;
         border-radius:50%;
       }
+
+      /* Game styling */
+      .game {
+        margin-top: 20px;
+        padding: 20px;
+        border: 2px solid #ccc;
+        border-radius: 12px;
+        background: #f4f4f4;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        width: 400px;
+      }
+      .game h1 {
+        margin: 10px 0;
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 18px;
+        border: none;
+        border-radius: 8px;
+        background: #EDA20C;
+        color: #fff;
+        cursor: pointer;
+        transition: transform 0.2s ease, background 0.3s ease;
+      }
+      button:hover {
+        transform: scale(1.1);
+        background: #c87f00;
+      }
+      .stats {
+        margin-top: 15px;
+        font-size: 18px;
+      }
     </style>
-    <link rel="icon" type="image/png" href="/APPEGY_TIGER_LOGO.png">
   </head>
   <body>
-    <div>
+    <div class="profile-card">
       <img src="meee.png" alt="Profile">
       <h1>Domingo Gutierrez Ramos</h1>
       <p>JAG 9th · 15 years old</p>
     </div>
-    <h1>THE VOTE CLICKER GAME!</h1>
-    <span>clicks:</span>
-    <button>Click</button>
-    <div class="leaderboard">
-      (js here or something to keep track!)
-      clicks:
-      nickname:
-      comment:
+
+    <div class="game">
+      <h1>THE VOTE CLICKER GAME!</h1>
+      <button id="clickBtn">Click Me!</button>
+      <div class="stats">
+        <p>Clicks: <span id="clicks">0</span></p>
+        <p>Best: <span id="best">0</span></p>
+      </div>
+      <button id="resetBtn">Reset Game</button>
     </div>
+
+    <script>
+      let clicks = parseInt(localStorage.getItem("clicks")) || 0;
+      let best = parseInt(localStorage.getItem("best")) || 0;
+
+      const clickBtn = document.getElementById("clickBtn");
+      const resetBtn = document.getElementById("resetBtn");
+      const clicksDisplay = document.getElementById("clicks");
+      const bestDisplay = document.getElementById("best");
+
+      // Update UI
+      function updateDisplay() {
+        clicksDisplay.textContent = clicks;
+        bestDisplay.textContent = best;
+      }
+
+      // Click button
+      clickBtn.addEventListener("click", () => {
+        clicks++;
+        if (clicks > best) {
+          best = clicks;
+          localStorage.setItem("best", best);
+        }
+        localStorage.setItem("clicks", clicks);
+        updateDisplay();
+      });
+
+      // Reset game
+      resetBtn.addEventListener("click", () => {
+        clicks = 0;
+        localStorage.setItem("clicks", clicks);
+        updateDisplay();
+      });
+
+      // Initialize
+      updateDisplay();
+    </script>
   </body>
 </html>
