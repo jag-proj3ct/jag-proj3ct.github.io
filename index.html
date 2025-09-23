@@ -1,42 +1,65 @@
 <!DOCTYPE html>
 <html>
   <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jag Project</title>
     <style>
       body {
-        color: black;               /* Text will be black now */
+        color: black;
         display: flex;
-        align-items: center;        /* Vertical center */
-        justify-content: center;    /* Horizontal center */
-        height: 100vh;              /* Full viewport height */
-        margin: 0;                  /* Remove default margin */
-        background: #fff;           /* White background */
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        background: #fff;
       }
       div {
-        width: 600px;               /* Thicker (wider) */
-        height: 300px;              /* More block-shaped */
+        width: 600px;
+        height: 300px;
         border-radius: 12px;
-        background-color: #ddd;     /* Light grey */
-        display: flex;              /* To center content inside */
+        background-color: #ddd;
+        display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* Soft shadow */
+        box-shadow: 0 6px 18px rgba(0,0,0,0.2); /* Stronger shadow */
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+      }
+      /* Optional: div hover effect */
+      div:hover {
+        box-shadow: 0 10px 28px rgba(0,0,0,0.25);
+        transform: translateY(-5px);
       }
       img {
-        border-radius:50%;
-        width:150px;
+        border-radius: 50%;
+        width: 150px;
+        transition: transform 0.3s ease, filter 0.3s ease;
+      }
+      h1, p {
+        transition: color 0.3s ease, transform 0.3s ease;
+      }
+      /* Hover effects for items inside div */
+      div:hover img {
+        transform: scale(1.05);
+        filter: brightness(1.1);
+      }
+      div:hover h1 {
+        color: #333;
+        transform: scale(1.02);
+      }
+      div:hover p {
+        color: #555;
+        transform: scale(1.02);
       }
     </style>
     <link rel="icon" type="image/png" href="/APPEGY_TIGER_LOGO.png">
   </head>
   <body>
     <div>
-      <img src="meee.png">
+      <img src="meee.png" alt="Profile">
       <h1>Domingo Gutierrez Ramos</h1>
-      <p>JAG 9th 15 years old</p>
+      <p>JAG 9th · 15 years old</p>
     </div>
   </body>
 </html>
