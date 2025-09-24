@@ -1,7 +1,7 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
-  background-image: url("https://raw.githubusercontent.com/jag-proj3ct/jag-proj3ct.github.io/main/images/background.png");
+  background-image: url("images/background.png");
   background-repeat: no-repeat;
   background-position: center center;
   width: 100vw;
@@ -76,7 +76,7 @@ body {
 
 /* Track art + vinyl setup */
 .track-art {
-    background: url("https://raw.githubusercontent.com/jag-proj3ct/jag-proj3ct.github.io/main/images/college-dropout-cover.jpg") no-repeat center/cover;
+    background: url("images/college-dropout-cover.jpg") no-repeat center/cover;
   position: relative;
   margin: 25px;
   height: 280px;
@@ -98,7 +98,7 @@ body {
   left: 50%;
   z-index: 1;
   border-radius: 50%;
-  background: url("https://raw.githubusercontent.com/jag-proj3ct/jag-proj3ct.github.io/main/images/vinyl.png") no-repeat center/cover;
+  background: url("images/vinyl.png") no-repeat center/cover;
   z-index: 1; /* stays below the cover */
   animation: rotation 8s linear infinite;
   animation-play-state: paused;
