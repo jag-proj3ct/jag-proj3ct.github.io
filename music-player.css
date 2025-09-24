@@ -259,3 +259,61 @@ i.fa-volume-up {
 .stroke:nth-child(5) { background: linear-gradient(to top, #FFA500, #FFD700); }
 .stroke:nth-child(6) { background: linear-gradient(to top, #FFD700, #FFA500); }
 .stroke:nth-child(7) { background: linear-gradient(to top, #FFA500, #FFD700); }
+
+/* Sliders */
+.seek_slider,
+.volume_slider {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  height: 5px;
+  transition: opacity .2s;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* Music length (seek) → ORANGE */
+.seek_slider {
+  width: 60%;
+  background: linear-gradient(to right, #FF8C00, #FFA500); /* dark to light orange */
+}
+.seek_slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  background: white;
+  border: 3px solid #FF8C00; /* orange border */
+  border-radius: 100%;
+  cursor: grab;
+}
+.seek_slider::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  background: white;
+  border: 3px solid #FF8C00;
+  border-radius: 100%;
+  cursor: grab;
+}
+
+/* Volume → YELLOW */
+.volume_slider {
+  width: 30%;
+  background: linear-gradient(to right, #FFD700, #FFFF66); /* gold to light yellow */
+}
+.volume_slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  background: white;
+  border: 3px solid #FFD700; /* yellow border */
+  border-radius: 100%;
+  cursor: grab;
+}
+.volume_slider::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  background: white;
+  border: 3px solid #FFD700;
+  border-radius: 100%;
+  cursor: grab;
+}
