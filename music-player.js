@@ -50,9 +50,15 @@ function renderWave() {
     wave.classList.add('visible');
     const step = Math.floor(dataArray.length / strokes.length);
     strokes.forEach((stroke, i) => {
-      // Adjusted formula to prevent clipping
-      const value = (dataArray[i * step] / 256) * 0.8; // Changed multiplier to 0.8
-      stroke.style.transform = `scaleY(${Math.max(0.2, value)})`;
+      // Adjusted formula to amplify the low end
+      let value = dataArray[i * step] / 256; 
+      
+      // Amplifying the first few bars to make them more visible
+      if (i < 3) {
+        value = Math.pow(value, 0.5); // Use a square root to amplify smaller values
+      }
+      
+      stroke.style.transform = `scaleY(${Math.max(0.2, value * 1.2)})`; // Increase multiplier to 1.2
     });
   } else {
     wave.classList.remove('visible');
