@@ -100,7 +100,7 @@ body {
   border-radius: 50%;
   background: url("images/vinyl.png") no-repeat center/cover;
   z-index: 1; /* stays below the cover */
-  animation: rotation 8s linear infinite;
+  animation: rotation 8s linear forwards;  /* runs once, holds last frame */
   animation-play-state: paused;
   transform: translate(50%, 50%); /* default: centered, hidden behind cover */
   transition: transform 0.8s ease-in-out; /* smooth in/out */
@@ -127,8 +127,8 @@ body {
 
 /* Smooth rotation while staying slid out */
 @keyframes rotation {
-  from { transform: translate(-55%, -55%) rotate(0deg); }
-  to   { transform: translate(-0%, -55%) rotate(360deg); }
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-0%, -50%) rotate(360deg); }
 }
 
 
