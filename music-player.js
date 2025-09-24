@@ -108,7 +108,7 @@ const music_list = [
 
 /* ---- Player functions ---- */
 loadTrack(track_index);
-document.body.style.background = "#222";
+// document.body.style.background = "#222";
 
 function loadTrack(index) {
   clearInterval(updateTimer);
