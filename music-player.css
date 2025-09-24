@@ -224,7 +224,6 @@ i.fa-volume-down,
 i.fa-volume-up {
   padding: 10px;
 }
-
 /* Loader / visualizer */
 .loader {
   height: 70px;
@@ -250,12 +249,13 @@ i.fa-volume-up {
   margin: 0 5px;
   transition: transform 0.1s ease-out;
   transform: scaleY(0.2);
-  background: #FFD700;
+  background: linear-gradient(to top, #FFA500, #FFD700); /* default */
 }
 
-.stroke:nth-child(2) { background: #FFA500; }
-.stroke:nth-child(3) { background: #FFD700; }
-.stroke:nth-child(4) { background: #FFA500; }
-.stroke:nth-child(5) { background: #FFD700; }
-.stroke:nth-child(6) { background: #FFA500; }
-.stroke:nth-child(7) { background: #FFD700; }
+/* Alternate gradient directions */
+.stroke:nth-child(2) { background: linear-gradient(to top, #FFD700, #FFA500); }
+.stroke:nth-child(3) { background: linear-gradient(to top, #FFA500, #FFD700); }
+.stroke:nth-child(4) { background: linear-gradient(to top, #FFD700, #FFA500); }
+.stroke:nth-child(5) { background: linear-gradient(to top, #FFA500, #FFD700); }
+.stroke:nth-child(6) { background: linear-gradient(to top, #FFD700, #FFA500); }
+.stroke:nth-child(7) { background: linear-gradient(to top, #FFA500, #FFD700); }
