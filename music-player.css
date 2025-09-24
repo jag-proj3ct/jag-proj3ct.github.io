@@ -12,7 +12,7 @@ body {
   overflow: hidden;
   position: relative;
 }
-/* Add this to the top of your music-player.css file */
+/* the top of your music-player.css file */
 .container {
     display: flex;
     justify-content: center;
@@ -234,7 +234,7 @@ i.fa-volume-up {
 }
 
 .loader .stroke {
-  height: 150%;
+  height: 7vh; /* Changed from 150% to a viewport-relative unit */
   width: 10px;
   border-radius: 50px;
   margin: 0 5px;
