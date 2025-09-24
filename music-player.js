@@ -128,7 +128,6 @@ function loadTrack(index) {
   now_playing.textContent = `Playing ${track_index + 1} of ${music_list.length}`;
 
   updateTimer = setInterval(setUpdate, 1000);
-  // Add this line to handle the 'ended' event
   curr_track.addEventListener('ended', handleTrackEnd);
 }
 
@@ -140,13 +139,11 @@ function handleTrackEnd() {
     return;
   }
   if (part_index < currentTrack.music.length - 1) {
-    // There are more parts to this track, load the next one
     part_index++;
     curr_track.src = currentTrack.music[part_index];
     curr_track.load();
     curr_track.play();
   } else {
-    // This is the last part of the track, move to the next track
     nextTrack();
   }
 }
@@ -167,14 +164,20 @@ function playTrack() {
   }
   curr_track.play().catch(e => console.error("Play failed:", e));
   isPlaying = true;
+  // These lines handle both the vinyl rotation and the sliding animation
   if (vinylEl) vinylEl.classList.add('playing');
+  if (track_art) track_art.classList.add('playing');
+
   playpause_btn.innerHTML = '<i class="fa fa-pause-circle fa-5x"></i>';
 }
 
 function pauseTrack() {
   curr_track.pause();
   isPlaying = false;
+  // These lines handle both the vinyl rotation and the sliding animation
   if (vinylEl) vinylEl.classList.remove('playing');
+  if (track_art) track_art.classList.remove('playing');
+  
   playpause_btn.innerHTML = '<i class="fa fa-play-circle fa-5x"></i>';
 }
 
