@@ -29,6 +29,9 @@ let part_index = 0;
 /* ---- Web Audio API setup ---- */
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 const analyser = audioCtx.createAnalyser();
+
+// Connect the audio source to the analyser.
+// This is done once after the curr_track element is created.
 const source = audioCtx.createMediaElementSource(curr_track);
 source.connect(analyser);
 analyser.connect(audioCtx.destination);
@@ -128,7 +131,6 @@ function loadTrack(index) {
   now_playing.textContent = `Playing ${track_index + 1} of ${music_list.length}`;
 
   updateTimer = setInterval(setUpdate, 1000);
-  curr_track.addEventListener('ended', handleTrackEnd);
 }
 
 function handleTrackEnd() {
@@ -159,7 +161,7 @@ function playpauseTrack() {
 }
 
 function playTrack() {
-  if (audioCtx && audioCtx.state === 'suspended') {
+  if (audioCtx.state === 'suspended') {
     audioCtx.resume();
   }
   curr_track.play().catch(e => console.error("Play failed:", e));
@@ -204,7 +206,9 @@ function seekTo() {
 }
 
 function setVolume() {
-  curr_track.volume = volume_slider ? volume_slider.value / 100 : 1;
+  if (volume_slider) {
+    curr_track.volume = volume_slider.value / 100;
+  }
 }
 
 function setUpdate() {
@@ -225,19 +229,15 @@ function setUpdate() {
 
 function randomTrack() {
   isRandom = !isRandom;
-  if (isRandom) {
-    randomIcon.classList.add('randomActive');
-  } else {
-    randomIcon.classList.remove('randomActive');
+  if (randomIcon) {
+    randomIcon.classList.toggle('randomActive', isRandom);
   }
 }
 
 function repeatTrack() {
   isRepeating = !isRepeating;
-  if (isRepeating) {
-    repeatIcon.classList.add('active');
-  } else {
-    repeatIcon.classList.remove('active');
+  if (repeatIcon) {
+    repeatIcon.classList.toggle('active', isRepeating);
   }
 }
 
@@ -249,26 +249,9 @@ seek_slider.addEventListener('input', seekTo);
 volume_slider.addEventListener('input', setVolume);
 random_btn.addEventListener('click', randomTrack);
 repeat_btn.addEventListener('click', repeatTrack);
-.wrapper {
-  border: 1px solid transparent;
-  padding: 30px;
-  border-radius: 20px;
-  background-color: #ddd;
-  box-shadow: rgba(0, 0, 0, 0.3) 0px 20px 38px,
-              rgba(0, 0, 0, 0.22) 0px 20px 12px;
-  position: relative;   /* create a stacking context */
-  z-index: 0;           /* baseline layer for wrapper */
-}
 
-.track-art {
-  position: relative;
-  z-index: 1;           /* vinyl + cover live inside here */
-}
+// Add the 'ended' listener once to prevent duplicates
+curr_track.addEventListener('ended', handleTrackEnd);
 
-.vinyl {
-  z-index: 1;           /* under the cover */
-}
-
-.cover {
-  z-index: 2;           /* always above the vinyl */
-}
+// Initial volume setting
+setVolume();
