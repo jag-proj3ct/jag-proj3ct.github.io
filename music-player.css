@@ -186,15 +186,14 @@ i.fa-volume-up {
   bottom: 0;
   left: 0;
   width: 100%;
-  /* Set initial state for smoother transitions */
   opacity: 0;
   transition: opacity 0.5s ease;
-  pointer-events: none; /* Make it unclickable when hidden */
+  pointer-events: none;
 }
 
 .loader.visible {
   opacity: 1;
-  pointer-events: auto; /* Make it clickable when visible */
+  pointer-events: auto;
 }
 
 .loader .stroke {
@@ -202,33 +201,14 @@ i.fa-volume-up {
   width: 10px;
   border-radius: 50px;
   margin: 0 5px;
-  animation: animate 1.4s linear infinite;
-  animation-play-state: paused;
+  transition: transform 0.1s ease-out; /* Smooth scaling */
+  transform: scaleY(0.2); /* Initial minimum height */
+  background: #FFD700;
 }
 
-.loader.visible .stroke {
-  animation-play-state: running;
-}
-
-@keyframes animate {
-  0% {
-    height: 20%;
-    background: #FFD700;
-  }
-  50% {
-    height: 100%;
-    background: #FFA500;
-  }
-  100% {
-    height: 20%;
-    background: #FFD700;
-  }
-}
-
-.stroke:nth-child(1) { animation-delay: 0s; }
-.stroke:nth-child(2) { animation-delay: 0.3s; }
-.stroke:nth-child(3) { animation-delay: 0.6s; }
-.stroke:nth-child(4) { animation-delay: 0.9s; }
-.stroke:nth-child(5) { animation-delay: 0.6s; }
-.stroke:nth-child(6) { animation-delay: 0.3s; }
-.stroke:nth-child(7) { animation-delay: 0s; }
+.stroke:nth-child(2) { background: #FFA500; }
+.stroke:nth-child(3) { background: #FFD700; }
+.stroke:nth-child(4) { background: #FFA500; }
+.stroke:nth-child(5) { background: #FFD700; }
+.stroke:nth-child(6) { background: #FFA500; }
+.stroke:nth-child(7) { background: #FFD700; }
