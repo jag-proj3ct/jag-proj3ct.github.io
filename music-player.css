@@ -91,8 +91,8 @@ body {
 /* Vinyl record */
 .vinyl {
   position: absolute;
-  height: 80%;
-  width: 80%;
+  height: 90%;
+  width: 90%;
   top: 50%;
   left: 50%;
   border-radius: 50%;
@@ -100,7 +100,7 @@ body {
   z-index: 1; /* stays below the cover */
   animation: rotation 8s linear infinite;
   animation-play-state: paused;
-  transform: translate(-50%, -50%); /* default: centered, hidden behind cover */
+  transform: translate(50%, 50%); /* default: centered, hidden behind cover */
   transition: transform 0.8s ease-in-out; /* smooth in/out */
 }
 
@@ -118,14 +118,14 @@ body {
 
 /* Slide vinyl out smoothly to the RIGHT when playing */
 .track-art.playing .vinyl {
-  transform: translate(30%, -50%); /* adjust % for how much peeks out */
+  transform: translate(80%, 50%); /* adjust % for how much peeks out */
   animation-play-state: running;
 }
 
 /* Smooth rotation while staying slid out */
 @keyframes rotation {
-  from { transform: translate(30%, -50%) rotate(0deg); }
-  to   { transform: translate(30%, -50%) rotate(360deg); }
+  from { transform: translate(50%, 50%) rotate(0deg); }
+  to   { transform: translate(80%, 50%) rotate(360deg); }
 }
 
 
