@@ -351,6 +351,8 @@ i.fa-volume-up {
 }
 
 .vinyl.playing {
+  top: 50%;
+  left: 80%;
   animation-play-state: running;
 }
 
