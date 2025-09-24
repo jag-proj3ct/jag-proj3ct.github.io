@@ -128,7 +128,7 @@ body {
 /* Smooth rotation while staying slid out */
 @keyframes rotation {
   from { transform: translate(-50%, -50%) rotate(0deg); }
-  to   { transform: translate(-50%, -50%) rotate(360deg); }
+  to   { transform: translate( 0%, -50%) rotate(360deg); }
 }
 
 
