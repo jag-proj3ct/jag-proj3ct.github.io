@@ -317,3 +317,11 @@ i.fa-volume-up {
   border-radius: 100%;
   cursor: grab;
 }
+/*Image Rendering*/
+.cover,
+.vinyl {
+  background-size: cover;
+  background-position: center;
+  image-rendering: crisp-edges;   /* Chrome/Edge/Firefox */
+  image-rendering: -webkit-optimize-contrast; /* Safari */
+}
