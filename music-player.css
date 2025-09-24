@@ -1,7 +1,7 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
-  background-image: url("images/background.png");
+  background-image: url("https://raw.githubusercontent.com/jag-proj3ct/jag-proj3ct.github.io/main/images/background.png");
   background-repeat: no-repeat;
   background-position: center center;
   width: 100vw;
@@ -76,6 +76,7 @@ body {
 
 /* Track art + vinyl setup */
 .track-art {
+    background: url("https://raw.githubusercontent.com/jag-proj3ct/jag-proj3ct.github.io/main/images/college-dropout-cover.jpg") no-repeat center/cover;
   position: relative;
   margin: 25px;
   height: 280px;
@@ -90,13 +91,14 @@ body {
 
 /* Vinyl record */
 .vinyl {
-  position: absolute;
+  position: relative;
   height: 90%;
   width: 90%;
   top: 50%;
   left: 50%;
+  z-index: 1;
   border-radius: 50%;
-  background: url("images/vinyl.png") no-repeat center/cover;
+  background: url("https://raw.githubusercontent.com/jag-proj3ct/jag-proj3ct.github.io/main/images/vinyl.png") no-repeat center/cover;
   z-index: 1; /* stays below the cover */
   animation: rotation 8s linear infinite;
   animation-play-state: paused;
@@ -106,7 +108,7 @@ body {
 
 /* Cover always above vinyl */
 .cover {
-  position: relative;
+  position: absolute;
   height: 100%;
   width: 100%;
   border-radius: 12px;
@@ -118,14 +120,15 @@ body {
 
 /* Slide vinyl out smoothly to the RIGHT when playing */
 .track-art.playing .vinyl {
-  transform: translate(80%, 50%); /* adjust % for how much peeks out */
+   z-index: 1;
+  transform: translate(-50%, -50%); /* adjust % for how much peeks out */
   animation-play-state: running;
 }
 
 /* Smooth rotation while staying slid out */
 @keyframes rotation {
-  from { transform: translate(50%, 50%) rotate(0deg); }
-  to   { transform: translate(80%, 50%) rotate(360deg); }
+  from { transform: translate(-55%, -55%) rotate(0deg); }
+  to   { transform: translate(-0%, -55%) rotate(360deg); }
 }
 
 
