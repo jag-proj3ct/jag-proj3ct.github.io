@@ -72,7 +72,7 @@ function renderWave() {
 renderWave();
 
 /* ---- Music list (College Dropout full tracklist) ---- */
-const basePath = "./music/college-dropout";
+const basePath = "./music";
 const coverDefault = "./images/college-dropout-cover.jpg";
 
 const music_list = [
