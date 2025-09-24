@@ -91,7 +91,7 @@ const music_list = [
   {
     name: "Last Call",
     artist: "Kanye West",
-    file: ["last-call1.mp3", "last-call2.mp3", "last-call3.mp3"]
+    file: ["lastcall1.mp3", "lastcall2.mp3", "lastcall3.mp3"]
   }
 ].map(track => ({
   img: track.cover || coverDefault,
