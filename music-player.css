@@ -1,7 +1,18 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background: url("images/background.png") no-repeat center/cover;
   font-weight: bold;
+  /* Corrected background properties for full screen coverage */
+  background-image: url("images/background.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  /* Ensure the body spans the full viewport */
+  width: 100vw;
+  height: 100vh;
+  /* Prevent scrolling if content overflows slightly */
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
 .player {
