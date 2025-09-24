@@ -358,3 +358,55 @@ i.fa-volume-up {
   from { transform: translate(-50%, -50%) rotate(0deg); }
   to   { transform: translate(-50%, -50%) rotate(360deg); }
 }
+.track-art {
+  position: relative;
+  margin: 25px;
+  height: 280px;
+  width: 280px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible; /* allow vinyl to stick out */
+  box-shadow: 0px 2px 8px rgba(0,0,0,0.6);
+}
+
+.vinyl {
+  position: absolute;
+  height: 80%;
+  width: 80%;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  background: url("images/vinyl.png") no-repeat center/cover;
+  z-index: 1; /* stays behind the cover */
+  animation: rotation 8s linear infinite;
+  animation-play-state: paused;
+  transform: translate(-50%, -50%); /* fully hidden behind cover */
+  transition: transform 0.8s ease-in-out;
+}
+
+.cover {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+  z-index: 2; /* always on top */
+  box-shadow: 0px 4px 6px rgba(0,0,0,0.5);
+}
+
+/* Slide vinyl out partially (about 40%) */
+.track-art.playing .vinyl {
+  transform: translate(-70%, -50%); /* adjust % to control how much peeks out */
+}
+
+.vinyl.playing {
+  animation-play-state: running;
+}
+
+@keyframes rotation {
+  from { transform: translate(-70%, -50%) rotate(0deg); }
+  to   { transform: translate(-70%, -50%) rotate(360deg); }
+}
