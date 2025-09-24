@@ -301,3 +301,60 @@ i.fa-volume-up {
     margin-top: 15px; /* Add a top margin for spacing */
 }
 
+.track-art {
+  position: relative;
+  margin: 25px;
+  height: 280px;
+  width: 280px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible; /* allow vinyl to slide out */
+  box-shadow: 0px 2px 8px rgba(0,0,0,0.6);
+}
+
+/* Vinyl starts hidden behind the cover */
+.vinyl {
+  position: absolute;
+  height: 80%;
+  width: 80%;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  background: url("images/vinyl.png") no-repeat center/cover;
+  z-index: 1; /* behind cover by default */
+  animation: rotation 8s linear infinite;
+  animation-play-state: paused;
+  transform: translate(-50%, -50%);
+  transition: transform 0.8s ease-in-out, z-index 0s 0.8s; 
+  /* z-index switches after the slide finishes */
+}
+
+/* Cover sits above the vinyl at rest */
+.cover {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+  z-index: 2;
+  box-shadow: 0px 4px 6px rgba(0,0,0,0.5);
+}
+
+/* When playing, vinyl slides left AND comes above cover */
+.track-art.playing .vinyl {
+  transform: translate(-105%, -50%);
+  z-index: 3; /* bring it above the cover */
+  transition: transform 0.8s ease-in-out, z-index 0s; /* z-index is immediate here */
+}
+
+.vinyl.playing {
+  animation-play-state: running;
+}
+
+@keyframes rotation {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
