@@ -84,9 +84,45 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: visible;
+  overflow: hidden; /* Change this to 'hidden' to initially hide the part of the vinyl that slides out */
   box-shadow: 0px 2px 8px rgba(0,0,0,0.6);
 }
+
+.vinyl {
+  position: absolute;
+  height: 80%;
+  width: 80%;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  background: url("images/vinyl.png") no-repeat center/cover;
+  z-index: 1;
+  animation: rotation 8s linear infinite;
+  animation-play-state: paused;
+  transform: translate(-50%, -50%); /* Start position: centered behind the cover */
+  transition: transform 0.8s ease-in-out; /* Add a smooth transition for sliding */
+}
+
+.cover {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+  z-index: 2;
+  box-shadow: 0px 4px 6px rgba(0,0,0,0.5);
+}
+
+@keyframes rotation {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.track-art.playing .vinyl {
+  transform: translate(-105%, -50%); /* End position: slid out to the left */
+}
+
 
 .vinyl {
   position: absolute;
