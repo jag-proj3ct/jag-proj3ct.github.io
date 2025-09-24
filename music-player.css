@@ -97,7 +97,7 @@ body {
   left: 50%;
   border-radius: 50%;
   background: url("images/vinyl.png") no-repeat center/cover;
-  transform: translate(50%, 50%); /* hidden by default */
+  transform: translate(50%, 55%); /* hidden by default */
   transition: none;
   z-index: 1;
 }
@@ -111,14 +111,14 @@ body {
 
 /* Slide animation */
 @keyframes slideOut {
-  from { transform: translate(50%, 50%); }
-  to   { transform: translate(-50%, -50%); }
+  from { transform: translate(50%, 55%); }
+  to   { transform: translate(0%, -55%); }
 }
 
 /* Continuous rotation */
 @keyframes spin {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to   { transform: translate(-50%, -50%) rotate(360deg); }
+  from { transform: translate(0%, -55%) rotate(0deg); }
+  to   { transform: translate(0%, -55%) rotate(360deg); }
 }
 
 
