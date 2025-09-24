@@ -109,9 +109,27 @@ const music_list = [
   music: `${basePath}/${track.file}`
 }));
 
+  // ---- Last Call as one logical track with 3 files ----
+  { 
+    name: "Last Call", 
+    file: ["last-call1.mp3", "last-call2.mp3", "last-call3.mp3"] 
+  }
+];
+
+const music_list = raw_list.map(track => ({
+  img: track.cover || coverDefault,
+  name: track.name,
+  artist: track.artist || "Kanye West",
+  music: Array.isArray(track.file) 
+    ? track.file.map(f => `${basePath}${f}`) 
+    : [`${basePath}${track.file}`] // always store as array
+}));
+
+/* ---- Track state ---- */
+let part_index = 0; // which part of the current track is playing
+
 /* ---- Player functions ---- */
 loadTrack(track_index);
-// document.body.style.background = "#222";
 
 function loadTrack(index) {
   clearInterval(updateTimer);
@@ -120,7 +138,10 @@ function loadTrack(index) {
   if (index < 0) index = 0;
   if (index >= music_list.length) index = music_list.length - 1;
 
-  curr_track.src = music_list[index].music;
+  // reset to first part of this track
+  part_index = 0;
+
+  curr_track.src = music_list[index].music[part_index];
   curr_track.load();
 
   ensureArtChildren();
@@ -131,7 +152,23 @@ function loadTrack(index) {
   now_playing.textContent = `Playing ${index + 1} of ${music_list.length}`;
 
   updateTimer = setInterval(setUpdate, 1000);
-  curr_track.addEventListener('ended', nextTrack);
+
+  curr_track.addEventListener('ended', handleTrackEnd);
+}
+
+function handleTrackEnd() {
+  let currentTrack = music_list[track_index];
+
+  if (part_index < currentTrack.music.length - 1) {
+    // go to next part of same track
+    part_index++;
+    curr_track.src = currentTrack.music[part_index];
+    curr_track.load();
+    curr_track.play();
+  } else {
+    // finished all parts, move to next track
+    nextTrack();
+  }
 }
 
 function reset() {
