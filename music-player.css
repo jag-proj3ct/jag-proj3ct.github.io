@@ -12,43 +12,45 @@ body {
   overflow: hidden;
   position: relative;
 }
-
+/* the top of your music-player.css file */
 .container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
 }
 
 .lyrics-container {
-  background-color: #ddd;
-  border-radius: 20px;
-  padding: 30px;
-  margin-right: 50px;
-  box-shadow: rgba(0, 0, 0, 0.3) 0px 20px 38px, rgba(0, 0, 0, 0.22) 0px 20px 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  max-width: 350px;
-  height: 600px;
-  overflow-y: auto;
+    background-color: #ddd;
+    border-radius: 20px;
+    padding: 30px;
+    margin-right: 50px; /* Space between the lyrics and the music player */
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 20px 38px,
+              rgba(0, 0, 0, 0.22) 0px 20px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 350px; /* Adjust as needed */
+    height: 600px;
+    overflow-y: auto; /* Adds a scrollbar if the lyrics are too long */
 }
 
 .lyrics-container h1 {
-  font-size: 2rem;
-  margin-bottom: 20px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 #lyrics-display {
-  font-size: 1.2rem;
-  white-space: pre-wrap;
-  line-height: 1.6;
+    font-size: 1.2rem;
+    white-space: pre-wrap; /* Keeps line breaks from the lyrics data */
+    line-height: 1.6;
 }
 
+/* Updated player container to center its content */
 .player {
   height: 90vh;
   display: flex;
@@ -62,9 +64,15 @@ body {
   padding: 30px;
   border-radius: 20px;
   background-color: #ddd;
-  box-shadow: rgba(0, 0, 0, 0.3) 0px 20px 38px, rgba(0, 0, 0, 0.22) 0px 20px 12px;
-  position: relative;
-  z-index: 0;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 20px 38px,
+              rgba(0, 0, 0, 0.22) 0px 20px 12px;
+}
+
+.details {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .track-art {
@@ -76,9 +84,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: visible;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.6);
-  z-index: 1;
+  overflow: hidden; /* Change this to 'hidden' to initially hide the part of the vinyl that slides out */
+  box-shadow: 0px 2px 8px rgba(0,0,0,0.6);
 }
 
 .vinyl {
@@ -92,8 +99,8 @@ body {
   z-index: 1;
   animation: rotation 8s linear infinite;
   animation-play-state: paused;
-  transform: translate(-50%, -50%);
-  transition: transform 0.8s ease-in-out;
+  transform: translate(-50%, -50%); /* Start position: centered behind the cover */
+  transition: transform 0.8s ease-in-out; /* Add a smooth transition for sliding */
 }
 
 .cover {
@@ -104,25 +111,50 @@ body {
   background-size: cover;
   background-position: center;
   z-index: 2;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 4px 6px rgba(0,0,0,0.5);
+}
+
+@keyframes rotation {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
 .track-art.playing .vinyl {
-  transform: translate(-105%, -50%);
-  z-index: 3;
+  transform: translate(-105%, -50%); /* End position: slid out to the left */
+}
+
+
+.vinyl {
+  position: absolute;
+  height: 80%;
+  width: 80%;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  background: url("images/vinyl.png") no-repeat center/cover;
+  z-index: 1;
+  animation: rotation 8s linear infinite;
+  animation-play-state: paused;
 }
 
 .vinyl.playing {
   animation-play-state: running;
 }
 
+.cover {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+  z-index: 2;
+  box-shadow: 0px 4px 6px rgba(0,0,0,0.5);
+}
+
 @keyframes rotation {
-  from {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  to {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
+  from { transform: translate(-38%, -50%) rotate(0deg); }
+  to   { transform: translate(-38%, -50%) rotate(360deg); }
 }
 
 .track-name {
@@ -153,7 +185,7 @@ body {
 .next-track {
   padding: 25px;
   opacity: 0.8;
-  transition: opacity 0.2s;
+  transition: opacity .2s;
   cursor: pointer;
 }
 
@@ -162,7 +194,7 @@ body {
 .playpause-track:hover,
 .prev-track:hover,
 .next-track:hover {
-  opacity: 1;
+  opacity: 1.0;
 }
 
 .slider_container {
@@ -177,8 +209,8 @@ body {
   -moz-appearance: none;
   appearance: none;
   height: 5px;
-  background: #83a9ff;
-  transition: opacity 0.2s;
+  background: #83A9FF;
+  transition: opacity .2s;
   cursor: pointer;
 }
 
@@ -190,14 +222,14 @@ body {
   width: 15px;
   height: 15px;
   background: white;
-  border: 3px solid #3774ff;
+  border: 3px solid #3774FF;
   cursor: grab;
   border-radius: 100%;
 }
 
 .seek_slider:hover,
 .volume_slider:hover {
-  opacity: 1;
+  opacity: 1.0;
 }
 
 .seek_slider {
@@ -223,11 +255,13 @@ i.fa-volume-up {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: absolute;
+  bottom: 0;
+  left: 0;
   width: 100%;
   opacity: 0;
   transition: opacity 0.5s ease;
   pointer-events: none;
-  margin-top: 15px;
 }
 
 .loader.visible {
@@ -236,35 +270,91 @@ i.fa-volume-up {
 }
 
 .loader .stroke {
-  height: 7vh;
+  height: 7vh; /* Changed from 150% to a viewport-relative unit */
   width: 10px;
   border-radius: 50px;
   margin: 0 5px;
-  transition: transform 0.1s ease-out;
-  transform: scaleY(0.2);
-  background: #ffd700;
+  transition: transform 0.1s ease-out; /* Smooth scaling */
+  transform: scaleY(0.2); /* Initial minimum height */
+  background: #FFD700;
 }
 
-.stroke:nth-child(2) {
-  background: #ffa500;
+.stroke:nth-child(2) { background: #FFA500; }
+.stroke:nth-child(3) { background: #FFD700; }
+.stroke:nth-child(4) { background: #FFA500; }
+.stroke:nth-child(5) { background: #FFD700; }
+.stroke:nth-child(6) { background: #FFA500; }
+.stroke:nth-child(7) { background: #FFD700; }
+
+/* music-player.css */
+
+.loader {
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Remove position: absolute; and bottom: 0; */
+    width: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+    margin-top: 15px; /* Add a top margin for spacing */
 }
 
-.stroke:nth-child(3) {
-  background: #ffd700;
+.track-art {
+  position: relative;
+  margin: 25px;
+  height: 280px;
+  width: 280px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible; /* allow vinyl to slide out */
+  box-shadow: 0px 2px 8px rgba(0,0,0,0.6);
 }
 
-.stroke:nth-child(4) {
-  background: #ffa500;
+/* Vinyl starts hidden behind the cover */
+.vinyl {
+  position: absolute;
+  height: 80%;
+  width: 80%;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  background: url("images/vinyl.png") no-repeat center/cover;
+  z-index: 1; /* behind cover by default */
+  animation: rotation 8s linear infinite;
+  animation-play-state: paused;
+  transform: translate(-50%, -50%);
+  transition: transform 0.8s ease-in-out, z-index 0s 0.8s; 
+  /* z-index switches after the slide finishes */
 }
 
-.stroke:nth-child(5) {
-  background: #ffd700;
+/* Cover sits above the vinyl at rest */
+.cover {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+  z-index: 2;
+  box-shadow: 0px 4px 6px rgba(0,0,0,0.5);
 }
 
-.stroke:nth-child(6) {
-  background: #ffa500;
+/* When playing, vinyl slides left AND comes above cover */
+.track-art.playing .vinyl {
+  transform: translate(-105%, -50%);
+  z-index: 3; /* bring it above the cover */
+  transition: transform 0.8s ease-in-out, z-index 0s; /* z-index is immediate here */
 }
 
-.stroke:nth-child(7) {
-  background: #ffd700;
+.vinyl.playing {
+  animation-play-state: running;
+}
+
+@keyframes rotation {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
 }
