@@ -1,7 +1,7 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
   background: url("images/background.png") no-repeat center center fixed;
-  background-size: cover;   /* makes sure it fills the screen */
+  background-size: cover;
   font-weight: bold;
 }
 
@@ -20,7 +20,6 @@ body {
   background-color: #ddd;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 20px 38px,
               rgba(0, 0, 0, 0.22) 0px 20px 12px;
-
 }
 
 .details {
@@ -33,13 +32,13 @@ body {
 .track-art {
   position: relative;
   margin: 25px;
-  height: 280px;           /* square size */
+  height: 280px;
   width: 280px;
-  border-radius: 12px;     /* square with rounded corners */
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: visible;       /* vinyl can stick out */
+  overflow: visible;
   box-shadow: 0px 2px 8px rgba(0,0,0,0.6);
 }
 
@@ -49,12 +48,19 @@ body {
   height: 140%;
   width: 140%;
   top: 50%;
-  left: 0;
-  transform: translate(-70%, -50%);
+  left: 50%;
+  transform: translate(-50%, -50%); /* center it */
   border-radius: 50%;
-  background: url("images/vinyl.png") no-repeat center/cover; /* use actual image */
+  background: url("images/vinyl.png") no-repeat center/cover;
   z-index: 1;
+  animation: rotation 8s linear infinite;
+  animation-play-state: paused;   /* default paused */
   transition: transform 1.2s ease;
+}
+
+/* Only spin when JS adds .playing */
+.vinyl.playing {
+  animation-play-state: running;
 }
 
 /* Album cover */
@@ -65,16 +71,8 @@ body {
   border-radius: 12px;
   background-size: cover;
   background-position: center;
-  z-index: 2;              /* sits above vinyl */
+  z-index: 2;
   box-shadow: 0px 4px 6px rgba(0,0,0,0.5);
-}
-
-/* Only vinyl rotates */
-.track-art.rotate .vinyl {
-  animation-play-state: running;
-}
-.track-art .vinyl {
-  animation-play-state: paused;
 }
 
 @keyframes rotation {
@@ -82,27 +80,7 @@ body {
   to   { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* ---------------- Text + Controls ---------------- */
 
 .track-name {
   font-size: 2.5rem;
@@ -120,7 +98,8 @@ body {
   margin-bottom: 30px;
 }
 
-.active {
+.active,
+.randomActive {
   color: black;
 }
 
@@ -155,7 +134,6 @@ body {
   appearance: none;
   height: 5px;
   background: #83A9FF;
-  -webkit-transition: .2s;
   transition: opacity .2s;
 }
 
@@ -204,19 +182,7 @@ p {
   cursor: pointer;
 }
 
-.randomActive {
-  color: black;
-}
-
-.rotate {
-  animation: rotation 8s infinite linear;
-}
-
-@keyframes rotation {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(359deg); }
-}
-
+/* Loader bars */
 .loader {
   height: 70px;
   display: flex;
@@ -251,4 +217,3 @@ p {
 .stroke:nth-child(5) { animation-delay: 0.6s; }
 .stroke:nth-child(6) { animation-delay: 0.3s; }
 .stroke:nth-child(7) { animation-delay: 0s; }
-	  
