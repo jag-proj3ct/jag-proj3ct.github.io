@@ -45,15 +45,15 @@ body {
 /* Vinyl disc */
 .vinyl {
   position: absolute;
-  height: 80%;             /* ~30% smaller than the square */
-  width: 80%;
-  top: 10%;
-  left: 50%;              /* push right so ~30% of vinyl sticks out */
-  transform: translate(-50%, -50%);
+  height: 140%;
+  width: 140%;
+  top: 50%;
+  left: 0;
+  transform: translate(-70%, -50%);
   border-radius: 50%;
-  background: radial-gradient(circle, #111 60%, #333 85%, #111 100%);
-  animation: rotation 8s infinite linear;
-  z-index: 0;
+  background: url("images/vinyl.png") no-repeat center/cover; /* use actual image */
+  z-index: 1;
+  transition: transform 1.2s ease;
 }
 
 /* Album cover */
