@@ -89,46 +89,36 @@ body {
   box-shadow: 0px 2px 8px rgba(0,0,0,0.6);
 }
 
-/* Vinyl record */
 .vinyl {
   position: relative;
   height: 90%;
   width: 90%;
   top: 50%;
   left: 50%;
-  z-index: 1;
   border-radius: 50%;
   background: url("images/vinyl.png") no-repeat center/cover;
-  z-index: 1; /* stays below the cover */
-  animation: rotation 8s linear forwards;  /* runs once, holds last frame */
-  animation-play-state: paused;
-  transform: translate(50%, 50%); /* default: centered, hidden behind cover */
-  transition: transform 0.8s ease-in-out; /* smooth in/out */
+  transform: translate(50%, 50%); /* hidden by default */
+  transition: none;
+  z-index: 1;
 }
 
-/* Cover always above vinyl */
-.cover {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  border-radius: 12px;
-  background-size: cover;
-  background-position: center;
-  z-index: 2;
-  box-shadow: 0px 4px 6px rgba(0,0,0,0.5);
-}
-
-/* Slide vinyl out smoothly to the RIGHT when playing */
+/* When playing, trigger slide + spin */
 .track-art.playing .vinyl {
-   z-index: 1;
-  transform: translate(-50%, -50%); /* adjust % for how much peeks out */
-  animation-play-state: running;
+  animation:
+    slideOut 0.8s ease-in-out forwards,   /* runs once */
+    spin 8s linear infinite 0.8s;         /* starts after slideOut, loops */
 }
 
-/* Smooth rotation while staying slid out */
-@keyframes rotation {
+/* Slide animation */
+@keyframes slideOut {
+  from { transform: translate(50%, 50%); }
+  to   { transform: translate(-50%, -50%); }
+}
+
+/* Continuous rotation */
+@keyframes spin {
   from { transform: translate(-50%, -50%) rotate(0deg); }
-  to   { transform: translate( 0%, -50%) rotate(360deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
 
