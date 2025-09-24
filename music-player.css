@@ -10,12 +10,12 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  position: relative; /* This is key for positioning the wave */
+  position: relative;
 }
 
 /* Updated player container to center its content */
 .player {
-  height: 90vh; /* Reduced height to make space for the wave at the bottom */
+  height: 90vh;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -57,18 +57,15 @@ body {
   width: 80%;
   top: 50%;
   left: 50%;
-  transform: translate(-38%, -50%);
   border-radius: 50%;
   background: url("images/vinyl.png") no-repeat center/cover;
   z-index: 1;
   animation: rotation 8s linear infinite;
   animation-play-state: paused;
-  transition: transform 1s ease;
 }
 
 .vinyl.playing {
   animation-play-state: running;
-  transform: translate(-50%, -50%);
 }
 
 .cover {
@@ -83,8 +80,8 @@ body {
 }
 
 @keyframes rotation {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to   { transform: translate(-50%, -50%) rotate(360deg); }
+  from { transform: translate(-38%, -50%) rotate(0deg); }
+  to   { transform: translate(-38%, -50%) rotate(360deg); }
 }
 
 .track-name {
@@ -180,17 +177,24 @@ i.fa-volume-up {
   padding: 10px;
 }
 
-/* Visualization styling: now positioned independently */
 .loader {
   height: 70px;
   display: flex;
   justify-content: center;
   align-items: center;
-  /* New positioning */
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
+  /* Set initial state for smoother transitions */
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none; /* Make it unclickable when hidden */
+}
+
+.loader.visible {
+  opacity: 1;
+  pointer-events: auto; /* Make it clickable when visible */
 }
 
 .loader .stroke {
@@ -199,6 +203,11 @@ i.fa-volume-up {
   border-radius: 50px;
   margin: 0 5px;
   animation: animate 1.4s linear infinite;
+  animation-play-state: paused;
+}
+
+.loader.visible .stroke {
+  animation-play-state: running;
 }
 
 @keyframes animate {
