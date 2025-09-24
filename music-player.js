@@ -96,9 +96,12 @@ const music_list = [
   { name: "Two Words", file: "2words.mp3" },
   { name: "Through the Wire", file: "through-the-wire.mp3" },
   { name: "Family Business", file: "family-business.mp3" },
-  { name: "Last Call pt1", file: "last-call1.mp3" },
-  { name: "Last Call pt2", file: "last-call2.mp3" },
-  { name: "Last Call pt3", file: "last-call3.mp3" }
+
+    // ---- Last Call as one logical track with 3 files ----
+  { 
+    name: "Last Call", 
+    file: ["last-call1.mp3", "last-call2.mp3", "last-call3.mp3"] 
+  }
 ].map(track => ({
   img: track.cover || coverDefault,
   name: track.name,
