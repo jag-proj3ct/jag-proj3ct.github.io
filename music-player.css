@@ -48,19 +48,20 @@ body {
   height: 80%;
   width: 80%;
   top: 50%;
-  left: 60%;
-  transform: translate(-50%, -50%); /* center it */
+  left: 50%;
+  transform: translate(-50%, -50%); /* fully hidden under cover */
   border-radius: 50%;
   background: url("images/vinyl.png") no-repeat center/cover;
   z-index: 1;
   animation: rotation 8s linear infinite;
-  animation-play-state: paused;   /* default paused */
-  transition: transform 1.2s ease;
+  animation-play-state: paused;
+  transition: transform 1s ease; /* animate sliding */
 }
 
-/* Only spin when JS adds .playing */
+/* When playing, slide vinyl out */
 .vinyl.playing {
   animation-play-state: running;
+  transform: translate(-30%, -50%); /* move it out from the right side */
 }
 
 /* Album cover */
