@@ -38,25 +38,22 @@ let vinylEl, coverEl;
 function ensureArtChildren() {
   if (!track_art) return;
 
-  // First try to find existing HTML elements
   coverEl = track_art.querySelector('.cover');
   vinylEl = track_art.querySelector('.vinyl');
 
-  // If missing, create and insert in the right order
   if (!vinylEl) {
     vinylEl = document.createElement('div');
     vinylEl.className = 'vinyl';
-    track_art.insertBefore(vinylEl, track_art.firstChild); // vinyl always behind
+    track_art.insertBefore(vinylEl, track_art.firstChild);
   }
 
   if (!coverEl) {
     coverEl = document.createElement('div');
     coverEl.className = 'cover';
-    track_art.appendChild(coverEl); // cover always above vinyl
+    track_art.appendChild(coverEl);
   }
 }
 ensureArtChildren();
-
 
 /* ---- Wave animation ---- */
 function renderWave() {
@@ -74,30 +71,30 @@ function renderWave() {
 }
 renderWave();
 
-/* ---- Music list ---- */
-const basePath = "./music";       // where your MP3s live
-const coverDefault = "./images/cover-art.jpg";  // default cover
+/* ---- Music list (College Dropout full tracklist) ---- */
+const basePath = "./music/college-dropout";
+const coverDefault = "./images/college-dropout-cover.jpg";
 
 const music_list = [
-  { name: "intro (skit)", file: "intro.mp3" },
-  { name: "We Dont Care", file: "we-dont-care.mp3" },
+  { name: "Intro (Skit)", file: "intro.mp3" },
+  { name: "We Don’t Care", file: "we-dont-care.mp3" },
   { name: "Graduation Day", file: "graduation-day.mp3" },
-  { name: "All Falls Down.", file: "all-falls-down.mp3" },
-  { name: "Ill Fly Away", file: "fly-away.mp3" },
-  { name: "Spaceship", file: "spaceship.m4a" },
-  { name: "Jesus Walks", file: "jesuswalks.mp3" },
+  { name: "All Falls Down", file: "all-falls-down.mp3" },
+  { name: "I’ll Fly Away", file: "ill-fly-away.mp3" },
+  { name: "Spaceship", file: "spaceship.mp3" },
+  { name: "Jesus Walks", file: "jesus-walks.mp3" },
   { name: "Never Let Me Down", file: "never-let-me-down.mp3" },
-  { name: "Get Em' High", file: "get-em-high.mp3" },
-  { name: "Workout Plan (skit)", file: "workout-plan" },
+  { name: "Get Em High", file: "get-em-high.mp3" },
+  { name: "Workout Plan (Skit)", file: "workout-plan-skit.mp3" },
   { name: "The New Workout Plan", file: "new-workout-plan.mp3" },
-  { name: "Slow Jamz", file: "slowjamz.mp3" },
-  { name: "Breathe in Breathe Out", file: "bibo.mp3" },
-  { name: "school spirit (skit 1)", file: "ss-s1.mp3" },
+  { name: "Slow Jamz", file: "slow-jamz.mp3" },
+  { name: "Breathe In Breathe Out", file: "breathe-in-breathe-out.mp3" },
+  { name: "School Spirit (Skit 1)", file: "school-spirit-skit1.mp3" },
   { name: "School Spirit", file: "school-spirit.mp3" },
-  { name: "school spirit (skit 2)", file: "ss-s2.mp3" },
-  { name: "Little Jimmy (skit)", file: "lil-jimmy.mp3" },
-  { name: "Two Words", file: "2words.mp3" },
-  { name: "Through The Wire", file: "through-the-wire.mp3" },
+  { name: "School Spirit (Skit 2)", file: "school-spirit-skit2.mp3" },
+  { name: "Lil Jimmy (Skit)", file: "lil-jimmy.mp3" },
+  { name: "Two Words", file: "two-words.mp3" },
+  { name: "Through the Wire", file: "through-the-wire.mp3" },
   { name: "Family Business", file: "family-business.mp3" },
   { name: "Last Call", file: "last-call.mp3" }
 ].map(track => ({
@@ -126,7 +123,7 @@ function loadTrack(index) {
 
   track_name.textContent = music_list[index].name;
   track_artist.textContent = music_list[index].artist;
-  now_playing.textContent = `Playing music ${index + 1} of ${music_list.length}`;
+  now_playing.textContent = `Playing ${index + 1} of ${music_list.length}`;
 
   updateTimer = setInterval(setUpdate, 1000);
   curr_track.addEventListener('ended', nextTrack);
@@ -143,25 +140,17 @@ function playpauseTrack() {
 }
 function playTrack() {
   if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-
   curr_track.play().catch(() => {});
   isPlaying = true;
-
-  // Vinyl slides out + spins
   if (vinylEl) vinylEl.classList.add('playing');
-
   playpause_btn.innerHTML = '<i class="fa fa-pause-circle fa-5x"></i>';
 }
 function pauseTrack() {
   curr_track.pause();
   isPlaying = false;
-
-  // Vinyl slides back in + stops
   if (vinylEl) vinylEl.classList.remove('playing');
-
   playpause_btn.innerHTML = '<i class="fa fa-play-circle fa-5x"></i>';
 }
-
 function nextTrack() {
   if (track_index < music_list.length - 1 && !isRandom) {
     track_index++;
