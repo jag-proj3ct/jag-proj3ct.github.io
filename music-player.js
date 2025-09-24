@@ -1,43 +1,44 @@
 /* DOM references */
-let now_playing = document.querySelector('.now-playing');
-let track_art = document.querySelector('.track-art');
-let track_name = document.querySelector('.track-name');
-let track_artist = document.querySelector('.track-artist');
+const now_playing = document.querySelector('.now-playing');
+const track_art = document.querySelector('.track-art');
+const track_name = document.querySelector('.track-name');
+const track_artist = document.querySelector('.track-artist');
 
-let playpause_btn = document.querySelector('.playpause-track');
-let next_btn = document.querySelector('.next-track');
-let prev_btn = document.querySelector('.prev-track');
+const playpause_btn = document.querySelector('.playpause-track');
+const next_btn = document.querySelector('.next-track');
+const prev_btn = document.querySelector('.prev-track');
+const random_btn = document.querySelector('.random-track'); // assuming you have a button for random
 
-let seek_slider = document.querySelector('.seek_slider');
-let volume_slider = document.querySelector('.volume_slider');
-let curr_time = document.querySelector('.current-time');
-let total_duration = document.querySelector('.total-duration');
-let wave = document.getElementById('wave');
-let randomIcon = document.querySelector('.fa-random');
-let curr_track = document.createElement('audio');
+const seek_slider = document.querySelector('.seek_slider');
+const volume_slider = document.querySelector('.volume_slider');
+const curr_time = document.querySelector('.current-time');
+const total_duration = document.querySelector('.total-duration');
+const wave = document.getElementById('wave');
+const randomIcon = document.querySelector('.fa-random');
+const curr_track = document.createElement('audio');
 
 let track_index = 0;
 let isPlaying = false;
 let isRandom = false;
 let updateTimer;
+let part_index = 0; // which part of the current track is playing
 
 /* ---- Web Audio API setup ---- */
-let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-let analyser = audioCtx.createAnalyser();
-let source = audioCtx.createMediaElementSource(curr_track);
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+const analyser = audioCtx.createAnalyser();
+const source = audioCtx.createMediaElementSource(curr_track);
 source.connect(analyser);
 analyser.connect(audioCtx.destination);
 
 analyser.fftSize = 256;
-let bufferLength = analyser.frequencyBinCount;
-let dataArray = new Uint8Array(bufferLength);
+const bufferLength = analyser.frequencyBinCount;
+const dataArray = new Uint8Array(bufferLength);
 
 /* ---- Vinyl + Cover references ---- */
 let vinylEl, coverEl;
 
 function ensureArtChildren() {
   if (!track_art) return;
-
   coverEl = track_art.querySelector('.cover');
   vinylEl = track_art.querySelector('.vinyl');
 
@@ -46,7 +47,6 @@ function ensureArtChildren() {
     vinylEl.className = 'vinyl';
     track_art.insertBefore(vinylEl, track_art.firstChild);
   }
-
   if (!coverEl) {
     coverEl = document.createElement('div');
     coverEl.className = 'cover';
@@ -60,7 +60,7 @@ function renderWave() {
   requestAnimationFrame(renderWave);
   if (isPlaying) {
     analyser.getByteFrequencyData(dataArray);
-    let volume = dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
+    const volume = dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
     if (wave) {
       wave.style.display = "block";
       wave.style.transform = `scaleY(${Math.max(0.25, volume / 100)})`;
@@ -96,37 +96,19 @@ const music_list = [
   { name: "Two Words", file: "2words.mp3" },
   { name: "Through the Wire", file: "through-the-wire.mp3" },
   { name: "Family Business", file: "family-business.mp3" },
-
-    // ---- Last Call as one logical track with 3 files ----
-  { 
-    name: "Last Call", 
-    file: ["lastcall1.mp3", "lastcall2.mp3", "lastcall3.mp3"] 
+  {
+    name: "Last Call",
+    artist: "Kanye West",
+    file: ["last-call1.mp3", "last-call2.mp3", "last-call3.mp3"]
   }
 ].map(track => ({
   img: track.cover || coverDefault,
   name: track.name,
   artist: track.artist || "Kanye West",
-  music: `${basePath}/${track.file}`
-}));
-
-  // ---- Last Call as one logical track with 3 files ----
-  { 
-    name: "Last Call", 
-    file: ["last-call1.mp3", "last-call2.mp3", "last-call3.mp3"] 
-  }
-];
-
-const music_list = raw_list.map(track => ({
-  img: track.cover || coverDefault,
-  name: track.name,
-  artist: track.artist || "Kanye West",
-  music: Array.isArray(track.file) 
-    ? track.file.map(f => `${basePath}${f}`) 
+  music: Array.isArray(track.file)
+    ? track.file.map(f => `${basePath}${f}`)
     : [`${basePath}${track.file}`] // always store as array
 }));
-
-/* ---- Track state ---- */
-let part_index = 0; // which part of the current track is playing
 
 /* ---- Player functions ---- */
 loadTrack(track_index);
@@ -134,39 +116,31 @@ loadTrack(track_index);
 function loadTrack(index) {
   clearInterval(updateTimer);
   reset();
-
   if (index < 0) index = 0;
   if (index >= music_list.length) index = music_list.length - 1;
 
-  // reset to first part of this track
+  track_index = index;
   part_index = 0;
-
-  curr_track.src = music_list[index].music[part_index];
+  curr_track.src = music_list[track_index].music[part_index];
   curr_track.load();
 
-  ensureArtChildren();
-  if (coverEl) coverEl.style.backgroundImage = `url("${music_list[index].img}")`;
-
-  track_name.textContent = music_list[index].name;
-  track_artist.textContent = music_list[index].artist;
-  now_playing.textContent = `Playing ${index + 1} of ${music_list.length}`;
+  if (coverEl) coverEl.style.backgroundImage = `url("${music_list[track_index].img}")`;
+  track_name.textContent = music_list[track_index].name;
+  track_artist.textContent = music_list[track_index].artist;
+  now_playing.textContent = `Playing ${track_index + 1} of ${music_list.length}`;
 
   updateTimer = setInterval(setUpdate, 1000);
-
   curr_track.addEventListener('ended', handleTrackEnd);
 }
 
 function handleTrackEnd() {
-  let currentTrack = music_list[track_index];
-
+  const currentTrack = music_list[track_index];
   if (part_index < currentTrack.music.length - 1) {
-    // go to next part of same track
     part_index++;
     curr_track.src = currentTrack.music[part_index];
     curr_track.load();
     curr_track.play();
   } else {
-    // finished all parts, move to next track
     nextTrack();
   }
 }
@@ -180,59 +154,79 @@ function reset() {
 function playpauseTrack() {
   isPlaying ? pauseTrack() : playTrack();
 }
+
 function playTrack() {
-  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-  curr_track.play().catch(() => {});
+  if (audioCtx && audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+  curr_track.play().catch(e => console.error("Play failed:", e));
   isPlaying = true;
   if (vinylEl) vinylEl.classList.add('playing');
   playpause_btn.innerHTML = '<i class="fa fa-pause-circle fa-5x"></i>';
 }
+
 function pauseTrack() {
   curr_track.pause();
   isPlaying = false;
   if (vinylEl) vinylEl.classList.remove('playing');
   playpause_btn.innerHTML = '<i class="fa fa-play-circle fa-5x"></i>';
 }
+
 function nextTrack() {
-  if (track_index < music_list.length - 1 && !isRandom) {
-    track_index++;
-  } else if (track_index < music_list.length - 1 && isRandom) {
+  if (isRandom) {
     track_index = Math.floor(Math.random() * music_list.length);
   } else {
-    track_index = 0;
+    track_index = (track_index + 1) % music_list.length;
   }
   loadTrack(track_index);
   playTrack();
 }
+
 function prevTrack() {
-  track_index = track_index > 0 ? track_index - 1 : music_list.length - 1;
+  track_index = (track_index - 1 + music_list.length) % music_list.length;
   loadTrack(track_index);
   playTrack();
 }
+
 function seekTo() {
   if (!curr_track.duration) return;
-  let seekto = curr_track.duration * (seek_slider.value / 100);
+  const seekto = curr_track.duration * (seek_slider.value / 100);
   curr_track.currentTime = seekto;
 }
+
 function setVolume() {
-  curr_track.volume = (volume_slider && volume_slider.value) ? volume_slider.value / 100 : 1;
+  curr_track.volume = volume_slider ? volume_slider.value / 100 : 1;
 }
+
 function setUpdate() {
   if (!isNaN(curr_track.duration)) {
-    let seekPosition = curr_track.currentTime * (100 / curr_track.duration);
+    const seekPosition = curr_track.currentTime * (100 / curr_track.duration);
     seek_slider.value = seekPosition;
 
-    let currentMinutes = Math.floor(curr_track.currentTime / 60);
-    let currentSeconds = Math.floor(curr_track.currentTime % 60);
-    let durationMinutes = Math.floor(curr_track.duration / 60);
-    let durationSeconds = Math.floor(curr_track.duration % 60);
+    const formatTime = (time) => {
+      const minutes = Math.floor(time / 60);
+      const seconds = Math.floor(time % 60);
+      return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    };
 
-    if (currentSeconds < 10) currentSeconds = "0" + currentSeconds;
-    if (durationSeconds < 10) durationSeconds = "0" + durationSeconds;
-    if (currentMinutes < 10) currentMinutes = "0" + currentMinutes;
-    if (durationMinutes < 10) durationMinutes = "0" + durationMinutes;
-
-    curr_time.textContent = `${currentMinutes}:${currentSeconds}`;
-    total_duration.textContent = `${durationMinutes}:${durationSeconds}`;
+    curr_time.textContent = formatTime(curr_track.currentTime);
+    total_duration.textContent = formatTime(curr_track.duration);
   }
 }
+
+function randomTrack() {
+  isRandom = !isRandom;
+  if (isRandom) {
+    randomIcon.classList.add('randomActive');
+  } else {
+    randomIcon.classList.remove('randomActive');
+  }
+}
+
+/* ---- Event Listeners ---- */
+playpause_btn.addEventListener('click', playpauseTrack);
+next_btn.addEventListener('click', nextTrack);
+prev_btn.addEventListener('click', prevTrack);
+seek_slider.addEventListener('input', seekTo);
+volume_slider.addEventListener('input', setVolume);
+randomIcon.addEventListener('click', randomTrack);
