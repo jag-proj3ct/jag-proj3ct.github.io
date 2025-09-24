@@ -12,6 +12,43 @@ body {
   overflow: hidden;
   position: relative;
 }
+/* Add this to the top of your music-player.css file */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.lyrics-container {
+    background-color: #ddd;
+    border-radius: 20px;
+    padding: 30px;
+    margin-right: 50px; /* Space between the lyrics and the music player */
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 20px 38px,
+              rgba(0, 0, 0, 0.22) 0px 20px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 350px; /* Adjust as needed */
+    height: 600px;
+    overflow-y: auto; /* Adds a scrollbar if the lyrics are too long */
+}
+
+.lyrics-container h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+#lyrics-display {
+    font-size: 1.2rem;
+    white-space: pre-wrap; /* Keeps line breaks from the lyrics data */
+    line-height: 1.6;
+}
 
 /* Updated player container to center its content */
 .player {
