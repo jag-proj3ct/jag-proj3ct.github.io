@@ -101,7 +101,7 @@ body {
   z-index: 1; /* stays below the cover */
   animation: rotation 8s linear infinite;
   animation-play-state: paused;
-  transform: translate(-50%, -50%); /* default: hidden behind cover */
+  transform: translate(50%, -50%); /* default: hidden behind cover */
   transition: transform 0.8s ease-in-out; /* smooth in/out */
 }
 
@@ -119,7 +119,7 @@ body {
 
 /* Slide vinyl out smoothly when playing */
 .track-art.playing .vinyl {
-  transform: translate(-105%, -50%);
+  transform: translate(80%, -50%);
   animation-play-state: running;
 }
 
