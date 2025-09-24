@@ -249,3 +249,19 @@ i.fa-volume-up {
 .stroke:nth-child(5) { background: #FFD700; }
 .stroke:nth-child(6) { background: #FFA500; }
 .stroke:nth-child(7) { background: #FFD700; }
+
+/* music-player.css */
+
+.loader {
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Remove position: absolute; and bottom: 0; */
+    width: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+    margin-top: 15px; /* Add a top margin for spacing */
+}
+
