@@ -7,7 +7,7 @@ const allLyrics = [
         name: "We Don't Care",
         lyrics: [
             { time: 5, text: "Wait a minute, wait a minute..." },
-            { time: 10, text: "Y'all don't want no problems..." },
+            { time: 10, text: "Y'all don't want no problems..." }
             // ... more lyrics and timestamps
         ]
     }
