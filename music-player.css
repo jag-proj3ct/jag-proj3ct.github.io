@@ -1,15 +1,12 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
-  /* Corrected background properties for full screen coverage */
   background-image: url("images/background.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
-  /* Ensure the body spans the full viewport */
   width: 100vw;
   height: 100vh;
-  /* Prevent scrolling if content overflows slightly */
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -52,29 +49,26 @@ body {
   box-shadow: 0px 2px 8px rgba(0,0,0,0.6);
 }
 
-/* Vinyl disc */
 .vinyl {
   position: absolute;
   height: 80%;
   width: 80%;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); /* fully hidden under cover */
+  transform: translate(-50%, -50%);
   border-radius: 50%;
   background: url("images/vinyl.png") no-repeat center/cover;
   z-index: 1;
   animation: rotation 8s linear infinite;
   animation-play-state: paused;
-  transition: transform 1s ease; /* animate sliding */
+  transition: transform 1s ease;
 }
 
-/* When playing, slide vinyl out */
 .vinyl.playing {
   animation-play-state: running;
-  transform: translate(-30%, -50%); /* move it out from the right side */
+  transform: translate(-30%, -50%);
 }
 
-/* Album cover */
 .cover {
   position: relative;
   height: 100%;
@@ -90,8 +84,6 @@ body {
   from { transform: translate(-50%, -50%) rotate(0deg); }
   to   { transform: translate(-50%, -50%) rotate(360deg); }
 }
-
-/* ---------------- Text + Controls ---------------- */
 
 .track-name {
   font-size: 2.5rem;
@@ -122,6 +114,7 @@ body {
   padding: 25px;
   opacity: 0.8;
   transition: opacity .2s;
+  cursor: pointer;
 }
 
 .repeat-track:hover,
@@ -146,6 +139,7 @@ body {
   height: 5px;
   background: #83A9FF;
   transition: opacity .2s;
+  cursor: pointer;
 }
 
 .seek_slider::-webkit-slider-thumb,
@@ -184,16 +178,6 @@ i.fa-volume-up {
   padding: 10px;
 }
 
-i,
-i.fa-play-circle,
-i.fa-pause-circle,
-i.fa-step-forward,
-i.fa-step-backward,
-p {
-  cursor: pointer;
-}
-
-/* Loader bars */
 .loader {
   height: 70px;
   display: flex;
