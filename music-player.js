@@ -50,11 +50,16 @@ function renderWave() {
     wave.classList.add('visible');
     const step = Math.floor(dataArray.length / strokes.length);
     strokes.forEach((stroke, i) => {
-      const value = dataArray[i * step] / 256;
-      stroke.style.transform = `scaleY(${value})`;
+      // Adjusted formula to get a more noticeable and less "cut-off" visualization
+      const value = (dataArray[i * step] / 256) * 1.5;
+      stroke.style.transform = `scaleY(${Math.max(0.2, value)})`; // Set a minimum scale
     });
   } else {
     wave.classList.remove('visible');
+    // Optionally reset strokes to their initial state when paused
+    strokes.forEach(stroke => {
+      stroke.style.transform = `scaleY(0.2)`;
+    });
   }
 }
 renderWave();
