@@ -249,3 +249,26 @@ seek_slider.addEventListener('input', seekTo);
 volume_slider.addEventListener('input', setVolume);
 random_btn.addEventListener('click', randomTrack);
 repeat_btn.addEventListener('click', repeatTrack);
+.wrapper {
+  border: 1px solid transparent;
+  padding: 30px;
+  border-radius: 20px;
+  background-color: #ddd;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 20px 38px,
+              rgba(0, 0, 0, 0.22) 0px 20px 12px;
+  position: relative;   /* create a stacking context */
+  z-index: 0;           /* baseline layer for wrapper */
+}
+
+.track-art {
+  position: relative;
+  z-index: 1;           /* vinyl + cover live inside here */
+}
+
+.vinyl {
+  z-index: 1;           /* under the cover */
+}
+
+.cover {
+  z-index: 2;           /* always above the vinyl */
+}
