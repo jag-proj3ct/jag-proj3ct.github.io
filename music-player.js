@@ -7,7 +7,8 @@ const track_artist = document.querySelector('.track-artist');
 const playpause_btn = document.querySelector('.playpause-track');
 const next_btn = document.querySelector('.next-track');
 const prev_btn = document.querySelector('.prev-track');
-const random_btn = document.querySelector('.random-track'); // assuming you have a button for random
+const random_btn = document.querySelector('.random-track');
+const repeat_btn = document.querySelector('.repeat-track');
 
 const seek_slider = document.querySelector('.seek_slider');
 const volume_slider = document.querySelector('.volume_slider');
@@ -15,13 +16,15 @@ const curr_time = document.querySelector('.current-time');
 const total_duration = document.querySelector('.total-duration');
 const wave = document.getElementById('wave');
 const randomIcon = document.querySelector('.fa-random');
+const repeatIcon = document.querySelector('.fa-repeat');
 const curr_track = document.createElement('audio');
 
 let track_index = 0;
 let isPlaying = false;
 let isRandom = false;
+let isRepeating = false;
 let updateTimer;
-let part_index = 0; // which part of the current track is playing
+let part_index = 0;
 
 /* ---- Web Audio API setup ---- */
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -41,17 +44,6 @@ function ensureArtChildren() {
   if (!track_art) return;
   coverEl = track_art.querySelector('.cover');
   vinylEl = track_art.querySelector('.vinyl');
-
-  if (!vinylEl) {
-    vinylEl = document.createElement('div');
-    vinylEl.className = 'vinyl';
-    track_art.insertBefore(vinylEl, track_art.firstChild);
-  }
-  if (!coverEl) {
-    coverEl = document.createElement('div');
-    coverEl.className = 'cover';
-    track_art.appendChild(coverEl);
-  }
 }
 ensureArtChildren();
 
@@ -62,7 +54,7 @@ function renderWave() {
     analyser.getByteFrequencyData(dataArray);
     const volume = dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
     if (wave) {
-      wave.style.display = "block";
+      wave.style.display = "flex";
       wave.style.transform = `scaleY(${Math.max(0.25, volume / 100)})`;
     }
   } else {
@@ -107,7 +99,7 @@ const music_list = [
   artist: track.artist || "Kanye West",
   music: Array.isArray(track.file)
     ? track.file.map(f => `${basePath}${f}`)
-    : [`${basePath}${track.file}`] // always store as array
+    : [`${basePath}${track.file}`]
 }));
 
 /* ---- Player functions ---- */
@@ -134,6 +126,11 @@ function loadTrack(index) {
 }
 
 function handleTrackEnd() {
+  if (isRepeating) {
+    curr_track.currentTime = 0;
+    playTrack();
+    return;
+  }
   const currentTrack = music_list[track_index];
   if (part_index < currentTrack.music.length - 1) {
     part_index++;
@@ -223,10 +220,20 @@ function randomTrack() {
   }
 }
 
+function repeatTrack() {
+  isRepeating = !isRepeating;
+  if (isRepeating) {
+    repeatIcon.classList.add('active');
+  } else {
+    repeatIcon.classList.remove('active');
+  }
+}
+
 /* ---- Event Listeners ---- */
 playpause_btn.addEventListener('click', playpauseTrack);
 next_btn.addEventListener('click', nextTrack);
 prev_btn.addEventListener('click', prevTrack);
 seek_slider.addEventListener('input', seekTo);
 volume_slider.addEventListener('input', setVolume);
-randomIcon.addEventListener('click', randomTrack);
+random_btn.addEventListener('click', randomTrack);
+repeat_btn.addEventListener('click', repeatTrack);
