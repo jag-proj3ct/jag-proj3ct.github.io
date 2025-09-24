@@ -38,27 +38,23 @@ const bufferLength = analyser.frequencyBinCount;
 const dataArray = new Uint8Array(bufferLength);
 
 /* ---- Vinyl + Cover references ---- */
-let vinylEl, coverEl;
-
-function ensureArtChildren() {
-  if (!track_art) return;
-  coverEl = track_art.querySelector('.cover');
-  vinylEl = track_art.querySelector('.vinyl');
-}
-ensureArtChildren();
+const coverEl = track_art.querySelector('.cover');
+const vinylEl = track_art.querySelector('.vinyl');
+const strokes = Array.from(wave.querySelectorAll('.stroke'));
 
 /* ---- Wave animation ---- */
 function renderWave() {
   requestAnimationFrame(renderWave);
   if (isPlaying) {
     analyser.getByteFrequencyData(dataArray);
-    const volume = dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
-    if (wave) {
-      wave.style.display = "flex";
-      wave.style.transform = `scaleY(${Math.max(0.25, volume / 100)})`;
-    }
+    wave.classList.add('visible');
+    const step = Math.floor(dataArray.length / strokes.length);
+    strokes.forEach((stroke, i) => {
+      const value = dataArray[i * step] / 256;
+      stroke.style.transform = `scaleY(${value})`;
+    });
   } else {
-    if (wave) wave.style.display = "none";
+    wave.classList.remove('visible');
   }
 }
 renderWave();
@@ -126,12 +122,12 @@ function loadTrack(index) {
 }
 
 function handleTrackEnd() {
+  const currentTrack = music_list[track_index];
   if (isRepeating) {
     curr_track.currentTime = 0;
     playTrack();
     return;
   }
-  const currentTrack = music_list[track_index];
   if (part_index < currentTrack.music.length - 1) {
     part_index++;
     curr_track.src = currentTrack.music[part_index];
