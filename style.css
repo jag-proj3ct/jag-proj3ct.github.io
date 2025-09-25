@@ -46,12 +46,15 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 20px;
+  /* Applying a slightly dark background to all base cards */
+  background: rgba(0, 0, 0, 0.7); /* Slightly darker than 0.1 for the base card */
 }
 
 .profile-card {
   flex-direction: column;
   align-items: center;
-  background: rgba(0, 0, 0, 0.85);
+  /* Keeps the specific dark grey for the profile card */
+  background: rgba(0, 0, 0, 0.85); 
 }
 
 .profile-pic-wrapper {
@@ -101,6 +104,7 @@ h1:hover, p:hover {
 
 .game {
   gap: 15px;
+  /* Keeps the specific dark grey for the game card */
   background: rgba(0, 0, 0, 0.85);
 }
 
@@ -127,13 +131,15 @@ h1:hover, p:hover {
 }
 
 .player {
+  /* Removed the background from .player as requested */
   align-items: center;
 }
 
 .player .wrapper {
   border-radius: 20px;
   padding: 30px;
-  background: rgba(255, 255, 255, 0.1); /* subtle lighter box */
+  /* This is the lighter, subtle grey background you wanted to keep for the music player */
+  background: rgba(255, 255, 255, 0.1); 
   box-shadow: rgba(0, 0, 0, 0.4) 0px 12px 28px;
   position: relative;
   z-index: 2;
@@ -266,4 +272,3 @@ h1:hover, p:hover {
 .stroke:nth-child(5) { background: linear-gradient(to top, #FFA500, #FFD700); }
 .stroke:nth-child(6) { background: linear-gradient(to top, #FFD700, #FFA500); }
 .stroke:nth-child(7) { background: linear-gradient(to top, #FFA500, #FFD700); }
-
