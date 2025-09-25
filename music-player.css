@@ -108,49 +108,36 @@ body {
   width: 250px;
   height: 250px;
   border-radius: 50%;
-  background: url("images/vinyl.png") no-repeat center/cover;
   transform: translate(-50%, -50%);
-  z-index: 1; /* underneath cover */
+  z-index: 1;
+  transition: transform 1s ease; /* slide animation */
 }
 
+.vinyl-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: url("images/vinyl.png") no-repeat center/cover;
+}
 
-/* Add a sliding class */
+/* Slide in */
 .vinyl.sliding {
   transform: translate(-50%, -50%) translateX(30%);
 }
-/* Add a return class */
+
+/* Slide back */
 .vinyl.return {
-  transform: translate(-20%, -50%) translateX(-30%);
+  transform: translate(-50%, -50%) translateX(-30%);
 }
 
-/* Add a still class */
-.cover.still {
-  transform: translate(-50%, -50%) translateX(0%);
-}
-
-/* Add spinning class separately */
-.vinyl.spinning {
+/* Spin only affects the inner */
+.vinyl-inner.spinning {
   animation: spin 8s linear infinite;
 }
 
-/* cover stay still keyframes */
-@keyframes still {
-  from {
-    transform: translate(-50%, -50%) translateX(0%) rotate(0deg);
-  }
-  to {
-    transform: translate(-50%, -50%) translateX(0%) rotate(0deg);
-  }
-}
-
-/* Spinning keyframes */
 @keyframes spin {
-  from {
-    transform: translate(-50%, -50%) translateX(30%) rotate(0deg);
-  }
-  to {
-    transform: translate(-50%, -50%) translateX(30%) rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* Text */
