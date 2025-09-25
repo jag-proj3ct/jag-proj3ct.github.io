@@ -15,11 +15,11 @@ body {
 }
 
 /* Containers */
+/* Removed 'gap: 60px;' and 'gap: 15px;' from all containers */
 .container-first {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 60px;
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
@@ -29,7 +29,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 60px;
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
@@ -40,21 +39,19 @@ body {
   width: 100%;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-  padding: 30px;
+  /* Updated padding: 30px top/right/left, 0 bottom */
+  padding: 30px 30px 0 30px; 
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  /* Applying a slightly dark background to all base cards */
-  background: rgba(0, 0, 0, 0.7); /* Slightly darker than 0.1 for the base card */
 }
 
 .profile-card {
   flex-direction: column;
   align-items: center;
-  /* Keeps the specific dark grey for the profile card */
-  background: rgba(0, 0, 0, 0.85); 
+  background: rgba(0, 0, 0, 0.85);
 }
 
 .profile-pic-wrapper {
@@ -103,13 +100,15 @@ h1:hover, p:hover {
 }
 
 .game {
-  gap: 15px;
-  /* Keeps the specific dark grey for the game card */
+  /* Removed 'gap: 15px;' here */
   background: rgba(0, 0, 0, 0.85);
+  /* Added 40px top padding */
+  padding-top: 40px; 
 }
 
+/* Removed 'gap: 15px;' from this container too (already removed above, but kept clean) */
 .container {
-  gap: 15px;
+  /* No more 'gap' property here */
 }
 
 .game button {
@@ -131,15 +130,14 @@ h1:hover, p:hover {
 }
 
 .player {
-  /* Removed the background from .player as requested */
   align-items: center;
 }
 
 .player .wrapper {
   border-radius: 20px;
-  padding: 30px;
-  /* This is the lighter, subtle grey background you wanted to keep for the music player */
-  background: rgba(255, 255, 255, 0.1); 
+  /* Updated padding: 40px top, 30px right/bottom/left */
+  padding: 40px 30px 30px 30px; 
+  background: rgba(255, 255, 255, 0.1); /* subtle lighter box */
   box-shadow: rgba(0, 0, 0, 0.4) 0px 12px 28px;
   position: relative;
   z-index: 2;
