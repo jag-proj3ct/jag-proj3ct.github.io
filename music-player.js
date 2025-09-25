@@ -17,8 +17,8 @@ const volume_slider = document.querySelector('.volume_slider');
 const curr_time = document.querySelector('.current-time');
 const total_duration = document.querySelector('.total-duration');
 
-const wave = document.getElementById('wave');  // Visualizer container
-const strokes = Array.from(wave.querySelectorAll('.stroke'));  // Visualizer bars
+const loader = document.querySelector('.loader'); // Visualizer container
+const strokes = loader ? Array.from(loader.querySelectorAll('.stroke')) : [];
 
 const curr_track = new Audio();
 
@@ -44,24 +44,26 @@ const dataArray = new Uint8Array(bufferLength);
 function renderWave() {
   requestAnimationFrame(renderWave);
 
+  if (!loader) return;
+
   if (isPlaying) {
     analyser.getByteFrequencyData(dataArray);
-    wave.classList.add('visible');  // Show visualizer
+    loader.classList.add('visible');
 
     const step = Math.floor(dataArray.length / strokes.length);
     strokes.forEach((stroke, i) => {
       let value = dataArray[i * step] / 256;
-      if (i < 3) value = Math.sqrt(value);  // Amplify lower bars
+      if (i < 3) value = Math.sqrt(value); // Boost lower bars
       stroke.style.transform = `scaleY(${Math.max(0.2, value * 1.2)})`;
     });
   } else {
-    wave.classList.remove('visible');  // Hide visualizer
+    loader.classList.remove('visible');
     strokes.forEach(stroke => {
       stroke.style.transform = 'scaleY(0.2)';
     });
   }
 }
-renderWave();
+if (loader) renderWave();
 
 /* Music list */
 const basePath = "./music/";
@@ -102,14 +104,14 @@ const music_list = [
     : [basePath + track.file]
 }));
 
-/* Helper to format time as MM:SS */
+/* Format MM:SS */
 function formatTime(time) {
   const minutes = Math.floor(time / 60) || 0;
   const seconds = Math.floor(time % 60) || 0;
   return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 }
 
-/* Update time and seek slider */
+/* Update time/slider */
 function setUpdate() {
   if (isNaN(curr_track.duration)) return;
 
@@ -120,19 +122,19 @@ function setUpdate() {
   total_duration.textContent = formatTime(curr_track.duration);
 }
 
-/* Reset UI for track */
+/* Reset UI */
 function reset() {
   curr_time.textContent = "00:00";
   total_duration.textContent = "00:00";
   seek_slider.value = 0;
 }
 
-/* Load a track by index */
+/* Load track */
 function loadTrack(index) {
   clearInterval(updateTimer);
   reset();
 
-  // Wrap index if out of bounds
+  // Wrap around
   if (index < 0) index = music_list.length - 1;
   else if (index >= music_list.length) index = 0;
 
@@ -160,10 +162,8 @@ function playTrack() {
 
   if (vinylEl) {
     vinylEl.classList.remove('return', 'spinning');
-    // Trigger reflow to restart sliding animation
-    void vinylEl.offsetWidth;
+    void vinylEl.offsetWidth; // Force reflow
     vinylEl.classList.add('sliding');
-
     vinylEl.addEventListener('transitionend', () => {
       vinylEl.classList.remove('sliding');
       vinylEl.classList.add('spinning');
@@ -172,8 +172,7 @@ function playTrack() {
 
   track_art.classList.add('playing');
   playpause_btn.innerHTML = '<i class="fa fa-pause-circle fa-5x"></i>';
-
-  wave.classList.add('visible');  // Show visualizer
+  if (loader) loader.classList.add('visible');
 }
 
 /* Pause track */
@@ -188,44 +187,35 @@ function pauseTrack() {
 
   track_art.classList.remove('playing');
   playpause_btn.innerHTML = '<i class="fa fa-play-circle fa-5x"></i>';
-
-  wave.classList.remove('visible');  // Hide visualizer
+  if (loader) loader.classList.remove('visible');
 }
 
 /* Toggle play/pause */
 function playpauseTrack() {
-  if (isPlaying) pauseTrack();
-  else playTrack();
+  isPlaying ? pauseTrack() : playTrack();
 }
 
-/* Seek in track */
+/* Seek */
 function seekTo() {
   if (!curr_track.duration) return;
-  const seekToTime = curr_track.duration * (seek_slider.value / 100);
-  curr_track.currentTime = seekToTime;
+  curr_track.currentTime = curr_track.duration * (seek_slider.value / 100);
 }
 
-/* Change volume */
+/* Volume */
 function setVolume() {
-  if (volume_slider) curr_track.volume = volume_slider.value / 100;
+  curr_track.volume = volume_slider.value / 100;
 }
 
-/* Repeat button toggle */
+/* Toggle repeat */
 repeat_btn.addEventListener('click', () => {
   isRepeating = !isRepeating;
-
-  // Toggle active class for visual feedback (add to your CSS)
   repeat_btn.classList.toggle('active', isRepeating);
 
   const icon = repeat_btn.querySelector('i');
-  if (isRepeating) {
-    icon.style.color = '#1DB954';  // Highlight color
-  } else {
-    icon.style.color = '';  // Default color
-  }
+  icon.style.color = isRepeating ? '#1DB954' : '';
 });
 
-/* Handle track end for repeat or next */
+/* Track end */
 curr_track.addEventListener('ended', () => {
   if (isRepeating) {
     curr_track.currentTime = 0;
@@ -236,12 +226,18 @@ curr_track.addEventListener('ended', () => {
   }
 });
 
-/* Event Listeners */
+/* Controls */
 playpause_btn.addEventListener('click', playpauseTrack);
-next_btn.addEventListener('click', () => loadTrack(track_index + 1));
-prev_btn.addEventListener('click', () => loadTrack(track_index - 1));
+next_btn.addEventListener('click', () => {
+  loadTrack(track_index + 1);
+  playTrack();
+});
+prev_btn.addEventListener('click', () => {
+  loadTrack(track_index - 1);
+  playTrack();
+});
 seek_slider.addEventListener('input', seekTo);
 volume_slider.addEventListener('input', setVolume);
 
-/* Load initial track */
+/* Init */
 loadTrack(track_index);
