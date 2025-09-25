@@ -76,7 +76,15 @@ body {
   width: 150px;
   height: 150px;
   margin-bottom: 15px;
+  /* 🎯 NEW: Add transition for smooth hover effect */
+  transition: transform 0.3s ease;
 }
+
+/* 🎯 NEW: Hover effect on the wrapper to scale the image and frame */
+.profile-pic-wrapper:hover {
+  transform: scale(1.05); /* Scales the entire wrapper (image and frame) */
+}
+
 .profile-pic-wrapper img.profile {
   width: 150px;
   height: 150px;
@@ -282,11 +290,10 @@ h1:hover, p:hover {
   width: 15px;
   height: 15px;
   background: white;
-  border: 3px solid transparent; /* Set border to transparent for border-image to work */
+  border: 3px solid transparent; 
   border-radius: 100%;
   cursor: grab;
   
-  /* 🎯 FIX 3: Apply the gradient border using border-image */
   border-image: linear-gradient(to top, #FFD700, #FFA500) 1;
 }
 
@@ -303,11 +310,10 @@ h1:hover, p:hover {
   width: 15px;
   height: 15px;
   background: white;
-  border: 3px solid transparent; /* Set border to transparent for border-image to work */
+  border: 3px solid transparent; 
   border-radius: 100%;
   cursor: grab;
   
-  /* 🎯 FIX 3: Apply the gradient border using border-image */
   border-image: linear-gradient(to top, #FFA500, #FFD700) 1;
 }
 
@@ -328,7 +334,8 @@ h1:hover, p:hover {
 }
 
 .loader.visible {
-  height: 70px;
+  /* 🎯 UPDATE: Increased container height to support more strokes */
+  height: 90px;
   opacity: 1;
   margin-top: 15px;
   pointer-events: auto;
@@ -336,8 +343,10 @@ h1:hover, p:hover {
 
 /* Default Stroke Styling */
 .stroke {
-  width: 6px;
-  margin: 0 5px;
+  /* 🎯 UPDATE: Reduced width for more strokes */
+  width: 5px; 
+  /* 🎯 UPDATE: Reduced margin to fit more strokes */
+  margin: 0 4px; 
   border-radius: 3px;
   transform-origin: bottom center;
   transition: transform 0.1s ease-out;
@@ -348,10 +357,11 @@ h1:hover, p:hover {
 
 /* Specific styling for the Loader's strokes (taller and rounded) */
 .loader .stroke {
-  height: 60px; 
-  width: 10px;
+  /* 🎯 UPDATE: Increased individual bar height to fit the new loader height */
+  height: 80px; 
+  width: 8px; /* Slightly wider bar */
   border-radius: 50px;
-  margin: 0 5px; 
+  margin: 0 4px; 
 }
 
 /* Optional gradient variety */
