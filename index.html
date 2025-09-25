@@ -3,12 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Music Player</title>
+  <title>Profile · Game · Music</title>
+
+  <!-- CSS files (order matters: base first, then specific) -->
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="profile.css" />
   <link rel="stylesheet" href="music-player.css" />
-  <link rel="icon" href="https://d1yjjnpx0p53s8.cloudfront.net/pp840x830-pad1000x1000f8f8f8.jpg?9oPTJs..erd0K9tiddIL4J9OjiCfetIN" />
+
+  <!-- Fonts & icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
+  <link rel="icon" href="https://d1yjjnpx0p53s8.cloudfront.net/pp840x830-pad1000x1000f8f8f8.jpg?9oPTJs..erd0K9tiddIL4J9OjiCfetIN" />
+
+  <!-- Preloaded images -->
   <link rel="preload" as="image" href="images/background.png" />
   <link rel="preload" as="image" href="images/vinyl.png" />
   <link rel="preload" as="image" href="images/college-dropout-cover.jpg" />
@@ -26,72 +32,7 @@
       <p>JAG 9th · 15 years old</p>
     </div>
     
-    <div class="player">
-      <div class="wrapper">
-
-        <!-- Track details section -->
-        <div class="details">
-          <div class="track-art">
-            <div class="cover"></div>
-            <div class="vinyl"></div>
-          </div>
-          <div class="track-name">Track Name</div>
-          <div class="track-artist">Track Artist</div>
-        </div>
-
-        <!-- Seek slider and times -->
-        <div class="slider_container">
-          <div class="current-time">00:00</div>
-          <input type="range" min="0" max="100" value="0" class="seek_slider" />
-          <div class="total-duration">00:00</div>
-        </div>
-
-        <!-- Volume control slider -->
-        <div class="slider_container">
-          <i class="fa fa-volume-down"></i>
-          <input type="range" min="0" max="100" value="99" class="volume_slider" />
-          <i class="fa fa-volume-up"></i>
-        </div>
-
-        <!-- Playing track info -->
-        <div class="now-playing">PLAYING x OF y</div>
-
-        <!-- Player controls (moved above visualizer) -->
-        <div class="buttons">
-          <div class="random-track" title="Random">
-            <i class="fas fa-random fa-2x"></i>
-          </div>
-          <div class="prev-track" title="Previous">
-            <i class="fa fa-step-backward fa-2x"></i>
-          </div>
-          <div class="playpause-track" title="Play/Pause">
-            <i class="fa fa-play-circle fa-5x"></i>
-          </div>
-          <div class="next-track" title="Next">
-            <i class="fa fa-step-forward fa-2x"></i>
-          </div>
-          <div class="repeat-track" title="Repeat">
-            <i class="fa fa-repeat fa-2x"></i>
-          </div>
-        </div>
-
-      </div> <!-- end .wrapper -->
-
-              <!-- Visualizer wave bars (now comes after buttons) -->
-        <div id="wave" class="loader">
-          <span class="stroke"></span>
-          <span class="stroke"></span>
-          <span class="stroke"></span>
-          <span class="stroke"></span>
-          <span class="stroke"></span>
-          <span class="stroke"></span>
-          <span class="stroke"></span>
-        </div>
-      
-    </div> <!-- end .player -->
-
-
-    <!-- Clicker Game -->
+    <!-- Game -->
     <div class="card game">
       <h1>THE VOTE CLICKER GAME!</h1>
       <button id="clickBtn">Click Me!</button>
@@ -102,61 +43,125 @@
       <button id="resetBtn">Reset Game</button>
     </div>
 
-    <script>
-      let clicks = parseInt(localStorage.getItem("clicks")) || 0;
-      let best = parseInt(localStorage.getItem("best")) || 0;
+    <!-- Music Player -->
+    <div class="player card">
+      <div class="wrapper">
 
-      const clickBtn = document.getElementById("clickBtn");
-      const resetBtn = document.getElementById("resetBtn");
-      const clicksDisplay = document.getElementById("clicks");
-      const bestDisplay = document.getElementById("best");
+        <!-- Track details -->
+        <div class="details">
+          <div class="track-art">
+            <div class="cover"></div>
+            <div class="vinyl"></div>
+          </div>
+          <div class="track-name">Track Name</div>
+          <div class="track-artist">Track Artist</div>
+        </div>
 
-      function updateDisplay() {
-        clicksDisplay.textContent = clicks;
-        bestDisplay.textContent = best;
-      }
+        <!-- Seek slider -->
+        <div class="slider_container">
+          <div class="current-time">00:00</div>
+          <input type="range" min="0" max="100" value="0" class="seek_slider" />
+          <div class="total-duration">00:00</div>
+        </div>
 
-      clickBtn.addEventListener("click", () => {
-        clicks++;
-        if (clicks > best) {
-          best = clicks;
-          localStorage.setItem("best", best);
-        }
-        localStorage.setItem("clicks", clicks);
-        updateDisplay();
-      });
+        <!-- Volume -->
+        <div class="slider_container">
+          <i class="fa fa-volume-down"></i>
+          <input type="range" min="0" max="100" value="99" class="volume_slider" />
+          <i class="fa fa-volume-up"></i>
+        </div>
 
-      resetBtn.addEventListener("click", () => {
-        clicks = 0;
-        localStorage.setItem("clicks", clicks);
-        updateDisplay();
-      });
+        <!-- Playing info -->
+        <div class="now-playing">PLAYING x OF y</div>
 
-      updateDisplay();
-    </script>
-    <script>
-  const playBtn = document.getElementById("playBtn");
-  const vinyl = document.querySelector(".vinyl");
+        <!-- Controls -->
+        <div class="buttons">
+          <div class="random-track" title="Random">
+            <i class="fas fa-random fa-2x"></i>
+          </div>
+          <div class="prev-track" title="Previous">
+            <i class="fa fa-step-backward fa-2x"></i>
+          </div>
+          <div class="playpause-track" title="Play/Pause">
+            <i id="playBtn" class="fa fa-play-circle fa-5x"></i>
+          </div>
+          <div class="next-track" title="Next">
+            <i class="fa fa-step-forward fa-2x"></i>
+          </div>
+          <div class="repeat-track" title="Repeat">
+            <i class="fa fa-repeat fa-2x"></i>
+          </div>
+        </div>
+      </div>
 
-  let isPlaying = false;
+      <!-- Visualizer -->
+      <div id="wave" class="loader">
+        <span class="stroke"></span>
+        <span class="stroke"></span>
+        <span class="stroke"></span>
+        <span class="stroke"></span>
+        <span class="stroke"></span>
+        <span class="stroke"></span>
+        <span class="stroke"></span>
+      </div>
+    </div>
+  </div>
 
-  playBtn.addEventListener("click", () => {
-    isPlaying = !isPlaying;
+  <!-- Game Script -->
+  <script>
+    let clicks = parseInt(localStorage.getItem("clicks")) || 0;
+    let best = parseInt(localStorage.getItem("best")) || 0;
 
-    if (isPlaying) {
-      vinyl.classList.add("playing");
-      playBtn.classList.remove("fa-play-circle");
-      playBtn.classList.add("fa-pause-circle");
-    } else {
-      vinyl.classList.remove("playing");
-      playBtn.classList.remove("fa-pause-circle");
-      playBtn.classList.add("fa-play-circle");
+    const clickBtn = document.getElementById("clickBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const clicksDisplay = document.getElementById("clicks");
+    const bestDisplay = document.getElementById("best");
+
+    function updateDisplay() {
+      clicksDisplay.textContent = clicks;
+      bestDisplay.textContent = best;
     }
-  });
-</script>
-    
-  </div> <!-- end .container -->
 
+    clickBtn.addEventListener("click", () => {
+      clicks++;
+      if (clicks > best) {
+        best = clicks;
+        localStorage.setItem("best", best);
+      }
+      localStorage.setItem("clicks", clicks);
+      updateDisplay();
+    });
+
+    resetBtn.addEventListener("click", () => {
+      clicks = 0;
+      localStorage.setItem("clicks", clicks);
+      updateDisplay();
+    });
+
+    updateDisplay();
+  </script>
+
+  <!-- Music Player Script -->
+  <script>
+    const playBtn = document.getElementById("playBtn");
+    const vinyl = document.querySelector(".vinyl");
+    let isPlaying = false;
+
+    playBtn.addEventListener("click", () => {
+      isPlaying = !isPlaying;
+      if (isPlaying) {
+        vinyl.classList.add("playing");
+        playBtn.classList.remove("fa-play-circle");
+        playBtn.classList.add("fa-pause-circle");
+      } else {
+        vinyl.classList.remove("playing");
+        playBtn.classList.remove("fa-pause-circle");
+        playBtn.classList.add("fa-play-circle");
+      }
+    });
+  </script>
+
+  <!-- External player logic -->
   <script src="music-player.js" defer></script>
 </body>
 </html>
