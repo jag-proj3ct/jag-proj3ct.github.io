@@ -41,18 +41,20 @@ body {
   gap: 20px;
 }
 
+/* 🎯 REMOVED BLACK BACKGROUND: Profile Card */
 .profile-card {
   flex-direction: column;
   align-items: center;
-  background: rgba(0, 0, 0, 0.85);
+  background: none; /* Removed rgba(0, 0, 0, 0.85) */
 }
 
+/* 🎯 REMOVED BLACK BACKGROUND: Game Card */
 .game {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 15px;
-  background: rgba(0, 0, 0, 0.85); 
+  background: none; /* Removed rgba(0, 0, 0, 0.85) */
   border-radius: 12px;
   padding: 30px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.6);
@@ -95,7 +97,7 @@ body {
   align-items: center;
 }
 
-/* 🎯 REMOVING SHADOW 1: Targetting the player card to remove the generic .card shadow */
+/* 🎯 SHADOW REMOVED: Targetting the player card to remove the generic .card shadow */
 .player.card {
   box-shadow: none; 
 }
@@ -105,7 +107,7 @@ body {
   border-radius: 20px;
   padding: 40px 30px 30px 30px; 
   background: rgba(255, 255, 255, 0.1); 
-  /* 🎯 REMOVING SHADOW 2: Removing the inner shadow applied to the wrapper */
+  /* 🎯 SHADOW REMOVED: Removing the inner shadow applied to the wrapper */
   box-shadow: none; 
   position: relative;
   z-index: 2;
