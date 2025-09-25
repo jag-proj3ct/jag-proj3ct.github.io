@@ -124,7 +124,7 @@ body {
     transform: translate(-50%, -50%) translateX(20%) rotate(0deg);
   }
   to {
-    transform: translate(0%, -55%) translateX(20%) rotate(360deg);
+    transform: translate(0%, -50%) translateX(20%) rotate(360deg);
   }
 }
 
