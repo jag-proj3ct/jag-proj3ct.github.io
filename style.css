@@ -1,20 +1,236 @@
-/* Main page layout */
-.page-layout {
-  display: flex;
-  flex-direction: column; /* stack vertically */
-  align-items: center;    /* center everything */
-  justify-content: flex-start;
-  gap: 60px;              /* spacing between sections */
-  width: 100%;
+/* --------------------
+   Base Layout
+-------------------- */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  background-image: url("images/background.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  width: 100vw;
   min-height: 100vh;
-  padding: 40px 20px;
+  margin: 0;
+  padding: 80px 0;     /* top + bottom breathing room */
+  overflow-y: auto;
+  position: relative;
+  color: #fff;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 60px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
   box-sizing: border-box;
 }
 
-/* Each section gets same width behavior */
-.page-layout > .card,
-.page-layout > .game,
-.page-layout > .player {
+/* --------------------
+   Card Base Style
+-------------------- */
+.card {
   width: 100%;
-  max-width: 800px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.85);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+  padding: 30px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* --------------------
+   Profile
+-------------------- */
+.profile-card {
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-pic-wrapper {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin-bottom: 15px;
+}
+
+.profile-pic-wrapper img.profile {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  cursor: pointer;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.profile-pic-wrapper img.frame {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 220px;
+  height: 220px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+h1, p {
+  margin: 8px 0;
+}
+h1:hover, p:hover {
+  transform: scale(1.05);
+  color: #EDA20C;
+  transition: transform 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+}
+
+/* --------------------
+   Game
+-------------------- */
+.game {
+  gap: 15px;
+}
+
+.game button {
+  padding: 10px 20px;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  background: #EDA20C;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+.game button:hover {
+  transform: scale(1.1);
+  background: #c87f00;
+}
+.stats {
+  font-size: 18px;
+}
+
+/* --------------------
+   Music Player
+-------------------- */
+.player {
+  align-items: center;
+}
+
+.player .wrapper {
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.1); /* subtle lighter box */
+  padding: 30px;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 12px 28px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Track details */
+.details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.track-art {
+  position: relative;
+  width: 280px;
+  height: 280px;
+}
+.cover {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 280px; height: 280px;
+  border-radius: 12px;
+  background: url("images/college-dropout-cover.jpg") no-repeat center/cover;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+}
+.vinyl {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 250px; height: 250px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  transition: transform 1s ease;
+}
+.vinyl-inner {
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  background: url("images/vinyl.png") no-repeat center/cover;
+}
+
+/* Track text */
+.track-name {
+  font-size: 2rem;
+  margin-top: 15px;
+}
+.track-artist {
+  font-size: 1.2rem;
+  margin-top: 5px;
+  color: #FFD700;
+}
+
+/* Controls */
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin: 20px 0;
+}
+.buttons i {
+  color: #FFA500; /* orange theme */
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.buttons i:hover {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+/* Sliders */
+.slider_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.seek_slider {
+  width: 60%;
+  background: linear-gradient(to right, #FF8C00, #FFA500);
+}
+.volume_slider {
+  width: 30%;
+  background: linear-gradient(to right, #FFD700, #FFFF66);
+}
+.seek_slider::-webkit-slider-thumb,
+.volume_slider::-webkit-slider-thumb {
+  width: 15px; height: 15px;
+  background: white;
+  border-radius: 50%;
+  border: 3px solid currentColor;
+  cursor: grab;
+}
+
+/* Visualizer */
+.loader {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.stroke {
+  width: 6px; margin: 0 2px;
+  background: linear-gradient(to top, #FFA500, #FFD700);
+  transform-origin: bottom center;
+  border-radius: 3px;
+  box-shadow: 0 0 5px orange;
 }
