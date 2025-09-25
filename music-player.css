@@ -113,9 +113,24 @@ body {
   transform: translate(-50%, -50%) translateX(35%);
 }
 
+/* Add a still class */
+.cover.still {
+  transform: translate(-50%, -50%) translateX(%);
+}
+
 /* Add spinning class separately */
 .vinyl.spinning {
   animation: spin 8s linear infinite;
+}
+
+/* cover stay still keyframes */
+@keyframes still {
+  from {
+    transform: translate(-50%, -50%) translateX(0%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) translateX(0%) rotate(360deg);
+  }
 }
 
 /* Spinning keyframes */
