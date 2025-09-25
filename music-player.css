@@ -267,17 +267,13 @@ i.fa-volume-up {
 }
 
 .loader .stroke {
-  background: orange !important;
-  height: 50px !important;
-  transform: scaleY(1) !important;
- height: 7vh;
+  height: 7vh;
   width: 10px;
   border-radius: 50px;
-  transform-origin: bottom center;
+  margin: 0 5px;
   transition: transform 0.1s ease-out;
-  opacity: 1;
-  box-shadow: 0 0 5px orange;
-  display: inline-block;
+  transform: scaleY(0.2);
+  background: linear-gradient(to top, #FFA500, #FFD700); /* default */
 }
 
 /* Optional gradients for visual variety */
