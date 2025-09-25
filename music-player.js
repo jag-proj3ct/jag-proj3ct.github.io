@@ -53,7 +53,7 @@ function renderWave() {
     const step = Math.floor(dataArray.length / strokes.length);
     strokes.forEach((stroke, i) => {
       let value = dataArray[i * step] / 256;
-      if (i < 3) value = Math.sqrt(value); // Boost lower bars
+      if (i < 3) value = Math.sqrt(value); // boost lower bars
       stroke.style.transform = `scaleY(${Math.max(0.2, value * 1.2)})`;
     });
   } else {
@@ -161,9 +161,11 @@ function playTrack() {
   isPlaying = true;
 
   if (vinylEl) {
-    vinylEl.classList.remove('return', 'spinning');
-    void vinylEl.offsetWidth; // Force reflow
+    // reset state
+    vinylEl.classList.remove('return', 'spinning', 'sliding');
+    void vinylEl.offsetWidth; // force reflow
     vinylEl.classList.add('sliding');
+
     vinylEl.addEventListener('transitionend', () => {
       vinylEl.classList.remove('sliding');
       vinylEl.classList.add('spinning');
@@ -182,6 +184,7 @@ function pauseTrack() {
 
   if (vinylEl) {
     vinylEl.classList.remove('sliding', 'spinning');
+    void vinylEl.offsetWidth;
     vinylEl.classList.add('return');
   }
 
@@ -239,5 +242,5 @@ prev_btn.addEventListener('click', () => {
 seek_slider.addEventListener('input', seekTo);
 volume_slider.addEventListener('input', setVolume);
 
-/* Init */
+/* Initual */
 loadTrack(track_index);
