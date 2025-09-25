@@ -226,21 +226,21 @@ i.fa-volume-up {
 
 /* Loader / visualizer */
 .loader {
-  height: 70px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
+  height: 0;
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease, height 0.3s ease;
+  overflow: hidden;
   pointer-events: none;
-  margin-top: 15px;
+  margin-top: 0;
 }
 
 .loader.visible {
+  height: 70px;
   opacity: 1;
+  margin-top: 15px;
   pointer-events: auto;
 }
+
 
 .loader .stroke {
   height: 7vh;
