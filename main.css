@@ -111,7 +111,7 @@ body {
   align-items: center;
 }
 
-/* HADOW REMOVED: Targetting the player card to remove the generic .card shadow */
+/* SHADOW REMOVED: Targetting the player card to remove the generic .card shadow */
 .player.card {
   box-shadow: none; 
 }
@@ -194,17 +194,28 @@ body {
   to { transform: rotate(360deg); }
 }
 
-/* --- Text/Headings (No functional hover effects) --- */
-h1, a, p {
+/* --- Text/Headings and Anchor Styling --- */
+
+h1, p, a {
   margin: 8px 0;
+  /* 🎯 NEW: Set default link color and remove underline */
+  color: inherit; /* Inherit color from parent (white) */
+  text-decoration: none; 
+  transition: transform 0.3s ease, color 0.3s ease; /* Ensure links transition smoothly */
 }
+
+/* 🎯 NEW: Maintain styling for visited links */
+a:visited {
+  color: inherit;
+}
+
+/* Combine hover for h1, p, and a */
 h1:hover, p:hover, a:hover {
   transform: scale(1.05);
-  color: #EDA20C;
-  transition: transform 0.3s ease, color 0.3s ease;
+  color: #EDA20C; /* Hover color */
   cursor: pointer;
 }
-.profile-card: hover{
+.profile-card:hover{
   transform: scale(1.05);
   transition: transform 0.3s ease, color 0.3s ease;
   cursor: pointer;
@@ -258,7 +269,7 @@ h1:hover, p:hover, a:hover {
   background: #c87f00;
 }
 
-/* --- Detailed Slider Styling (Gradient Border Thumbs) --- */
+/* --- Detailed Slider Styling (Solid Yellow Border Thumbs) --- */
 
 .slider_container {
   display: flex;
@@ -290,11 +301,11 @@ h1:hover, p:hover, a:hover {
   width: 15px;
   height: 15px;
   background: white;
-  border: 3px solid transparent; 
+  /* 🎯 NEW: Solid yellow border for simplicity */
+  border: 3px solid #FFD700; 
   border-radius: 100%;
   cursor: grab;
-  
-  border-image: linear-gradient(to top, #FFD700, #FFA500) 1;
+  /* REMOVED border-image for simpler style */
 }
 
 /* Volume → YELLOW Gradient/Thumb */
@@ -310,11 +321,11 @@ h1:hover, p:hover, a:hover {
   width: 15px;
   height: 15px;
   background: white;
-  border: 3px solid transparent; 
+  /* 🎯 NEW: Solid yellow border for simplicity */
+  border: 3px solid #FFD700; 
   border-radius: 100%;
   cursor: grab;
-  
-  border-image: linear-gradient(to top, #FFA500, #FFD700) 1;
+  /* REMOVED border-image for simpler style */
 }
 
 /* --- Visualizer/Loader --- */
