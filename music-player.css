@@ -5,10 +5,10 @@ body {
   background-repeat: no-repeat;
   background-position: center center;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;   /* Use min-height to allow content to grow */
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  overflow-y: auto;    /* Allow vertical scroll */
   position: relative;
 }
 
