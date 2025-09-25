@@ -270,11 +270,11 @@ i.fa-volume-up {
   background: orange !important;
   height: 50px !important;
   transform: scaleY(1) !important;
-  width: 6px;
-  margin: 0 2px;
+ height: 7vh;
+  width: 10px;
+  border-radius: 50px;
   transform-origin: bottom center;
   transition: transform 0.1s ease-out;
-  border-radius: 3px;
   opacity: 1;
   box-shadow: 0 0 5px orange;
   display: inline-block;
