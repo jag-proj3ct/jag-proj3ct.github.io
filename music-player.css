@@ -11,8 +11,6 @@ body {
   overflow-y: auto;    /* Allow vertical scroll */
   position: relative;
   background-attachment: fixed; /* Keeps background still when scrolling */
-  padding-top: 80px;
-  padding-bottom: 80px;
 }
 
 /* Layout */
