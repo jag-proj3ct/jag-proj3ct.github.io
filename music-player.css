@@ -260,15 +260,6 @@ i.fa-volume-up {
   pointer-events: auto;
 }
 
-#wave {
-  position: relative !important;
-  z-index: 10 !important;
-  background-color: rgba(255, 165, 0, 0.2) !important;
-  height: 70px !important;
-  opacity: 1 !important;
-  margin-top: 15px !important;
-}
-
 .loader .stroke {
   background: orange !important;
   height: 50px !important;
