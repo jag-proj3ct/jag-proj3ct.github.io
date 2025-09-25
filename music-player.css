@@ -85,7 +85,7 @@ body {
 .track-art {
   background: url("images/college-dropout-cover.jpg") no-repeat center/cover;
   /* Keep position: relative and set a higher z-index */
-  position: absolute;
+  position: relative;
   z-index: 3;
   margin: 25px;
   height: 280px;
