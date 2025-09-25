@@ -226,16 +226,43 @@ h1:hover, p:hover {
   cursor: grab;
 }
 
-/* Visualizer */
+/* Visualizer (Loader) */
 .loader {
+  height: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease, height 0.3s ease;
+  overflow: hidden;
+  pointer-events: none;
+  margin-top: 0;
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  position: relative;
+  z-index: 2;
 }
+
+.loader.visible {
+  height: 70px;
+  opacity: 1;
+  margin-top: 15px;
+  pointer-events: auto;
+}
+
 .stroke {
-  width: 6px; margin: 0 2px;
-  background: linear-gradient(to top, #FFA500, #FFD700);
-  transform-origin: bottom center;
+  width: 6px;
+  margin: 0 5px;
   border-radius: 3px;
+  transform-origin: bottom center;
+  transition: transform 0.1s ease-out;
+  transform: scaleY(0.2);
+  background: linear-gradient(to top, #FFA500, #FFD700);
   box-shadow: 0 0 5px orange;
 }
+
+/* Optional gradient variety like before */
+.stroke:nth-child(2) { background: linear-gradient(to top, #FFD700, #FFA500); }
+.stroke:nth-child(3) { background: linear-gradient(to top, #FFA500, #FFD700); }
+.stroke:nth-child(4) { background: linear-gradient(to top, #FFD700, #FFA500); }
+.stroke:nth-child(5) { background: linear-gradient(to top, #FFA500, #FFD700); }
+.stroke:nth-child(6) { background: linear-gradient(to top, #FFD700, #FFA500); }
+.stroke:nth-child(7) { background: linear-gradient(to top, #FFA500, #FFD700); }
+
