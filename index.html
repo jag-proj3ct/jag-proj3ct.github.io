@@ -29,7 +29,6 @@
         <!-- Seek slider and times -->
         <div class="slider_container">
           <div class="current-time">00:00</div>
-          <!-- Changed min="0" (not 1) to match seek slider logic (0-100%) -->
           <input type="range" min="0" max="100" value="0" class="seek_slider" />
           <div class="total-duration">00:00</div>
         </div>
@@ -44,19 +43,7 @@
         <!-- Playing track info -->
         <div class="now-playing">PLAYING x OF y</div>
 
-        <!-- Visualizer wave bars -->
-        <div id="wave" class="loader">
-          <!-- 7 stroke spans match your JS strokes array length -->
-          <span class="stroke"></span>
-          <span class="stroke"></span>
-          <span class="stroke"></span>
-          <span class="stroke"></span>
-          <span class="stroke"></span>
-          <span class="stroke"></span>
-          <span class="stroke"></span>
-        </div>
-
-        <!-- Player controls -->
+        <!-- Player controls (moved above visualizer) -->
         <div class="buttons">
           <div class="random-track" title="Random">
             <i class="fas fa-random fa-2x"></i>
@@ -75,10 +62,21 @@
           </div>
         </div>
 
+        <!-- Visualizer wave bars (now comes after buttons) -->
+        <div id="wave" class="loader">
+          <span class="stroke"></span>
+          <span class="stroke"></span>
+          <span class="stroke"></span>
+          <span class="stroke"></span>
+          <span class="stroke"></span>
+          <span class="stroke"></span>
+          <span class="stroke"></span>
+        </div>
+
       </div> <!-- end .wrapper -->
     </div> <!-- end .player -->
   </div> <!-- end .container -->
 
-<script src="music-player.js" defer></script>
+  <script src="music-player.js" defer></script>
 </body>
 </html>
