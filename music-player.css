@@ -110,7 +110,7 @@ body {
 
 /* Add a sliding class */
 .vinyl.sliding {
-  transform: translate(-50%, -50%) translateX(35%);
+  transform: translate(-50%, -50%) translateX(30%);
 }
 
 /* Add a still class */
@@ -129,7 +129,7 @@ body {
     transform: translate(-50%, -50%) translateX(0%) rotate(0deg);
   }
   to {
-    transform: translate(-50%, -50%) translateX(0%) rotate(360deg);
+    transform: translate(-50%, -50%) translateX(0%) rotate(0deg);
   }
 }
 
