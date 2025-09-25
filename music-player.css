@@ -119,7 +119,7 @@ body {
 
 /* Add a still class */
 .cover.still {
-  transform: translate(-50%, -50%) translateX(%);
+  transform: translate(-50%, -50%) translateX(0%);
 }
 
 /* Add spinning class separately */
