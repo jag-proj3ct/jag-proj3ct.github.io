@@ -88,6 +88,72 @@
         </div>
       
     </div> <!-- end .player -->
+
+
+    <!-- Clicker Game -->
+    <div class="card game">
+      <h1>THE VOTE CLICKER GAME!</h1>
+      <button id="clickBtn">Click Me!</button>
+      <div class="stats">
+        <p>Clicks: <span id="clicks">0</span></p>
+        <p>Best: <span id="best">0</span></p>
+      </div>
+      <button id="resetBtn">Reset Game</button>
+    </div>
+
+    <script>
+      let clicks = parseInt(localStorage.getItem("clicks")) || 0;
+      let best = parseInt(localStorage.getItem("best")) || 0;
+
+      const clickBtn = document.getElementById("clickBtn");
+      const resetBtn = document.getElementById("resetBtn");
+      const clicksDisplay = document.getElementById("clicks");
+      const bestDisplay = document.getElementById("best");
+
+      function updateDisplay() {
+        clicksDisplay.textContent = clicks;
+        bestDisplay.textContent = best;
+      }
+
+      clickBtn.addEventListener("click", () => {
+        clicks++;
+        if (clicks > best) {
+          best = clicks;
+          localStorage.setItem("best", best);
+        }
+        localStorage.setItem("clicks", clicks);
+        updateDisplay();
+      });
+
+      resetBtn.addEventListener("click", () => {
+        clicks = 0;
+        localStorage.setItem("clicks", clicks);
+        updateDisplay();
+      });
+
+      updateDisplay();
+    </script>
+    <script>
+  const playBtn = document.getElementById("playBtn");
+  const vinyl = document.querySelector(".vinyl");
+
+  let isPlaying = false;
+
+  playBtn.addEventListener("click", () => {
+    isPlaying = !isPlaying;
+
+    if (isPlaying) {
+      vinyl.classList.add("playing");
+      playBtn.classList.remove("fa-play-circle");
+      playBtn.classList.add("fa-pause-circle");
+    } else {
+      vinyl.classList.remove("playing");
+      playBtn.classList.remove("fa-pause-circle");
+      playBtn.classList.add("fa-play-circle");
+    }
+  });
+</script>
+    
   </div> <!-- end .container -->
 
   <script src="music-player.js" defer></script>
