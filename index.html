@@ -5,16 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Profile · Game · Music</title>
 
-  <!-- CSS files (order: base → profile → player) -->
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="profile.css" />
-  <link rel="stylesheet" href="music-player.css" />
-
-  <!-- Fonts & icons -->
+  <link rel="stylesheet" href="main.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
   <link rel="icon" href="https://d1yjjnpx0p53s8.cloudfront.net/pp840x830-pad1000x1000f8f8f8.jpg?9oPTJs..erd0K9tiddIL4J9OjiCfetIN" />
 
-  <!-- Preloaded images -->
   <link rel="preload" as="image" href="images/background.png" />
   <link rel="preload" as="image" href="images/vinyl.png" />
   <link rel="preload" as="image" href="images/college-dropout-cover.jpg" />
@@ -22,7 +16,6 @@
 <body>
   <div class="container-first">
 
-    <!-- Profile -->
     <div class="card profile-card">
       <div class="profile-pic-wrapper">
         <img src="images/meee.png" alt="Profile" class="profile">
@@ -32,7 +25,6 @@
       <p>JAG 9th · 15 years old</p>
     </div>
     
-    <!-- Game -->
     <div class="card game">
       <h1>THE VOTE CLICKER GAME!</h1>
       <button id="clickBtn">Click Me!</button>
@@ -45,11 +37,9 @@
   </div>
   
   <div class="container">
-    <!-- Music Player -->
     <div class="player card">
       <div class="wrapper">
 
-        <!-- Track details -->
         <div class="details">
           <div class="track-art">
             <div class="cover"></div>
@@ -59,24 +49,20 @@
           <div class="track-artist">Track Artist</div>
         </div>
 
-        <!-- Seek slider -->
         <div class="slider_container">
           <div class="current-time">00:00</div>
           <input type="range" min="0" max="100" value="0" class="seek_slider" />
           <div class="total-duration">00:00</div>
         </div>
 
-        <!-- Volume -->
         <div class="slider_container">
           <i class="fa fa-volume-down"></i>
           <input type="range" min="0" max="100" value="99" class="volume_slider" />
           <i class="fa fa-volume-up"></i>
         </div>
 
-        <!-- Playing info -->
         <div class="now-playing">PLAYING x OF y</div>
 
-        <!-- Controls -->
         <div class="buttons">
           <div class="random-track" title="Random">
             <i class="fas fa-random fa-2x"></i>
@@ -96,7 +82,6 @@
         </div>
       </div>
 
-      <!-- Visualizer -->
       <div id="wave" class="loader">
         <span class="stroke"></span>
         <span class="stroke"></span>
@@ -109,7 +94,6 @@
     </div>
   </div>
 
-  <!-- Game Script -->
   <script>
     let clicks = parseInt(localStorage.getItem("clicks")) || 0;
     let best = parseInt(localStorage.getItem("best")) || 0;
@@ -143,7 +127,6 @@
     updateDisplay();
   </script>
 
-  <!-- Music Player Script (full logic) -->
   <script src="music-player.js" defer></script>
 </body>
 </html>
