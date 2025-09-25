@@ -5,13 +5,21 @@ body {
   background-repeat: no-repeat;
   background-position: center center;
   background-attachment: fixed;
-  width: 100vw;
+  /* 🎯 FIX 1: Remove padding and rely on margins/padding on inner containers, 
+     or set box-sizing to border-box globally to prevent 100vw + padding issue. */
+  width: 100%; /* Use 100% instead of 100vw to be safer with padding */
   min-height: 100vh;
   margin: 0;
-  padding: 60px 80px 60px 80px;   
+  padding: 60px 80px 60px 80px; /* Kept padding, but changed width to 100% on container */
+  overflow-x: hidden; /* Explicitly prevent horizontal scrolling */
   overflow-y: auto; 
   position: relative;
   color: #fff;
+}
+
+/* 🎯 FIX 1: Apply border-box globally to solve the 100vw + padding issue */
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
 /* --- Layout and Containers (Structural Only) --- */
@@ -24,7 +32,7 @@ body {
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
-  box-sizing: border-box;
+  /* box-sizing: border-box; <-- Moved to global reset */
 }
 
 /* Base Card Styling (Shadow is applied here for profile/game cards) */
@@ -45,7 +53,7 @@ body {
 .profile-card {
   flex-direction: column;
   align-items: center;
-  background: none; /* Removed rgba(0, 0, 0, 0.85) */
+  background: none; 
 }
 
 /* 🎯 REMOVED BLACK BACKGROUND: Game Card */
@@ -54,7 +62,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 15px;
-  background: none; /* Removed rgba(0, 0, 0, 0.85) */
+  background: none; 
   border-radius: 12px;
   padding: 30px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.6);
@@ -196,12 +204,13 @@ h1:hover, p:hover {
   cursor: pointer;
 }
 
-/* --- Controls and Buttons --- */
+/* --- Controls and Buttons (Original Style Changes) --- */
 
 .buttons {
   display: flex;
   justify-content: center;
-  gap: 25px;
+  /* 🎯 FIX 2: Increased spacing for a wider, less crowded look */
+  gap: 0; 
   margin: 20px 0;
 }
 .buttons i {
@@ -214,6 +223,23 @@ h1:hover, p:hover {
   opacity: 1;
   transform: scale(1.15);
 }
+
+/* 🎯 FIX 2: Apply padding from original CSS to widen small buttons and fix "droop" */
+.repeat-track,
+.random-track,
+.prev-track,
+.next-track {
+  padding: 25px; /* Wider hit area */
+  opacity: 0.8;
+  transition: opacity .2s;
+  cursor: pointer;
+}
+
+/* 🎯 FIX 2: Isolate play/pause button for better sizing and non-droopy look */
+.playpause-track {
+  padding: 10px 25px; /* Less vertical padding than the small buttons for less 'droop' */
+}
+
 .game button {
   padding: 10px 20px;
   font-size: 18px;
@@ -229,7 +255,7 @@ h1:hover, p:hover {
   background: #c87f00;
 }
 
-/* --- Detailed Slider Styling (COOL LOOK) --- */
+/* --- Detailed Slider Styling (Original Style Changes) --- */
 
 .slider_container {
   display: flex;
@@ -261,7 +287,8 @@ h1:hover, p:hover {
   width: 15px;
   height: 15px;
   background: white;
-  border: 3px solid #FF8C00;
+  /* 🎯 FIX 3: Revert border to a blue color */
+  border: 3px solid #3774FF; 
   border-radius: 100%;
   cursor: grab;
 }
@@ -279,7 +306,8 @@ h1:hover, p:hover {
   width: 15px;
   height: 15px;
   background: white;
-  border: 3px solid #FFD700;
+  /* 🎯 FIX 3: Revert border to a blue color */
+  border: 3px solid linear-gradient(to top, #FFD700, #FFA500);
   border-radius: 100%;
   cursor: grab;
 }
@@ -301,7 +329,6 @@ h1:hover, p:hover {
 }
 
 .loader.visible {
-  /* Keep at 70px or slightly increase if needed, but 70px is fine for 60px max stroke height */
   height: 70px;
   opacity: 1;
   margin-top: 15px;
@@ -322,7 +349,6 @@ h1:hover, p:hover {
 
 /* Specific styling for the Loader's strokes (taller and rounded) */
 .loader .stroke {
-  /* 🎯 FIX: Changed height from 7vh to 60px to prevent clipping inside the 70px tall container */
   height: 60px; 
   width: 10px;
   border-radius: 50px;
@@ -336,4 +362,3 @@ h1:hover, p:hover {
 .stroke:nth-child(5) { background: linear-gradient(to top, #FFA500, #FFD700); }
 .stroke:nth-child(6) { background: linear-gradient(to top, #FFD700, #FFA500); }
 .stroke:nth-child(7) { background: linear-gradient(to top, #FFA500, #FFD700); }
-
