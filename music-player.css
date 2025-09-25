@@ -110,7 +110,7 @@ body {
 
 /* Add a sliding class */
 .vinyl.sliding {
-  transform: translate(-50%, -50%) translateX(30%);
+  transform: translate(-50%, -50%) translateX(35%);
 }
 
 /* Add spinning class separately */
@@ -121,10 +121,10 @@ body {
 /* Spinning keyframes */
 @keyframes spin {
   from {
-    transform: translate(-30%, -50%) translateX(20%) rotate(0deg);
+    transform: translate(-15%, -50%) translateX(20%) rotate(0deg);
   }
   to {
-    transform: translate(-30%, -50%) translateX(20%) rotate(360deg);
+    transform: translate(-15%, -50%) translateX(20%) rotate(360deg);
   }
 }
 
