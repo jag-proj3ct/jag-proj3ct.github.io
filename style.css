@@ -8,7 +8,8 @@ body {
   width: 100vw;
   min-height: 100vh;
   margin: 0;
-  padding: 80px 80px;   
+  /* UPDATED: Set padding top and bottom to 60px. Left/right remains 80px */
+  padding: 60px 80px 60px 80px;   
   overflow-y: auto;
   position: relative;
   color: #fff;
@@ -39,6 +40,7 @@ body {
   width: 100%;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+  /* Removed background: rgba(0, 0, 0, 0.8)! The profile and game cards still have their darker background. */
   /* Updated padding: 30px top/right/left, 0 bottom */
   padding: 30px 30px 0 30px; 
   text-align: center;
@@ -51,6 +53,7 @@ body {
 .profile-card {
   flex-direction: column;
   align-items: center;
+  /* Retained specific dark background for profile card */
   background: rgba(0, 0, 0, 0.85);
 }
 
@@ -101,6 +104,7 @@ h1:hover, p:hover {
 
 .game {
   /* Removed 'gap: 15px;' here */
+  /* Retained specific dark background for game card */
   background: rgba(0, 0, 0, 0.85);
   /* Added 40px top padding */
   padding-top: 40px; 
