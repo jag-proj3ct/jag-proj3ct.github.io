@@ -1,6 +1,3 @@
-/* --------------------
-   Base Layout
--------------------- */
 body {
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
@@ -30,9 +27,6 @@ body {
   box-sizing: border-box;
 }
 
-/* --------------------
-   Card Base Style
--------------------- */
 .card {
   width: 100%;
   border-radius: 12px;
@@ -46,9 +40,6 @@ body {
   gap: 20px;
 }
 
-/* --------------------
-   Profile
--------------------- */
 .profile-card {
   flex-direction: column;
   align-items: center;
@@ -94,9 +85,6 @@ h1:hover, p:hover {
   cursor: pointer;
 }
 
-/* --------------------
-   Game
--------------------- */
 .game {
   gap: 15px;
 }
@@ -119,16 +107,8 @@ h1:hover, p:hover {
   font-size: 18px;
 }
 
-/* --------------------
-   Music Player
--------------------- */
 .player {
-  /* keep the spacing consistent */
   align-items: center;
-  /* override the dark card background */
-  background: none;
-  box-shadow: none;
-  padding: 0;
 }
 
 .player .wrapper {
