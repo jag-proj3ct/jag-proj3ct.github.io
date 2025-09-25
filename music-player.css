@@ -340,8 +340,9 @@ i.fa-volume-up {
 .loader {
   display: flex;
   justify-content: center;
+  margin-top: 20px;   /* space between wrapper and visualizer */
   position: relative;
-  z-index: 2; /* Ensure it's above background */
+  z-index: 2;         /* lower than cover so it won’t overlap */
 }
 
 /* Each stroke/bar styling */
