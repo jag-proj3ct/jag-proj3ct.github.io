@@ -284,7 +284,7 @@ h1:hover, p:hover {
   cursor: grab;
 }
 
-/* --- Visualizer/Loader (COOL LOOK) --- */
+/* --- Visualizer/Loader --- */
 
 .loader {
   height: 0;
@@ -301,6 +301,7 @@ h1:hover, p:hover {
 }
 
 .loader.visible {
+  /* Keep at 70px or slightly increase if needed, but 70px is fine for 60px max stroke height */
   height: 70px;
   opacity: 1;
   margin-top: 15px;
@@ -321,7 +322,8 @@ h1:hover, p:hover {
 
 /* Specific styling for the Loader's strokes (taller and rounded) */
 .loader .stroke {
-  height: 7vh; 
+  /* 🎯 FIX: Changed height from 7vh to 60px to prevent clipping inside the 70px tall container */
+  height: 60px; 
   width: 10px;
   border-radius: 50px;
   margin: 0 5px; 
@@ -334,3 +336,4 @@ h1:hover, p:hover {
 .stroke:nth-child(5) { background: linear-gradient(to top, #FFA500, #FFD700); }
 .stroke:nth-child(6) { background: linear-gradient(to top, #FFD700, #FFA500); }
 .stroke:nth-child(7) { background: linear-gradient(to top, #FFA500, #FFD700); }
+
