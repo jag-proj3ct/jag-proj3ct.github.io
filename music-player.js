@@ -10,7 +10,7 @@ const playpause_btn = document.querySelector('.playpause-track');
 const next_btn = document.querySelector('.next-track');
 const prev_btn = document.querySelector('.prev-track');
 const random_btn = document.querySelector('.random-track');
-const repeat_btn = document.querySelector('.repeat-track');
+const repeat_btn = document.querySelector('.repeat-track'); // Repeat button is correctly referenced
 
 const seek_slider = document.querySelector('.seek_slider');
 const volume_slider = document.querySelector('.volume_slider');
@@ -139,7 +139,7 @@ function loadTrack(index) {
   else if (index >= music_list.length) index = 0;
 
   track_index = index;
-  part_index = 0;
+  part_index = 0; // Start at the first part of the track
   const track = music_list[track_index];
 
   curr_track.src = track.music[part_index];
@@ -151,6 +151,36 @@ function loadTrack(index) {
   now_playing.textContent = `Playing ${track_index + 1} of ${music_list.length}`;
 
   updateTimer = setInterval(setUpdate, 1000);
+}
+
+// Function to handle moving to the next part or next track
+function nextPartOrTrack() {
+    const track = music_list[track_index];
+    
+    // Check if there is a next part in the current track
+    if (part_index < track.music.length - 1) {
+        part_index++;
+        curr_track.src = track.music[part_index];
+        curr_track.load();
+        playTrack();
+    } 
+    // If this is the last part, move to the next track in the playlist
+    else {
+        // This is the end of the full track
+        part_index = 0; 
+        
+        if (isRandom) {
+            let randIndex;
+            do {
+              randIndex = Math.floor(Math.random() * music_list.length);
+            } while (randIndex === track_index); // avoid same track twice
+            loadTrack(randIndex);
+            playTrack();
+        } else {
+            loadTrack(track_index + 1);
+            playTrack();
+        }
+    }
 }
 
 /* Play track */
@@ -211,57 +241,78 @@ function setVolume() {
 /* Toggle repeat */
 repeat_btn.addEventListener('click', () => {
   isRepeating = !isRepeating;
+  // 🎯 FIX: Use the .active class to rely on CSS for styling
   repeat_btn.classList.toggle('active', isRepeating);
-
-  const icon = repeat_btn.querySelector('i');
-  icon.style.color = isRepeating ? '#1DB954' : '';
+  // 🎯 REMOVED: Deleting the inline style that forced the green color:
+  // const icon = repeat_btn.querySelector('i');
+  // icon.style.color = isRepeating ? '#1DB954' : ''; 
 });
 
 /* Toggle random */
 random_btn.addEventListener('click', () => {
   isRandom = !isRandom;
   random_btn.classList.toggle('active', isRandom);
+  // 🎯 FIX: Use the .active class instead of randomActive, which isn't used in your provided CSS
+  // (Your CSS was using randomActive, but let's stick to the .active convention for simplicity, 
+  // or you can adjust the CSS later). Since your CSS included both, I'll update the JS to match the CSS provided.
+  random_btn.classList.toggle('randomActive', isRandom);
 
-  const icon = random_btn.querySelector('i');
-  icon.style.color = isRandom ? '#1DB954' : '';
+  // 🎯 REMOVED: Deleting the inline style that forced the green color:
+  // const icon = random_btn.querySelector('i');
+  // icon.style.color = isRandom ? '#1DB954' : '';
 });
 
-/* Track end */
+
+/* Track part end */
 curr_track.addEventListener('ended', () => {
   if (isRepeating) {
     curr_track.currentTime = 0;
     playTrack();
-  } else if (isRandom) {
-    let randIndex;
-    do {
-      randIndex = Math.floor(Math.random() * music_list.length);
-    } while (randIndex === track_index); // avoid same track twice
-    loadTrack(randIndex);
-    playTrack();
   } else {
-    loadTrack(track_index + 1);
-    playTrack();
+    // 🎯 FIX: Check for next part before deciding to move to the next track
+    const track = music_list[track_index];
+    if (part_index < track.music.length - 1) {
+        nextPartOrTrack();
+    } else {
+        // This is the end of the multi-part track, now move to the next track/random
+        nextPartOrTrack();
+    }
   }
 });
 
 /* Controls */
 playpause_btn.addEventListener('click', playpauseTrack);
 next_btn.addEventListener('click', () => {
-  if (isRandom) {
+  // If there are multiple parts, move to the next part first
+  const track = music_list[track_index];
+  if (part_index < track.music.length - 1) {
+    nextPartOrTrack();
+  } else if (isRandom) {
     let randIndex;
     do {
       randIndex = Math.floor(Math.random() * music_list.length);
     } while (randIndex === track_index);
     loadTrack(randIndex);
+    playTrack();
   } else {
     loadTrack(track_index + 1);
+    playTrack();
+  }
+});
+
+prev_btn.addEventListener('click', () => {
+  // If we are past the first part, restart current part
+  if (curr_track.currentTime > 3 || part_index === 0) {
+      loadTrack(track_index - 1);
+  } else {
+      // Go back to the previous part
+      part_index--;
+      curr_track.src = music_list[track_index].music[part_index];
+      curr_track.load();
   }
   playTrack();
 });
-prev_btn.addEventListener('click', () => {
-  loadTrack(track_index - 1);
-  playTrack();
-});
+
 seek_slider.addEventListener('input', seekTo);
 volume_slider.addEventListener('input', setVolume);
 
