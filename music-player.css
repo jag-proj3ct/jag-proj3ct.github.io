@@ -96,31 +96,36 @@ body {
 }
 
 .vinyl {
-  position: absolute; /* Change from relative to absolute */
+  position: absolute;
   height: 90%;
   width: 90%;
   top: 50%;
   left: 50%;
   border-radius: 50%;
   background: url("images/vinyl.png") no-repeat center/cover;
-  /* Use transform to hide it initially */
   transform: translate(-50%, -55%);
   transition: transform 0.8s ease-in-out;
-  /* Give the vinyl a lower z-index than the track-art */
   z-index: 1; 
 }
 
-/* When playing, trigger slide + spin */
-.track-art.playing .vinyl {
-  /* Only need to animate the transform now */
+/* Add a sliding class */
+.vinyl.sliding {
   transform: translate(-50%, -55%) translateX(20%);
-  animation: spin 8s linear infinite 0.8s;
 }
 
-/* Continuous rotation */
+/* Add spinning class separately */
+.vinyl.spinning {
+  animation: spin 8s linear infinite;
+}
+
+/* Spinning keyframes */
 @keyframes spin {
-  from { transform: translateX(0%) rotate(0deg); }
-  to   { transform: translateX(0%) rotate(360deg); }
+  from {
+    transform: translate(-50%, -55%) translateX(20%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -55%) translateX(20%) rotate(360deg);
+  }
 }
 
 /* Text */
