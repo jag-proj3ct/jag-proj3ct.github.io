@@ -164,39 +164,26 @@ function playTrack() {
   if (audioCtx.state === 'suspended') {
     audioCtx.resume();
   }
+
   curr_track.play().catch(e => console.error("Play failed:", e));
   isPlaying = true;
-  // These lines handle both the vinyl rotation and the sliding animation
-  if (vinylEl) vinylEl.classList.add('playing');
+
+  // Slide first
+  if (vinylEl) {
+    vinylEl.classList.remove('spinning'); // reset spin if applied before
+    void vinylEl.offsetWidth; // force reflow to restart animation
+    vinylEl.classList.add('sliding');
+
+    // Wait for transition to end, then start spinning
+    vinylEl.addEventListener('transitionend', () => {
+      vinylEl.classList.add('spinning');
+    }, { once: true });
+  }
+
+  // Optional: Add class to track_art for visual feedback if needed
   if (track_art) track_art.classList.add('playing');
 
   playpause_btn.innerHTML = '<i class="fa fa-pause-circle fa-5x"></i>';
-}
-
-function pauseTrack() {
-  curr_track.pause();
-  isPlaying = false;
-  // These lines handle both the vinyl rotation and the sliding animation
-  if (vinylEl) vinylEl.classList.remove('playing');
-  if (track_art) track_art.classList.remove('playing');
-  
-  playpause_btn.innerHTML = '<i class="fa fa-play-circle fa-5x"></i>';
-}
-
-function nextTrack() {
-  if (isRandom) {
-    track_index = Math.floor(Math.random() * music_list.length);
-  } else {
-    track_index = (track_index + 1) % music_list.length;
-  }
-  loadTrack(track_index);
-  playTrack();
-}
-
-function prevTrack() {
-  track_index = (track_index - 1 + music_list.length) % music_list.length;
-  loadTrack(track_index);
-  playTrack();
 }
 
 function seekTo() {
