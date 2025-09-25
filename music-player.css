@@ -111,13 +111,13 @@ body {
 
 /* Slide animation */
 @keyframes slideOut {
-  from { transform: translate(50%, 55%); }
+  from { transform: translate(-50%, -55%); }
   to   { transform: translate(0%, -55%); }
 }
 
 /* Continuous rotation */
 @keyframes spin {
-  from { transform: translate(0%, -55%) rotate(0deg); }
+  from { transform: translate(-50%, -55%) rotate(0deg); }
   to   { transform: translate(0%, -55%) rotate(360deg); }
 }
 
