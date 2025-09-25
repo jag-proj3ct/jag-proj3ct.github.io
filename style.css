@@ -15,7 +15,16 @@ body {
 }
 
 /* Containers */
-.container-first,
+.container-first {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 60px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
 .container {
   display: flex;
   flex-direction: column;
@@ -30,7 +39,6 @@ body {
 .card {
   width: 100%;
   border-radius: 12px;
-  background: rgba(0, 0, 0, 0.85);
   box-shadow: 0 4px 12px rgba(0,0,0,0.6);
   padding: 30px;
   text-align: center;
@@ -43,6 +51,7 @@ body {
 .profile-card {
   flex-direction: column;
   align-items: center;
+  background: rgba(0, 0, 0, 0.85);
 }
 
 .profile-pic-wrapper {
@@ -84,8 +93,18 @@ h1:hover, p:hover {
   transition: transform 0.3s ease, color 0.3s ease;
   cursor: pointer;
 }
+.profile-card: hover{
+  transform: scale(1.05);
+  transition: transform 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+}
 
 .game {
+  gap: 15px;
+  background: rgba(0, 0, 0, 0.85);
+}
+
+.container {
   gap: 15px;
 }
 
