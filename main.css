@@ -344,9 +344,7 @@ h1:hover, p:hover, a:hover {
 /* Default Stroke Styling */
 .stroke {
   /* UPDATE: Reduced width for more strokes */
-  width: 5px; 
-  /* UPDATE: Reduced margin to fit more strokes */
-  margin: 0 2px; 
+  width: 7px; 
   border-radius: 3px;
   transform-origin: bottom center;
   transition: transform 0.1s ease-out;
@@ -358,7 +356,7 @@ h1:hover, p:hover, a:hover {
 /* Specific styling for the Loader's strokes (taller and rounded) */
 .loader .stroke {
   /* UPDATE: Increased individual bar height to fit the new loader height */
-  height: 80px; 
+  height: 60px; 
   width: 8px; /* Slightly wider bar */
   border-radius: 50px;
   margin: 0 4px; 
