@@ -155,7 +155,8 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-bottom: 30px;
+  justify-content: center;
+  margin: 20px 0;
 }
 
 .active,
@@ -340,7 +341,7 @@ i.fa-volume-up {
   display: flex;
   justify-content: center;
   position: relative;
-  z-index: 3; /* Ensure it's above background */
+  z-index: 2; /* Ensure it's above background */
 }
 
 /* Each stroke/bar styling */
