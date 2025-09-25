@@ -1,6 +1,8 @@
 /* DOM references */
 const now_playing = document.querySelector('.now-playing');
 const track_art = document.querySelector('.track-art');
+const coverEl = track_art.querySelector('.cover');
+const vinylEl = track_art.querySelector('.vinyl');
 const track_name = document.querySelector('.track-name');
 const track_artist = document.querySelector('.track-artist');
 
@@ -38,17 +40,15 @@ analyser.fftSize = 256;
 const bufferLength = analyser.frequencyBinCount;
 const dataArray = new Uint8Array(bufferLength);
 
-/* Vinyl + Cover references */
-const coverEl = track_art?.querySelector('.cover');
-const vinylEl = track_art?.querySelector('.vinyl');
-const strokes = Array.from(wave?.querySelectorAll('.stroke') || []);
+/* Visualizer strokes */
+const strokes = Array.from(wave.querySelectorAll('.stroke'));
 
 /* Wave animation */
 function renderWave() {
   requestAnimationFrame(renderWave);
   if (isPlaying) {
     analyser.getByteFrequencyData(dataArray);
-    wave?.classList.add('visible');
+    wave.classList.add('visible');
     const step = Math.floor(dataArray.length / strokes.length);
     strokes.forEach((stroke, i) => {
       let value = dataArray[i * step] / 256;
@@ -56,7 +56,7 @@ function renderWave() {
       stroke.style.transform = `scaleY(${Math.max(0.2, value * 1.2)})`;
     });
   } else {
-    wave?.classList.remove('visible');
+    wave.classList.remove('visible');
     strokes.forEach(stroke => {
       stroke.style.transform = `scaleY(0.2)`;
     });
@@ -139,17 +139,20 @@ function playTrack() {
   curr_track.play().catch(e => console.error("Play failed:", e));
   isPlaying = true;
 
-  // Vinyl animation
   if (vinylEl) {
-    vinylEl.classList.remove('spinning');
-    void vinylEl.offsetWidth; // reflow
+    vinylEl.classList.remove('return', 'spinning');
+    // Trigger reflow to restart animation
+    void vinylEl.offsetWidth;
     vinylEl.classList.add('sliding');
+
+    // After sliding ends, add spinning
     vinylEl.addEventListener('transitionend', () => {
+      vinylEl.classList.remove('sliding');
       vinylEl.classList.add('spinning');
     }, { once: true });
   }
 
-  track_art?.classList.add('playing');
+  track_art.classList.add('playing');
   playpause_btn.innerHTML = '<i class="fa fa-pause-circle fa-5x"></i>';
 }
 
@@ -159,9 +162,10 @@ function pauseTrack() {
 
   if (vinylEl) {
     vinylEl.classList.remove('sliding', 'spinning');
+    vinylEl.classList.add('return'); // Move vinyl back
   }
 
-  track_art?.classList.remove('playing');
+  track_art.classList.remove('playing');
   playpause_btn.innerHTML = '<i class="fa fa-play-circle fa-5x"></i>';
 }
 
@@ -189,77 +193,4 @@ function setUpdate() {
   const formatTime = time => {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
-    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-  };
-
-  curr_time.textContent = formatTime(curr_track.currentTime);
-  total_duration.textContent = formatTime(curr_track.duration);
-}
-
-function nextTrack() {
-  if (isRandom) {
-    let nextIndex;
-    do {
-      nextIndex = Math.floor(Math.random() * music_list.length);
-    } while (nextIndex === track_index);
-    loadTrack(nextIndex);
-  } else {
-    loadTrack(track_index + 1);
-  }
-  playTrack();
-}
-
-function prevTrack() {
-  if (isRandom) {
-    let prevIndex;
-    do {
-      prevIndex = Math.floor(Math.random() * music_list.length);
-    } while (prevIndex === track_index);
-    loadTrack(prevIndex);
-  } else {
-    loadTrack(track_index - 1);
-  }
-  playTrack();
-}
-
-function randomTrack() {
-  isRandom = !isRandom;
-  randomIcon?.classList.toggle('randomActive', isRandom);
-}
-
-function repeatTrack() {
-  isRepeating = !isRepeating;
-  repeatIcon?.classList.toggle('active', isRepeating);
-}
-
-function handleTrackEnd() {
-  const track = music_list[track_index];
-  if (isRepeating) {
-    curr_track.currentTime = 0;
-    playTrack();
-    return;
-  }
-  if (part_index < track.music.length - 1) {
-    part_index++;
-    curr_track.src = track.music[part_index];
-    curr_track.load();
-    playTrack();
-  } else {
-    nextTrack();
-  }
-}
-
-/* Event Listeners */
-playpause_btn.addEventListener('click', playpauseTrack);
-next_btn.addEventListener('click', nextTrack);
-prev_btn.addEventListener('click', prevTrack);
-seek_slider.addEventListener('input', seekTo);
-volume_slider.addEventListener('input', setVolume);
-random_btn.addEventListener('click', randomTrack);
-repeat_btn.addEventListener('click', repeatTrack);
-
-curr_track.addEventListener('ended', handleTrackEnd);
-
-/* Initialize */
-loadTrack(track_index);
-setVolume();
+    return `${String(minutes).pad
