@@ -103,14 +103,14 @@ body {
   left: 50%;
   border-radius: 50%;
   background: url("images/vinyl.png") no-repeat center/cover;
-  transform: translate(-50%, -55%);
+  transform: translate(-50%, -50%);
   transition: transform 0.8s ease-in-out;
   z-index: 1; 
 }
 
 /* Add a sliding class */
 .vinyl.sliding {
-  transform: translate(-50%, -55%) translateX(20%);
+  transform: translate(-50%, -50%) translateX(20%);
 }
 
 /* Add spinning class separately */
@@ -121,10 +121,10 @@ body {
 /* Spinning keyframes */
 @keyframes spin {
   from {
-    transform: translate(-50%, -55%) translateX(20%) rotate(0deg);
+    transform: translate(-50%, -50%) translateX(20%) rotate(0deg);
   }
   to {
-    transform: translate(-50%, -55%) translateX(20%) rotate(360deg);
+    transform: translate(0%, -55%) translateX(20%) rotate(360deg);
   }
 }
 
