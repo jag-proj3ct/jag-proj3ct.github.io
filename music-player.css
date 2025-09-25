@@ -251,18 +251,21 @@ i.fa-volume-up {
 
 /* Loader / visualizer */
 .loader {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  overflow: hidden;
+  position: relative;
+  z-index: 3;
   height: 0;
   opacity: 0;
-  transition: opacity 0.5s ease, height 0.3s ease;
-  overflow: hidden;
   pointer-events: none;
-  margin-top: 0;
+  transition: opacity 0.3s ease, height 0.3s ease;
 }
 
-.loader.visible {
+.loader .visible {
   height: 70px;
   opacity: 1;
-  margin-top: 15px;
   pointer-events: auto;
 }
 
@@ -345,12 +348,9 @@ i.fa-volume-up {
 }
 
 /* Visualizer container styling */
-#wave {
+.loader {
   display: flex;
   justify-content: center;
-  align-items: flex-end; /* Align strokes to bottom */
-  height: 100px;  /* Control height to make bars visible */
-  overflow: visible;
   position: relative;
   z-index: 3; /* Ensure it's above background */
 }
@@ -367,18 +367,3 @@ i.fa-volume-up {
   opacity: 1;
   box-shadow: 0 0 5px orange;
 }
-
-/* Make sure the wave container is visible when playing */
-#wave.visible {
-  opacity: 1;
-  pointer-events: auto;
-  transition: opacity 0.3s ease-in;
-}
-
-/* Hide wave when not playing (optional) */
-#wave:not(.visible) {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease-out;
-}
-
