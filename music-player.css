@@ -112,6 +112,10 @@ body {
 .vinyl.sliding {
   transform: translate(-50%, -50%) translateX(30%);
 }
+/* Add a return class */
+.vinyl.return {
+  transform: translate(-20%, -50%) translateX(-30%);
+}
 
 /* Add a still class */
 .cover.still {
