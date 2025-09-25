@@ -8,9 +8,8 @@ body {
   width: 100vw;
   min-height: 100vh;
   margin: 0;
-  /* Retained padding from your last input for scroll space */
   padding: 60px 80px 60px 80px;   
-  overflow-y: auto; /* ENABLED VERTICAL SCROLLING */
+  overflow-y: auto; 
   position: relative;
   color: #fff;
 }
@@ -28,7 +27,7 @@ body {
   box-sizing: border-box;
 }
 
-/* Base Card Styling (Minimal) */
+/* Base Card Styling (Shadow is applied here for profile/game cards) */
 .card {
   width: 100%;
   max-width: 700px;
@@ -45,7 +44,6 @@ body {
 .profile-card {
   flex-direction: column;
   align-items: center;
-  /* Retaining the darker background for profile/game cards */
   background: rgba(0, 0, 0, 0.85);
 }
 
@@ -97,12 +95,18 @@ body {
   align-items: center;
 }
 
+/* 🎯 REMOVING SHADOW 1: Targetting the player card to remove the generic .card shadow */
+.player.card {
+  box-shadow: none; 
+}
+
 /* Player Wrapper (Light, subtle box) */
 .player .wrapper {
   border-radius: 20px;
   padding: 40px 30px 30px 30px; 
   background: rgba(255, 255, 255, 0.1); 
-  box-shadow: rgba(0, 0, 0, 0.4) 0px 12px 28px;
+  /* 🎯 REMOVING SHADOW 2: Removing the inner shadow applied to the wrapper */
+  box-shadow: none; 
   position: relative;
   z-index: 2;
 }
@@ -114,13 +118,13 @@ body {
   align-items: center;
 }
 .track-name {
-  font-size: 2.5rem; /* Large text */
+  font-size: 2.5rem; 
   margin-top: 15px;
 }
 .track-artist {
-  font-size: 1.5rem; /* Large text */
+  font-size: 1.5rem; 
   margin-top: 5px;
-  color: #FFD700; /* Gold color */
+  color: #FFD700; 
 }
 .now-playing {
   text-align: center;
@@ -172,6 +176,22 @@ body {
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+/* --- Text/Headings (No functional hover effects) --- */
+h1, p {
+  margin: 8px 0;
+}
+h1:hover, p:hover {
+  transform: scale(1.05);
+  color: #EDA20C;
+  transition: transform 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+}
+.profile-card: hover{
+  transform: scale(1.05);
+  transition: transform 0.3s ease, color 0.3s ease;
+  cursor: pointer;
 }
 
 /* --- Controls and Buttons --- */
