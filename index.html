@@ -7,16 +7,16 @@
   <link rel="stylesheet" href="music-player.css" />
   <link rel="icon" href="https://d1yjjnpx0p53s8.cloudfront.net/pp840x830-pad1000x1000f8f8f8.jpg?9oPTJs..erd0K9tiddIL4J9OjiCfetIN" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
-  <link rel="preload" as="image" href="images/background.png">
-  <link rel="preload" as="image" href="images/vinyl.png">
-  <link rel="preload" as="image" href="images/college-dropout-cover.jpg">
+  <link rel="preload" as="image" href="images/background.png" />
+  <link rel="preload" as="image" href="images/vinyl.png" />
+  <link rel="preload" as="image" href="images/college-dropout-cover.jpg" />
 </head>
 <body>
   <div class="container">
     <div class="player">
       <div class="wrapper">
 
-        <!-- Main Player UI -->
+        <!-- Track details section -->
         <div class="details">
           <div class="track-art">
             <div class="cover"></div>
@@ -26,23 +26,27 @@
           <div class="track-artist">Track Artist</div>
         </div>
 
+        <!-- Seek slider and times -->
         <div class="slider_container">
           <div class="current-time">00:00</div>
-          <input type="range" min="1" max="100" value="0" class="seek_slider" />
+          <!-- Changed min="0" (not 1) to match seek slider logic (0-100%) -->
+          <input type="range" min="0" max="100" value="0" class="seek_slider" />
           <div class="total-duration">00:00</div>
         </div>
 
+        <!-- Volume control slider -->
         <div class="slider_container">
           <i class="fa fa-volume-down"></i>
-          <input type="range" min="1" max="100" value="99" class="volume_slider" />
+          <input type="range" min="0" max="100" value="99" class="volume_slider" />
           <i class="fa fa-volume-up"></i>
         </div>
 
-        <!-- Playing Info -->
+        <!-- Playing track info -->
         <div class="now-playing">PLAYING x OF y</div>
 
-        <!-- Visualizer -->
+        <!-- Visualizer wave bars -->
         <div id="wave" class="loader">
+          <!-- 7 stroke spans match your JS strokes array length -->
           <span class="stroke"></span>
           <span class="stroke"></span>
           <span class="stroke"></span>
@@ -52,21 +56,22 @@
           <span class="stroke"></span>
         </div>
 
+        <!-- Player controls -->
         <div class="buttons">
-          <div class="random-track">
-            <i class="fas fa-random fa-2x" title="Random"></i>
+          <div class="random-track" title="Random">
+            <i class="fas fa-random fa-2x"></i>
           </div>
-          <div class="prev-track">
+          <div class="prev-track" title="Previous">
             <i class="fa fa-step-backward fa-2x"></i>
           </div>
-          <div class="playpause-track">
+          <div class="playpause-track" title="Play/Pause">
             <i class="fa fa-play-circle fa-5x"></i>
           </div>
-          <div class="next-track">
+          <div class="next-track" title="Next">
             <i class="fa fa-step-forward fa-2x"></i>
           </div>
-          <div class="repeat-track">
-            <i class="fa fa-repeat fa-2x" title="Repeat"></i>
+          <div class="repeat-track" title="Repeat">
+            <i class="fa fa-repeat fa-2x"></i>
           </div>
         </div>
 
