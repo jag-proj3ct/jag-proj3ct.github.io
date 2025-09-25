@@ -5,7 +5,6 @@ body {
   background-repeat: no-repeat;
   background-position: center center;
   background-attachment: fixed;
-  /* Prevent horizontal scrolling */
   width: 100%; 
   min-height: 100vh;
   margin: 0;
@@ -16,12 +15,11 @@ body {
   color: #fff;
 }
 
-/* Apply border-box globally to solve the 100vw + padding issue */
 *, *::before, *::after {
   box-sizing: border-box;
 }
 
-/* --- Layout and Containers (Structural Only) --- */
+/* --- Layout and Containers --- */
 
 .container,
 .container-first {
@@ -33,7 +31,6 @@ body {
   margin: 0 auto;
 }
 
-/* Base Card Styling (Shadow is applied here for profile cards) */
 .card {
   width: 100%;
   max-width: 700px;
@@ -47,15 +44,13 @@ body {
   gap: 20px;
 }
 
-/* REMOVED BLACK BACKGROUND: Profile Card */
 .profile-card {
   flex-direction: column;
   align-items: center;
   background: none; 
 }
 
-/* REMOVED BLACK BACKGROUND: Card */
-.profile-card {
+.game {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -70,19 +65,17 @@ body {
   font-size: 18px;
 }
 
-/* --- Profile Picture (Basic structure only) --- */
+/* --- Profile Picture --- */
 .profile-pic-wrapper {
   position: relative;
   width: 150px;
   height: 150px;
   margin-bottom: 15px;
-  /* NEW: Add transition for smooth hover effect */
   transition: transform 0.3s ease;
 }
 
-/* NEW: Hover effect on the wrapper to scale the image and frame */
 .profile-pic-wrapper:hover {
-  transform: scale(1.05); /* Scales the entire wrapper (image and frame) */
+  transform: scale(1.05);
 }
 
 .profile-pic-wrapper img.profile {
@@ -105,23 +98,20 @@ body {
   z-index: 2;
 }
 
-/* --- Music Player Styling (COOL LOOK) --- */
+/* --- Music Player Styling --- */
 
 .player {
   align-items: center;
 }
 
-/* SHADOW REMOVED: Targetting the player card to remove the generic .card shadow */
 .player.card {
   box-shadow: none; 
 }
 
-/* Player Wrapper (Light, subtle box) */
 .player .wrapper {
   border-radius: 20px;
   padding: 40px 30px 30px 30px; 
   background: rgba(255, 255, 255, 0.1); 
-  /* SHADOW REMOVED: Removing the inner shadow applied to the wrapper */
   box-shadow: none; 
   position: relative;
   z-index: 2;
@@ -198,21 +188,28 @@ body {
 
 h1, p, a {
   margin: 8px 0;
-  /* 🎯 NEW: Set default link color and remove underline */
-  color: inherit; /* Inherit color from parent (white) */
+  color: inherit;
   text-decoration: none; 
-  transition: transform 0.3s ease, color 0.3s ease; /* Ensure links transition smoothly */
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
-/* 🎯 NEW: Maintain styling for visited links */
+/* 🎯 NEW: Decrease h1 size in the game card by 50% */
+.game h1 {
+    font-size: 50%;
+}
+
+/* 🎯 NEW: Increase anchor tag size by 20% */
+a {
+    font-size: 1.2em; /* 1.2 times the size of the inherited font size */
+}
+
 a:visited {
   color: inherit;
 }
 
-/* Combine hover for h1, p, and a */
 h1:hover, p:hover, a:hover {
   transform: scale(1.05);
-  color: #EDA20C; /* Hover color */
+  color: #EDA20C;
   cursor: pointer;
 }
 .profile-card:hover{
@@ -221,7 +218,7 @@ h1:hover, p:hover, a:hover {
   cursor: pointer;
 }
 
-/* --- Controls and Buttons (Original Style Changes) --- */
+/* --- Controls and Buttons --- */
 
 .buttons {
   display: flex;
@@ -288,7 +285,6 @@ h1:hover, p:hover, a:hover {
   border-radius: 5px;
 }
 
-/* Music length (seek) → ORANGE Gradient/Thumb */
 .seek_slider {
   width: 60%;
   background: linear-gradient(to right, #FF8C00, #FFA500);
@@ -301,14 +297,11 @@ h1:hover, p:hover, a:hover {
   width: 15px;
   height: 15px;
   background: white;
-  /* 🎯 NEW: Solid yellow border for simplicity */
   border: 3px solid #FFD700; 
   border-radius: 100%;
   cursor: grab;
-  /* REMOVED border-image for simpler style */
 }
 
-/* Volume → YELLOW Gradient/Thumb */
 .volume_slider {
   width: 30%;
   background: linear-gradient(to right, #FFD700, #FFFF66);
@@ -321,11 +314,9 @@ h1:hover, p:hover, a:hover {
   width: 15px;
   height: 15px;
   background: white;
-  /* 🎯 NEW: Solid yellow border for simplicity */
   border: 3px solid #FFD700; 
   border-radius: 100%;
   cursor: grab;
-  /* REMOVED border-image for simpler style */
 }
 
 /* --- Visualizer/Loader --- */
@@ -345,16 +336,13 @@ h1:hover, p:hover, a:hover {
 }
 
 .loader.visible {
-  /* UPDATE: Increased container height to support more strokes */
   height: 90px;
   opacity: 1;
   margin-top: 15px;
   pointer-events: auto;
 }
 
-/* Default Stroke Styling */
 .stroke {
-  /* UPDATE: Reduced width for more strokes */
   width: 7px; 
   border-radius: 3px;
   transform-origin: bottom center;
@@ -364,16 +352,13 @@ h1:hover, p:hover, a:hover {
   box-shadow: 0 0 5px orange;
 }
 
-/* Specific styling for the Loader's strokes (taller and rounded) */
 .loader .stroke {
-  /* UPDATE: Increased individual bar height to fit the new loader height */
   height: 60px; 
-  width: 8px; /* Slightly wider bar */
+  width: 8px;
   border-radius: 50px;
   margin: 0 4px; 
 }
 
-/* Optional gradient variety */
 .stroke:nth-child(2) { background: linear-gradient(to top, #FFD700, #FFA500); }
 .stroke:nth-child(3) { background: linear-gradient(to top, #FFA500, #FFD700); }
 .stroke:nth-child(4) { background: linear-gradient(to top, #FFD700, #FFA500); }
