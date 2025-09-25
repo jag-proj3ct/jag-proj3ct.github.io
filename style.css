@@ -8,7 +8,7 @@ body {
   width: 100vw;
   min-height: 100vh;
   margin: 0;
-  padding: 80px 0;     /* top + bottom breathing room */
+  padding: 80px 80px;   
   overflow-y: auto;
   position: relative;
   color: #fff;
