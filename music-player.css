@@ -113,14 +113,14 @@ body {
 /* When playing, trigger slide + spin */
 .track-art.playing .vinyl {
   /* Only need to animate the transform now */
-  transform: translate(-50%, -55%) translateX(100%);
+  transform: translate(-50%, -55%) translateX(20%);
   animation: spin 8s linear infinite 0.8s;
 }
 
 /* Continuous rotation */
 @keyframes spin {
-  from { transform: translateX(100%) rotate(0deg); }
-  to   { transform: translateX(100%) rotate(360deg); }
+  from { transform: translateX(0%) rotate(0deg); }
+  to   { transform: translateX(0%) rotate(360deg); }
 }
 
 /* Text */
