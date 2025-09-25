@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Profile · Game · Music</title>
 
-  <!-- CSS files (order matters: base first, then specific) -->
+  <!-- CSS files (order: base → profile → player) -->
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="profile.css" />
   <link rel="stylesheet" href="music-player.css" />
@@ -83,7 +83,7 @@
             <i class="fa fa-step-backward fa-2x"></i>
           </div>
           <div class="playpause-track" title="Play/Pause">
-            <i id="playBtn" class="fa fa-play-circle fa-5x"></i>
+            <i class="fa fa-play-circle fa-5x"></i>
           </div>
           <div class="next-track" title="Next">
             <i class="fa fa-step-forward fa-2x"></i>
@@ -141,27 +141,7 @@
     updateDisplay();
   </script>
 
-  <!-- Music Player Script -->
-  <script>
-    const playBtn = document.getElementById("playBtn");
-    const vinyl = document.querySelector(".vinyl");
-    let isPlaying = false;
-
-    playBtn.addEventListener("click", () => {
-      isPlaying = !isPlaying;
-      if (isPlaying) {
-        vinyl.classList.add("playing");
-        playBtn.classList.remove("fa-play-circle");
-        playBtn.classList.add("fa-pause-circle");
-      } else {
-        vinyl.classList.remove("playing");
-        playBtn.classList.remove("fa-pause-circle");
-        playBtn.classList.add("fa-play-circle");
-      }
-    });
-  </script>
-
-  <!-- External player logic -->
+  <!-- Music Player Script (full logic) -->
   <script src="music-player.js" defer></script>
 </body>
 </html>
