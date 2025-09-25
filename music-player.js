@@ -210,6 +210,32 @@ function setVolume() {
   if (volume_slider) curr_track.volume = volume_slider.value / 100;
 }
 
+/* Repeat button toggle */
+repeat_btn.addEventListener('click', () => {
+  isRepeating = !isRepeating;
+
+  // Toggle active class for visual feedback (add to your CSS)
+  repeat_btn.classList.toggle('active', isRepeating);
+
+  const icon = repeat_btn.querySelector('i');
+  if (isRepeating) {
+    icon.style.color = '#1DB954';  // Highlight color
+  } else {
+    icon.style.color = '';  // Default color
+  }
+});
+
+/* Handle track end for repeat or next */
+curr_track.addEventListener('ended', () => {
+  if (isRepeating) {
+    curr_track.currentTime = 0;
+    playTrack();
+  } else {
+    loadTrack(track_index + 1);
+    playTrack();
+  }
+});
+
 /* Event Listeners */
 playpause_btn.addEventListener('click', playpauseTrack);
 next_btn.addEventListener('click', () => loadTrack(track_index + 1));
