@@ -1,0 +1,407 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  background-image: url("images/background.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed; /* Keeps background still when scrolling */
+  width: 100vw;
+  min-height: 100vh;   /* Use min-height to allow content to grow */
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;    /* Allow vertical scroll */
+  position: relative;
+  color: #fff; /* Added body text color from the second block's card styles for general text */
+}
+
+/* --- Layout and Containers --- */
+
+/* Main layout container (used for centering the player/lyrics) */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Styling for the music player itself, if it uses the player class */
+.player {
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* --- Lyrics and Card Styling --- */
+
+.lyrics-container {
+  background-color: #ddd;
+  border-radius: 20px;
+  padding: 30px;
+  margin-right: 50px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 20px 38px,
+              rgba(0, 0, 0, 0.22) 0px 20px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 350px;
+  height: 600px;
+  overflow-y: auto;
+  color: black; /* Set color for lyrics content */
+}
+
+.lyrics-container h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+#lyrics-display {
+  font-size: 1.2rem;
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+
+/* General Card Style (Profile/Game) */
+.card {
+  width: 100%;
+  max-width: 700px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.8); /* black w/ 80% transparency */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+  padding: 30px;
+  color: #fff;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Profile card */
+.profile-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Game styling */
+.game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  background: rgba(0, 0, 0, 0.8); /* black w/ 80% transparency */
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+}
+
+.stats {
+  font-size: 18px;
+}
+
+/* --- Music Player Elements --- */
+
+/* Player Wrapper (Background box for the controls/art) */
+.wrapper {
+  /* Using the styling from the first block for the player wrapper background */
+  border: 1px solid transparent; 
+  padding: 30px;
+  border-radius: 20px;
+  background-color: #ddd;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 20px 38px,
+              rgba(0, 0, 0, 0.22) 0px 20px 12px;
+  position: relative;
+  z-index: 2; 
+  color: black; /* Added text color for wrapper content to contrast with white background */
+}
+
+/* Track Details */
+.details {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+.track-name {
+  font-size: 2.5rem; /* Larger font size from first block */
+}
+.track-artist {
+  margin-top: 5px;
+  font-size: 1.5rem; /* Larger font size from first block */
+}
+.now-playing {
+  text-align: center;
+  width: 100%;
+  margin-top: 10px;
+  font-size: 1.2rem;
+}
+
+/* Track Art (Cover and Vinyl) */
+.track-art {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  border-radius: 12px;
+  overflow: visible;
+}
+.cover {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 280px;
+  height: 280px;
+  border-radius: 12px;
+  background: url("images/college-dropout-cover.jpg") no-repeat center/cover;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+}
+.vinyl {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  transition: transform 1s ease;
+}
+.vinyl-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: url("images/vinyl.png") no-repeat center/cover;
+}
+.vinyl.sliding {
+  transform: translate(-50%, -50%) translateX(30%);
+}
+.vinyl.return {
+  transform: translate(-50%, -50%) translateX(-30%);
+}
+.vinyl-inner.spinning {
+  animation: spin 8s linear infinite;
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* --- Profile Picture --- */
+
+.profile-pic-wrapper {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin-bottom: 15px;
+}
+.profile-pic-wrapper img.profile {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  cursor: pointer;
+}
+.profile-pic-wrapper:hover img.profile {
+  transform: translate(-50%, -50%) scale(1.1);
+}
+.profile-pic-wrapper img.frame {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 220px;
+  height: 220px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* --- Text/Headings --- */
+
+h1, p {
+  margin: 8px 0;
+}
+h1:hover, p:hover {
+  transform: scale(1.05);
+  color: #EDA20C; /* gold hover */
+  transition: transform 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+}
+
+/* --- Buttons and Controls --- */
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+}
+.active,
+.randomActive {
+  color: black;
+}
+.repeat-track,
+.random-track,
+.playpause-track,
+.prev-track,
+.next-track {
+  padding: 25px;
+  opacity: 0.8;
+  transition: opacity .2s;
+  cursor: pointer;
+}
+.repeat-track:hover,
+.random-track:hover,
+.playpause-track:hover,
+.prev-track:hover,
+.next-track:hover {
+  opacity: 1.0;
+}
+
+.game button {
+  padding: 10px 20px;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  background: #EDA20C;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+.game button:hover {
+  transform: scale(1.1);
+  background: #c87f00;
+}
+
+/* --- Sliders --- */
+
+.slider_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.seek_slider,
+.volume_slider {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  height: 5px;
+  transition: opacity .2s;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.seek_slider:hover,
+.volume_slider:hover {
+  opacity: 1.0;
+}
+.current-time,
+.total-duration {
+  padding: 10px;
+}
+i.fa-volume-down,
+i.fa-volume-up {
+  padding: 10px;
+}
+
+/* Music length (seek) → ORANGE */
+.seek_slider {
+  width: 60%;
+  background: linear-gradient(to right, #FF8C00, #FFA500); /* dark to light orange */
+}
+.seek_slider::-webkit-slider-thumb,
+.seek_slider::-moz-range-thumb {
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  background: white;
+  border: 3px solid #FF8C00; /* orange border */
+  cursor: grab;
+  border-radius: 100%;
+}
+
+/* Volume → YELLOW */
+.volume_slider {
+  width: 30%;
+  background: linear-gradient(to right, #FFD700, #FFFF66); /* gold to light yellow */
+}
+.volume_slider::-webkit-slider-thumb,
+.volume_slider::-moz-range-thumb {
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  background: white;
+  border: 3px solid #FFD700; /* yellow border */
+  cursor: grab;
+  border-radius: 100%;
+}
+
+/* --- Visualizer (Loader) --- */
+
+/* Loader / visualizer container */
+.loader {
+  height: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease, height 0.3s ease;
+  overflow: hidden;
+  pointer-events: none;
+  margin-top: 0;
+  
+  /* Combined layout properties for visibility */
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.loader.visible {
+  height: 70px;
+  opacity: 1;
+  margin-top: 15px;
+  pointer-events: auto;
+}
+
+/* Each stroke/bar styling */
+.loader .stroke {
+  height: 7vh;
+  width: 10px;
+  border-radius: 50px;
+  margin: 0 5px;
+  transition: transform 0.1s ease-out;
+  transform: scaleY(0.2);
+  background: linear-gradient(to top, #FFA500, #FFD700); /* default */
+}
+.stroke {
+  width: 6px;
+  margin: 0 2px;
+  transform-origin: bottom center;
+  transition: transform 0.1s ease-out;
+  border-radius: 3px;
+  opacity: 1;
+  box-shadow: 0 0 5px orange;
+} 
+
+/* Optional gradients for visual variety */
+.stroke:nth-child(2) { background: linear-gradient(to top, #FFD700, #FFA500); }
+.stroke:nth-child(3) { background: linear-gradient(to top, #FFA500, #FFD700); }
+.stroke:nth-child(4) { background: linear-gradient(to top, #FFD700, #FFA500); }
+.stroke:nth-child(5) { background: linear-gradient(to top, #FFA500, #FFD700); }
+.stroke:nth-child(6) { background: linear-gradient(to top, #FFD700, #FFA500); }
+.stroke:nth-child(7) { background: linear-gradient(to top, #FFA500, #FFD700); }
