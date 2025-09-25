@@ -116,13 +116,15 @@ h1:hover, p:hover {
   font-size: 18px;
   border: none;
   border-radius: 8px;
-  background: #EDA20C;
+  /* UPDATED: Lighter gold color for un-hovered state */
+  background: #FFC72C;
   color: #fff;
   cursor: pointer;
   transition: transform 0.2s ease, background 0.3s ease;
 }
 .game button:hover {
   transform: scale(1.1);
+  /* Hover color remains the same for consistency with your preference */
   background: #c87f00;
 }
 .stats {
@@ -197,12 +199,15 @@ h1:hover, p:hover {
   margin: 20px 0;
 }
 .buttons i {
-  color: #FFA500; /* orange theme */
+  /* Lighter orange for better contrast in the un-hovered state */
+  color: #FFA500;
   cursor: pointer;
   opacity: 0.8;
   transition: opacity 0.2s, transform 0.2s;
 }
 .buttons i:hover {
+  /* Using a slightly brighter orange for the hover state */
+  color: #FFBB40; 
   opacity: 1;
   transform: scale(1.15);
 }
