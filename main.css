@@ -5,13 +5,12 @@ body {
   background-repeat: no-repeat;
   background-position: center center;
   background-attachment: fixed;
-  /* 🎯 FIX 1: Remove padding and rely on margins/padding on inner containers, 
-     or set box-sizing to border-box globally to prevent 100vw + padding issue. */
-  width: 100%; /* Use 100% instead of 100vw to be safer with padding */
+  /* 🎯 FIX 1: Prevent horizontal scrolling */
+  width: 100%; 
   min-height: 100vh;
   margin: 0;
-  padding: 60px 80px 60px 80px; /* Kept padding, but changed width to 100% on container */
-  overflow-x: hidden; /* Explicitly prevent horizontal scrolling */
+  padding: 60px 80px 60px 80px;
+  overflow-x: hidden;
   overflow-y: auto; 
   position: relative;
   color: #fff;
@@ -32,7 +31,6 @@ body {
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
-  /* box-sizing: border-box; <-- Moved to global reset */
 }
 
 /* Base Card Styling (Shadow is applied here for profile/game cards) */
@@ -209,7 +207,6 @@ h1:hover, p:hover {
 .buttons {
   display: flex;
   justify-content: center;
-  /* 🎯 FIX 2: Increased spacing for a wider, less crowded look */
   gap: 0; 
   margin: 20px 0;
 }
@@ -224,20 +221,18 @@ h1:hover, p:hover {
   transform: scale(1.15);
 }
 
-/* 🎯 FIX 2: Apply padding from original CSS to widen small buttons and fix "droop" */
 .repeat-track,
 .random-track,
 .prev-track,
 .next-track {
-  padding: 25px; /* Wider hit area */
+  padding: 25px; 
   opacity: 0.8;
   transition: opacity .2s;
   cursor: pointer;
 }
 
-/* 🎯 FIX 2: Isolate play/pause button for better sizing and non-droopy look */
 .playpause-track {
-  padding: 10px 25px; /* Less vertical padding than the small buttons for less 'droop' */
+  padding: 10px 25px; 
 }
 
 .game button {
@@ -255,7 +250,7 @@ h1:hover, p:hover {
   background: #c87f00;
 }
 
-/* --- Detailed Slider Styling (Original Style Changes) --- */
+/* --- Detailed Slider Styling (Gradient Border Thumbs) --- */
 
 .slider_container {
   display: flex;
@@ -287,10 +282,12 @@ h1:hover, p:hover {
   width: 15px;
   height: 15px;
   background: white;
-  /* 🎯 FIX 3: Revert border to a blue color */
-  border: 3px solid #3774FF; 
+  border: 3px solid transparent; /* Set border to transparent for border-image to work */
   border-radius: 100%;
   cursor: grab;
+  
+  /* 🎯 FIX 3: Apply the gradient border using border-image */
+  border-image: linear-gradient(to top, #FFD700, #FFA500) 1;
 }
 
 /* Volume → YELLOW Gradient/Thumb */
@@ -306,10 +303,12 @@ h1:hover, p:hover {
   width: 15px;
   height: 15px;
   background: white;
-  /* 🎯 FIX 3: Revert border to a blue color */
-  border: 3px solid linear-gradient(to top, #FFD700, #FFA500);
+  border: 3px solid transparent; /* Set border to transparent for border-image to work */
   border-radius: 100%;
   cursor: grab;
+  
+  /* 🎯 FIX 3: Apply the gradient border using border-image */
+  border-image: linear-gradient(to top, #FFA500, #FFD700) 1;
 }
 
 /* --- Visualizer/Loader --- */
