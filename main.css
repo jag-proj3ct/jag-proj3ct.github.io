@@ -5,7 +5,7 @@ body {
   background-repeat: no-repeat;
   background-position: center center;
   background-attachment: fixed;
-  /* 🎯 FIX 1: Prevent horizontal scrolling */
+  /* Prevent horizontal scrolling */
   width: 100%; 
   min-height: 100vh;
   margin: 0;
@@ -16,7 +16,7 @@ body {
   color: #fff;
 }
 
-/* 🎯 FIX 1: Apply border-box globally to solve the 100vw + padding issue */
+/* Apply border-box globally to solve the 100vw + padding issue */
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -47,14 +47,14 @@ body {
   gap: 20px;
 }
 
-/* 🎯 REMOVED BLACK BACKGROUND: Profile Card */
+/* REMOVED BLACK BACKGROUND: Profile Card */
 .profile-card {
   flex-direction: column;
   align-items: center;
   background: none; 
 }
 
-/* 🎯 REMOVED BLACK BACKGROUND: Game Card */
+/* REMOVED BLACK BACKGROUND: Game Card */
 .game {
   display: flex;
   flex-direction: column;
@@ -76,11 +76,11 @@ body {
   width: 150px;
   height: 150px;
   margin-bottom: 15px;
-  /* 🎯 NEW: Add transition for smooth hover effect */
+  /* NEW: Add transition for smooth hover effect */
   transition: transform 0.3s ease;
 }
 
-/* 🎯 NEW: Hover effect on the wrapper to scale the image and frame */
+/* NEW: Hover effect on the wrapper to scale the image and frame */
 .profile-pic-wrapper:hover {
   transform: scale(1.05); /* Scales the entire wrapper (image and frame) */
 }
@@ -111,7 +111,7 @@ body {
   align-items: center;
 }
 
-/* 🎯 SHADOW REMOVED: Targetting the player card to remove the generic .card shadow */
+/* HADOW REMOVED: Targetting the player card to remove the generic .card shadow */
 .player.card {
   box-shadow: none; 
 }
@@ -121,7 +121,7 @@ body {
   border-radius: 20px;
   padding: 40px 30px 30px 30px; 
   background: rgba(255, 255, 255, 0.1); 
-  /* 🎯 SHADOW REMOVED: Removing the inner shadow applied to the wrapper */
+  /* SHADOW REMOVED: Removing the inner shadow applied to the wrapper */
   box-shadow: none; 
   position: relative;
   z-index: 2;
@@ -195,10 +195,10 @@ body {
 }
 
 /* --- Text/Headings (No functional hover effects) --- */
-h1, p {
+h1, a, p {
   margin: 8px 0;
 }
-h1:hover, p:hover {
+h1:hover, p:hover, a:hover {
   transform: scale(1.05);
   color: #EDA20C;
   transition: transform 0.3s ease, color 0.3s ease;
@@ -334,7 +334,7 @@ h1:hover, p:hover {
 }
 
 .loader.visible {
-  /* 🎯 UPDATE: Increased container height to support more strokes */
+  /* UPDATE: Increased container height to support more strokes */
   height: 90px;
   opacity: 1;
   margin-top: 15px;
@@ -343,9 +343,9 @@ h1:hover, p:hover {
 
 /* Default Stroke Styling */
 .stroke {
-  /* 🎯 UPDATE: Reduced width for more strokes */
+  /* UPDATE: Reduced width for more strokes */
   width: 5px; 
-  /* 🎯 UPDATE: Reduced margin to fit more strokes */
+  /* UPDATE: Reduced margin to fit more strokes */
   margin: 0 4px; 
   border-radius: 3px;
   transform-origin: bottom center;
@@ -357,7 +357,7 @@ h1:hover, p:hover {
 
 /* Specific styling for the Loader's strokes (taller and rounded) */
 .loader .stroke {
-  /* 🎯 UPDATE: Increased individual bar height to fit the new loader height */
+  /* UPDATE: Increased individual bar height to fit the new loader height */
   height: 80px; 
   width: 8px; /* Slightly wider bar */
   border-radius: 50px;
