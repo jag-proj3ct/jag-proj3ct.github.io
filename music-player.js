@@ -161,7 +161,6 @@ function playTrack() {
   isPlaying = true;
 
   if (vinylEl) {
-    // reset state
     vinylEl.classList.remove('return', 'spinning', 'sliding');
     void vinylEl.offsetWidth; // force reflow
     vinylEl.classList.add('sliding');
@@ -218,10 +217,26 @@ repeat_btn.addEventListener('click', () => {
   icon.style.color = isRepeating ? '#1DB954' : '';
 });
 
+/* Toggle random */
+random_btn.addEventListener('click', () => {
+  isRandom = !isRandom;
+  random_btn.classList.toggle('active', isRandom);
+
+  const icon = random_btn.querySelector('i');
+  icon.style.color = isRandom ? '#1DB954' : '';
+});
+
 /* Track end */
 curr_track.addEventListener('ended', () => {
   if (isRepeating) {
     curr_track.currentTime = 0;
+    playTrack();
+  } else if (isRandom) {
+    let randIndex;
+    do {
+      randIndex = Math.floor(Math.random() * music_list.length);
+    } while (randIndex === track_index); // avoid same track twice
+    loadTrack(randIndex);
     playTrack();
   } else {
     loadTrack(track_index + 1);
@@ -232,7 +247,15 @@ curr_track.addEventListener('ended', () => {
 /* Controls */
 playpause_btn.addEventListener('click', playpauseTrack);
 next_btn.addEventListener('click', () => {
-  loadTrack(track_index + 1);
+  if (isRandom) {
+    let randIndex;
+    do {
+      randIndex = Math.floor(Math.random() * music_list.length);
+    } while (randIndex === track_index);
+    loadTrack(randIndex);
+  } else {
+    loadTrack(track_index + 1);
+  }
   playTrack();
 });
 prev_btn.addEventListener('click', () => {
@@ -242,5 +265,5 @@ prev_btn.addEventListener('click', () => {
 seek_slider.addEventListener('input', seekTo);
 volume_slider.addEventListener('input', setVolume);
 
-/* Initual */
+/* Initial */
 loadTrack(track_index);
