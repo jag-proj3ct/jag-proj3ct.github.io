@@ -16,9 +16,9 @@ const seek_slider = document.querySelector('.seek_slider');
 const volume_slider = document.querySelector('.volume_slider');
 const curr_time = document.querySelector('.current-time');
 const total_duration = document.querySelector('.total-duration');
-const wave = document.getElementById('wave');
-const randomIcon = document.querySelector('.fa-random');
-const repeatIcon = document.querySelector('.fa-repeat');
+
+const wave = document.getElementById('wave');  // Visualizer container
+const strokes = Array.from(wave.querySelectorAll('.stroke'));  // Visualizer bars
 
 const curr_track = new Audio();
 
@@ -40,25 +40,24 @@ analyser.fftSize = 256;
 const bufferLength = analyser.frequencyBinCount;
 const dataArray = new Uint8Array(bufferLength);
 
-/* Visualizer strokes */
-const strokes = Array.from(wave.querySelectorAll('.stroke'));
-
-/* Wave animation */
+/* Visualizer rendering */
 function renderWave() {
   requestAnimationFrame(renderWave);
+
   if (isPlaying) {
     analyser.getByteFrequencyData(dataArray);
-    wave.classList.add('visible');
+    wave.classList.add('visible');  // Show visualizer
+
     const step = Math.floor(dataArray.length / strokes.length);
     strokes.forEach((stroke, i) => {
       let value = dataArray[i * step] / 256;
-      if (i < 3) value = Math.sqrt(value); // amplify low bars
+      if (i < 3) value = Math.sqrt(value);  // Amplify lower bars
       stroke.style.transform = `scaleY(${Math.max(0.2, value * 1.2)})`;
     });
   } else {
-    wave.classList.remove('visible');
+    wave.classList.remove('visible');  // Hide visualizer
     strokes.forEach(stroke => {
-      stroke.style.transform = `scaleY(0.2)`;
+      stroke.style.transform = 'scaleY(0.2)';
     });
   }
 }
@@ -103,14 +102,39 @@ const music_list = [
     : [basePath + track.file]
 }));
 
-/* Player functions */
+/* Helper to format time as MM:SS */
+function formatTime(time) {
+  const minutes = Math.floor(time / 60) || 0;
+  const seconds = Math.floor(time % 60) || 0;
+  return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+}
+
+/* Update time and seek slider */
+function setUpdate() {
+  if (isNaN(curr_track.duration)) return;
+
+  const seekPosition = (curr_track.currentTime / curr_track.duration) * 100;
+  seek_slider.value = seekPosition;
+
+  curr_time.textContent = formatTime(curr_track.currentTime);
+  total_duration.textContent = formatTime(curr_track.duration);
+}
+
+/* Reset UI for track */
+function reset() {
+  curr_time.textContent = "00:00";
+  total_duration.textContent = "00:00";
+  seek_slider.value = 0;
+}
+
+/* Load a track by index */
 function loadTrack(index) {
   clearInterval(updateTimer);
   reset();
 
-  // Clamp index
+  // Wrap index if out of bounds
   if (index < 0) index = music_list.length - 1;
-  if (index >= music_list.length) index = 0;
+  else if (index >= music_list.length) index = 0;
 
   track_index = index;
   part_index = 0;
@@ -127,12 +151,7 @@ function loadTrack(index) {
   updateTimer = setInterval(setUpdate, 1000);
 }
 
-function reset() {
-  curr_time.textContent = "00:00";
-  total_duration.textContent = "00:00";
-  seek_slider.value = 0;
-}
-
+/* Play track */
 function playTrack() {
   if (audioCtx.state === 'suspended') audioCtx.resume();
 
@@ -141,11 +160,10 @@ function playTrack() {
 
   if (vinylEl) {
     vinylEl.classList.remove('return', 'spinning');
-    // Trigger reflow to restart animation
+    // Trigger reflow to restart sliding animation
     void vinylEl.offsetWidth;
     vinylEl.classList.add('sliding');
 
-    // After sliding ends, add spinning
     vinylEl.addEventListener('transitionend', () => {
       vinylEl.classList.remove('sliding');
       vinylEl.classList.add('spinning');
@@ -154,43 +172,50 @@ function playTrack() {
 
   track_art.classList.add('playing');
   playpause_btn.innerHTML = '<i class="fa fa-pause-circle fa-5x"></i>';
+
+  wave.classList.add('visible');  // Show visualizer
 }
 
+/* Pause track */
 function pauseTrack() {
   curr_track.pause();
   isPlaying = false;
 
   if (vinylEl) {
     vinylEl.classList.remove('sliding', 'spinning');
-    vinylEl.classList.add('return'); // Move vinyl back
+    vinylEl.classList.add('return');
   }
 
   track_art.classList.remove('playing');
   playpause_btn.innerHTML = '<i class="fa fa-play-circle fa-5x"></i>';
+
+  wave.classList.remove('visible');  // Hide visualizer
 }
 
+/* Toggle play/pause */
 function playpauseTrack() {
   if (isPlaying) pauseTrack();
   else playTrack();
 }
 
+/* Seek in track */
 function seekTo() {
   if (!curr_track.duration) return;
   const seekToTime = curr_track.duration * (seek_slider.value / 100);
   curr_track.currentTime = seekToTime;
 }
 
+/* Change volume */
 function setVolume() {
   if (volume_slider) curr_track.volume = volume_slider.value / 100;
 }
 
-function setUpdate() {
-  if (isNaN(curr_track.duration)) return;
+/* Event Listeners */
+playpause_btn.addEventListener('click', playpauseTrack);
+next_btn.addEventListener('click', () => loadTrack(track_index + 1));
+prev_btn.addEventListener('click', () => loadTrack(track_index - 1));
+seek_slider.addEventListener('input', seekTo);
+volume_slider.addEventListener('input', setVolume);
 
-  const seekPosition = curr_track.currentTime * (100 / curr_track.duration);
-  seek_slider.value = seekPosition;
-
-  const formatTime = time => {
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
-    return `${String(minutes).pad
+/* Load initial track */
+loadTrack(track_index);
