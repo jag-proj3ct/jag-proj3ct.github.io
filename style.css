@@ -132,7 +132,6 @@ h1:hover, p:hover {
 
 .player .wrapper {
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.1); /* subtle lighter box */
   padding: 30px;
   box-shadow: rgba(0, 0, 0, 0.4) 0px 12px 28px;
   position: relative;
