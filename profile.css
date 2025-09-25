@@ -45,6 +45,11 @@
   cursor: pointer;
 }
 
+/* 🎯 NEW RULE: Scale the profile image when the wrapper is hovered */
+.profile-pic-wrapper:hover img.profile {
+  transform: translate(-50%, -50%) scale(1.1); /* Scale it up by 1.1 */
+}
+
 .profile-pic-wrapper img.frame {
   position: absolute;
   top: 50%;
