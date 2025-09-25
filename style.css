@@ -1,0 +1,20 @@
+/* Main page layout */
+.page-layout {
+  display: flex;
+  flex-direction: column; /* stack vertically */
+  align-items: center;    /* center everything */
+  justify-content: flex-start;
+  gap: 60px;              /* spacing between sections */
+  width: 100%;
+  min-height: 100vh;
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+
+/* Each section gets same width behavior */
+.page-layout > .card,
+.page-layout > .game,
+.page-layout > .player {
+  width: 100%;
+  max-width: 800px;
+}
