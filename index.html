@@ -7,21 +7,15 @@
     <link rel="stylesheet" href="music-player.css">
     <link rel="icon" href="https://d1yjjnpx0p53s8.cloudfront.net/pp840x830-pad1000x1000f8f8f8.jpg?9oPTJs..erd0K9tiddIL4J9OjiCfetIN" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
-     <!-- Preload images -->
-  <link rel="preload" as="image" href="images/background.png">
+     <link rel="preload" as="image" href="images/background.png">
   <link rel="preload" as="image" href="images/vinyl.png">
   <link rel="preload" as="image" href="images/college-dropout-cover.jpg">
 </head>
 <body>
     <div class="container">
-    <!--    <div class="lyrics-container">
-            <h1>Lyrics</h1>
-            <div id="lyrics-display"></div>
-        </div>-->
-        <div class="player">
+    <div class="player">
             <div class="wrapper">
                 <div class="details">
-                    <div class="now-playing">PLAYING x OF y</div>
                     <div class="track-art">
                         <div class="vinyl"></div>
                         <div class="cover"></div>
@@ -42,16 +36,6 @@
                     <i class="fa fa-volume-up"></i>
                 </div>
 
-                <div id="wave" class="loader">
-                    <span class="stroke"></span>
-                    <span class="stroke"></span>
-                    <span class="stroke"></span>
-                    <span class="stroke"></span>
-                    <span class="stroke"></span>
-                    <span class="stroke"></span>
-                    <span class="stroke"></span>
-                </div>
-
                 <div class="buttons">
                     <div class="random-track">
                         <i class="fas fa-random fa-2x" title="Random"></i>
@@ -69,6 +53,17 @@
                         <i class="fa fa-repeat fa-2x" title="Repeat"></i>
                     </div>
                 </div>
+                
+                <div id="wave" class="loader">
+                    <span class="stroke"></span>
+                    <span class="stroke"></span>
+                    <span class="stroke"></span>
+                    <span class="stroke"></span>
+                    <span class="stroke"></span>
+                    <span class="stroke"></span>
+                    <span class="stroke"></span>
+                </div>
+                <div class="now-playing">PLAYING x OF y</div>
             </div>
         </div>
     </div>
