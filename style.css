@@ -17,6 +17,8 @@ body {
   color: #fff;
 }
 
+/* Containers */
+.container-first,
 .container {
   display: flex;
   flex-direction: column;
@@ -121,7 +123,12 @@ h1:hover, p:hover {
    Music Player
 -------------------- */
 .player {
+  /* keep the spacing consistent */
   align-items: center;
+  /* override the dark card background */
+  background: none;
+  box-shadow: none;
+  padding: 0;
 }
 
 .player .wrapper {
