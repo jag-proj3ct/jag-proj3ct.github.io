@@ -6,7 +6,11 @@
   <title>Bloopers Video Player</title>
   <link rel="stylesheet" href="css/video.css"/>
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"/>
+  <!-- Font Awesome Icons -->
+  <link 
+    rel="stylesheet" 
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+  />
 </head>
 <body>
   <div class="container-vid">
@@ -19,36 +23,40 @@
         </video>
 
         <div class="video-overlay">
-            <div class="controls">
-              <div class="timebar">
-                <div class="current-time">00:00</div>
-                <input type="range" min="0" max="100" value="0" class="seek_slider"/>
-                <div class="total-duration">00:00</div>
-              </div>
+          <div class="controls">
+            
+            <!-- Timebar (just current + total, no slider) -->
+            <div class="timebar">
+              <div class="current-time">00:00</div>
+              <div class="total-duration">00:00</div>
+            </div>
 
-              <div class="buttons">
-                <div class="prev-track" title="Back 10s">
-                  <i class="fa fa-undo fa-2x"></i>
-                </div>
-                <div class="playpause-track" title="Play/Pause">
-                  <i class="fa fa-play fa-3x"></i>
-                </div>
-                <div class="next-track" title="Forward 10s">
-                  <i class="fa fa-redo fa-2x"></i>
-                </div>
+            <!-- Buttons -->
+            <div class="buttons">
+              <div class="prev-track" title="Back 10s">
+                <i class="fa fa-undo fa-2x"></i>
               </div>
-
-              <div class="volume">
-                <i class="fa fa-volume-down"></i>
-                <input type="range" min="0" max="100" value="99" class="volume_slider"/>
-                <i class="fa fa-volume-up"></i>
+              <div class="playpause-track" title="Play/Pause">
+                <i class="fa fa-play fa-3x"></i>
+              </div>
+              <div class="next-track" title="Forward 10s">
+                <i class="fa fa-redo fa-2x"></i>
               </div>
             </div>
+
+            <!-- Static Volume Display -->
+            <div class="volume">
+              Volume: 100%
+            </div>
+
+          </div>
         </div>
       </div>
     </div>
   </div>
-        <a href="index.html" class="return-btn">Return to Player</a>
+
+  <!-- Return Button -->
+  <a href="index.html" class="return-btn">Return to Player</a>
 
   <script src="js/video-player.js" defer></script>
 </body>
