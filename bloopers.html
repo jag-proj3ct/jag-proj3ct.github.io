@@ -5,51 +5,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bloopers Video Player</title>
 
-  <!-- Main site styles -->
   <link rel="stylesheet" href="index.css"/>
 
-  <!-- Video-only styles -->
   <link rel="stylesheet" href="css/video.css"/>
 
-  <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"/>
 </head>
 <body>
   <div class="container-vid">
-    <div class="player card">
+    <div class="player">
       <div class="wrapper">
         
-        <!-- Video element -->
         <video id="curr_video" preload="metadata">
           <source src="videos/ssstik.io_@drumboii_real_1758924023510.mp4" type="video/mp4"/>
           Your browser does not support HTML5 video.
         </video>
 
-        <!-- Controls -->
-        <div class="controls">
-          <div class="timebar">
-            <div class="current-time">00:00</div>
-            <input type="range" min="0" max="100" value="0" class="seek_slider"/>
-            <div class="total-duration">00:00</div>
-          </div>
+        <div class="video-overlay">
+            <div class="controls">
+              <div class="timebar">
+                <div class="current-time">00:00</div>
+                <input type="range" min="0" max="100" value="0" class="seek_slider"/>
+                <div class="total-duration">00:00</div>
+              </div>
 
-          <div class="buttons">
-            <div class="prev-track" title="Back 10s">
-              <i class="fa fa-undo fa-2x"></i>
-            </div>
-            <div class="playpause-track" title="Play/Pause">
-              <i class="fa fa-play fa-3x"></i>
-            </div>
-            <div class="next-track" title="Forward 10s">
-              <i class="fa fa-redo fa-2x"></i>
-            </div>
-          </div>
+              <div class="buttons">
+                <div class="prev-track" title="Back 10s">
+                  <i class="fa fa-undo fa-2x"></i>
+                </div>
+                <div class="playpause-track" title="Play/Pause">
+                  <i class="fa fa-play fa-3x"></i>
+                </div>
+                <div class="next-track" title="Forward 10s">
+                  <i class="fa fa-redo fa-2x"></i>
+                </div>
+              </div>
 
-          <div class="volume">
-            <i class="fa fa-volume-down"></i>
-            <input type="range" min="0" max="100" value="99" class="volume_slider"/>
-            <i class="fa fa-volume-up"></i>
-          </div>
+              <div class="volume">
+                <i class="fa fa-volume-down"></i>
+                <input type="range" min="0" max="100" value="99" class="volume_slider"/>
+                <i class="fa fa-volume-up"></i>
+              </div>
+            </div>
         </div>
       </div>
     </div>
