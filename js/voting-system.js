@@ -12,7 +12,6 @@ const votesDisplay = document.getElementById("currentVotes");
 const voteMessage = document.getElementById("voteMessage");
 
 if (voteBtn && votesDisplay && voteMessage) {
-
   let refreshInterval;
 
   // Fetch current votes from Google Script
@@ -29,7 +28,7 @@ if (voteBtn && votesDisplay && voteMessage) {
       votesDisplay.textContent = count;
     } catch (error) {
       console.error("Error fetching votes:", error);
-      votesDisplay.textContent = "Error";
+      votesDisplay.textContent = "...Error...";
     }
   }
 
