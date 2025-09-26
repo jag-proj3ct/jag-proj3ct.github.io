@@ -211,6 +211,22 @@ h1:hover, p:hover, a:hover {
   opacity: 1;
   transform: scale(1.15);
 }
+/* === THUMBS === */
+.fa-thumbs-up,
+.fa-thumbs-down {
+  transition: transform 0.25s ease, color 0.25s ease;
+  cursor: pointer;
+}
+
+.fa-thumbs-up:hover {
+  transform: scale(1.3);
+  color: #32CD32; /* green highlight */
+}
+
+.fa-thumbs-down:hover {
+  transform: scale(1.3);
+  color: #FF4500; /* red-orange highlight */
+}
 
 .repeat-track,
 .random-track,
