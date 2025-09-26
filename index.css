@@ -68,11 +68,20 @@ body {
   width: 150px;
   height: 150px;
   margin-bottom: 15px;
-  transition: transform 0.3s ease;
+  /* FIX: The transition property should be on the base class */
+  transition: transform 0.3s ease; 
 }
 
 .profile-pic-wrapper:hover {
   transform: scale(1.05);
+  /* REMOVED: transition: transform 0.3s ease; */
+}
+
+
+.profile-card:hover{
+  transform: scale(1.05);
+  transition: transform 0.3s ease, color 0.3s ease; 
+  cursor: pointer;
 }
 
 .profile-pic-wrapper img.profile {
