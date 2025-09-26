@@ -371,12 +371,12 @@ h1:hover, p:hover, a:hover {
 .stroke:nth-child(5) { animation-delay: 0.6s; }
 .stroke:nth-child(6) { animation-delay: 0.3s; }
 .stroke:nth-child(7) { animation-delay: 0s; }
+
 .footer-anchor {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%); 
-    z-index: 99;
+    display: block;
+    width: fit-content;
+    margin: 30px auto 20px auto;
+    z-index: 1; 
     padding: 10px 15px;
     border-radius: 8px;
     background: rgba(0, 0, 0, 0.4);
@@ -406,43 +406,39 @@ h1:hover, p:hover, a:hover {
     margin-top: 20px;
 }
 
-/* Use the separator style for the HR on the license page */
 hr {
     margin: 40px 0;
     border: 0;
-    border-top: 1px solid #FFD700; /* Use a golden color that matches the theme */
+    border-top: 1px solid #FFD700;
     opacity: 0.5;
     width: 100%;
 }
 
 .mit-license-text {
-    /* Base license text styling */
     font-family: monospace;
     white-space: pre-wrap;
     color: yellow;
     background-color: #222;
-    padding: 25px; /* Increased padding */
+    padding: 25px;
     border-radius: 8px;
     margin-bottom: 25px;
     
-    /* Gradient Border Setup */
     position: relative;
     z-index: 1;
-    overflow: hidden; /* Important for the pseudo-element overflow */
-    text-align: left; /* Ensure the text aligns left */
+    overflow: hidden;
+    text-align: left;
     font-size: 0.9em;
     line-height: 1.5;
 }
 
-/* Pseudo-element for the gradient border */
 .mit-license-text::before {
     content: '';
     position: absolute;
-    top: -3px; /* Slightly larger border */
+    top: -3px;
     right: -3px;
     bottom: -3px; 
     left: -3px;
     background: linear-gradient(to right, yellow, orange);
     z-index: -1;
-    border-radius: 10px; /* Slightly larger than the text box radius */
+    border-radius: 10px;
 }
