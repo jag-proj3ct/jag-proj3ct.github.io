@@ -70,36 +70,41 @@ if (loader) renderWave();
 const basePath = "./music/";
 const coverDefault = "./images/college-dropout-cover.jpg";
 
+const kanyeSpotify = "https://open.spotify.com/artist/5K4W6rqBFWDnAN6FQUkS6x";
+
 const music_list = [
-  { name: "Intro (Skit)", file: "intro.mp3" },
-  { name: "We Don’t Care", file: "we-dont-care.mp3" },
-  { name: "Graduation Day", file: "graduation-day.mp3" },
-  { name: "All Falls Down", file: "all-falls-down.mp3" },
-  { name: "I’ll Fly Away", file: "fly-away.mp3" },
-  { name: "Spaceship", file: "spaceship.mp3" },
-  { name: "Jesus Walks", file: "jesuswalks.mp3" },
-  { name: "Never Let Me Down", file: "never-let-me-down.mp3" },
-  { name: "Get Em High", file: "get-em-high.mp3" },
-  { name: "Workout Plan (Skit)", file: "workout-plan.mp3" },
-  { name: "The New Workout Plan", file: "new-workout-plan.mp3" },
-  { name: "Slow Jamz", file: "slow-jamz.mp3" },
-  { name: "Breathe In Breathe Out", file: "bibo.mp3" },
-  { name: "School Spirit (Skit 1)", file: "ss-s1.mp3" },
-  { name: "School Spirit", file: "school-spirit.mp3" },
-  { name: "School Spirit (Skit 2)", file: "ss-s2.mp3" },
-  { name: "Lil Jimmy (Skit)", file: "lil-jimmy.mp3" },
-  { name: "Two Words", file: "2words.mp3" },
-  { name: "Through the Wire", file: "through-the-wire.mp3" },
-  { name: "Family Business", file: "family-business.mp3" },
+  { name: "Intro (Skit)", file: "intro.mp3", url: "#" },
+  { name: "We Don’t Care", file: "we-dont-care.mp3", url: "#" },
+  { name: "Graduation Day", file: "graduation-day.mp3", url: "#" },
+  { name: "All Falls Down", file: "all-falls-down.mp3", url: "#" },
+  { name: "I’ll Fly Away", file: "fly-away.mp3", url: "#" },
+  { name: "Spaceship", file: "spaceship.mp3", url: "#" },
+  { name: "Jesus Walks", file: "jesuswalks.mp3", url: "#" },
+  { name: "Never Let Me Down", file: "never-let-me-down.mp3", url: "#" },
+  { name: "Get Em High", file: "get-em-high.mp3", url: "#" },
+  { name: "Workout Plan (Skit)", file: "workout-plan.mp3", url: "#" },
+  { name: "The New Workout Plan", file: "new-workout-plan.mp3", url: "#" },
+  { name: "Slow Jamz", file: "slow-jamz.mp3", url: "#" },
+  { name: "Breathe In Breathe Out", file: "bibo.mp3", url: "#" },
+  { name: "School Spirit (Skit 1)", file: "ss-s1.mp3", url: "#" },
+  { name: "School Spirit", file: "school-spirit.mp3", url: "#" },
+  { name: "School Spirit (Skit 2)", file: "ss-s2.mp3", url: "#" },
+  { name: "Lil Jimmy (Skit)", file: "lil-jimmy.mp3", url: "#" },
+  { name: "Two Words", file: "2words.mp3", url: "#" },
+  { name: "Through the Wire", file: "through-the-wire.mp3", url: "#" },
+  { name: "Family Business", file: "family-business.mp3", url: "#" },
   {
     name: "Last Call",
     artist: "Kanye West",
-    file: ["lastcall1.mp3", "lastcall2.mp3", "lastcall3.mp3"]
+    file: ["lastcall1.mp3", "lastcall2.mp3", "lastcall3.mp3"],
+    url: "#"
   }
 ].map(track => ({
   img: track.cover || coverDefault,
   name: track.name,
   artist: track.artist || "Kanye West",
+  url: track.url || "#", // track-specific Spotify link
+  artistUrl: kanyeSpotify,
   music: Array.isArray(track.file)
     ? track.file.map(f => basePath + f)
     : [basePath + track.file]
@@ -172,8 +177,17 @@ function loadTrack(index) {
   });
 
   if (coverEl) coverEl.style.backgroundImage = `url("${track.img}")`;
+
+  // clickable track name link
   track_name.textContent = track.name;
+  track_name.href = track.url;
+  track_name.target = "_blank";
+
+  // clickable artist link
   track_artist.textContent = track.artist;
+  track_artist.href = track.artistUrl;
+  track_artist.target = "_blank";
+
   now_playing.textContent = `Playing ${track_index + 1} of ${music_list.length}`;
 
   updateTimer = setInterval(setUpdate, 1000);
@@ -302,5 +316,5 @@ prev_btn.addEventListener('click', () => {
 seek_slider.addEventListener('input', seekTo);
 volume_slider.addEventListener('input', setVolume);
 
-/* Initual */
+/* Initial */
 loadTrack(track_index);
