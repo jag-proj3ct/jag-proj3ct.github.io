@@ -3,6 +3,14 @@ const now_playing = document.querySelector('.now-playing');
 const track_art = document.querySelector('.track-art');
 const coverEl = track_art.querySelector('.cover');
 
+// Wrap cover in <a>
+const coverLink = document.createElement("a");
+coverLink.href = "https://open.spotify.com/album/4Uv86qWpGTxf7fU7lG5X6F?si=RBqk80_JSdeYhWqnFBrmrQ";
+coverLink.target = "_blank";
+coverLink.classList.add("cover-link");
+coverLink.appendChild(coverEl.cloneNode(true));
+track_art.replaceChild(coverLink, coverEl);
+
 // Vinyl elements
 const vinylContainerEl = track_art.querySelector('.vinyl');
 const vinylEl = vinylContainerEl ? vinylContainerEl.querySelector('.vinyl-inner') : null;
@@ -32,7 +40,7 @@ let isRandom = false;
 let isRepeating = false;
 let updateTimer = null;
 let part_index = 0;
-let totalTrackDuration = 0; // store total duration of multi-part track
+let totalTrackDuration = 0;
 
 /* Web Audio API */
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -104,7 +112,7 @@ const music_list = [
   url: track.url || kanyeSpotify,
   artistUrl: kanyeSpotify,
   music: track.file === "#"
-    ? [] // Lil Jimmy → no playable file
+    ? []
     : Array.isArray(track.file)
       ? track.file.map(f => basePath + f)
       : [basePath + track.file]
@@ -118,7 +126,7 @@ function reset() {
   totalTrackDuration = 0;
 }
 
-/* Load track (skips unavailable) */
+/* Load track */
 function loadTrack(index) {
   clearInterval(updateTimer);
   reset();
@@ -153,7 +161,9 @@ function loadTrack(index) {
     total_duration.textContent = formatTime(totalTrackDuration);
   });
 
-  if (coverEl) coverEl.style.backgroundImage = `url("${track.img}")`;
+  // update cover background
+  const cover = coverLink.querySelector(".cover");
+  if (cover) cover.style.backgroundImage = `url("${track.img}")`;
 
   track_name.textContent = track.name;
   track_name.href = track.url;
