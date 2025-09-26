@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bloopers Video Player</title>
 
-  <!-- Styles -->
   <link rel="stylesheet" href="index.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"/>
 </head>
@@ -13,54 +12,43 @@
   <div class="container">
     <div class="player card">
       <div class="wrapper">
-        <div class="details">
-          <div class="track-art">
-            <div class="cover" style="background-image:url('images/college-dropout-cover.jpg')"></div>
-          </div>
-          <a class="track-name" href="#" target="_blank">Blooper Reel</a>
-          <a class="track-artist" href="#" target="_blank">Domingo Gutierrez Ramos</a>
-        </div>
-
+        
         <!-- Video element -->
-        <video id="curr_video" width="100%" preload="metadata" poster="images/college-dropout-cover.jpg">
+        <video id="curr_video" width="100%" preload="metadata">
           <source src="videos/bloopers.mp4" type="video/mp4"/>
           Your browser does not support HTML5 video.
         </video>
 
-        <!-- Seek + Time -->
-        <div class="slider_container">
-          <div class="current-time">00:00</div>
-          <input type="range" min="0" max="100" value="0" class="seek_slider"/>
-          <div class="total-duration">00:00</div>
-        </div>
+        <!-- Controls -->
+        <div class="controls">
+          <div class="timebar">
+            <div class="current-time">00:00</div>
+            <input type="range" min="0" max="100" value="0" class="seek_slider"/>
+            <div class="total-duration">00:00</div>
+          </div>
 
-        <!-- Volume -->
-        <div class="slider_container">
-          <i class="fa fa-volume-down"></i>
-          <input type="range" min="0" max="100" value="99" class="volume_slider"/>
-          <i class="fa fa-volume-up"></i>
-        </div>
+          <div class="buttons">
+            <div class="prev-track" title="Back 10s">
+              <i class="fa fa-undo fa-2x"></i>
+            </div>
+            <div class="playpause-track" title="Play/Pause">
+              <i class="fa fa-play fa-3x"></i>
+            </div>
+            <div class="next-track" title="Forward 10s">
+              <i class="fa fa-redo fa-2x"></i>
+            </div>
+          </div>
 
-        <!-- Buttons -->
-        <div class="buttons">
-          <div class="prev-track" title="Restart">
-            <i class="fa fa-step-backward fa-2x"></i>
-          </div>
-          <div class="playpause-track" title="Play/Pause">
-            <i class="fa fa-play-circle fa-5x"></i>
-          </div>
-          <div class="next-track" title="Forward 10s">
-            <i class="fa fa-step-forward fa-2x"></i>
-          </div>
-          <div class="repeat-track" title="Loop">
-            <i class="fas fa-redo fa-2x"></i>
+          <div class="volume">
+            <i class="fa fa-volume-down"></i>
+            <input type="range" min="0" max="100" value="99" class="volume_slider"/>
+            <i class="fa fa-volume-up"></i>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Video Player JS -->
   <script src="js/video-player.js" defer></script>
 </body>
 </html>
