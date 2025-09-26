@@ -4,7 +4,6 @@ const video = document.getElementById("curr_video");
 const playpause_btn = document.querySelector(".playpause-track");
 const next_btn = document.querySelector(".next-track");
 const prev_btn = document.querySelector(".prev-track");
-const repeat_btn = document.querySelector(".repeat-track");
 
 const seek_slider = document.querySelector(".seek_slider");
 const volume_slider = document.querySelector(".volume_slider");
@@ -12,8 +11,6 @@ const curr_time = document.querySelector(".current-time");
 const total_duration = document.querySelector(".total-duration");
 
 let isPlaying = false;
-let isRepeating = false;
-let updateTimer;
 
 /* Reset */
 function reset() {
@@ -26,13 +23,13 @@ function reset() {
 function playVideo() {
   video.play();
   isPlaying = true;
-  playpause_btn.innerHTML = '<i class="fa fa-pause-circle fa-5x"></i>';
+  playpause_btn.innerHTML = '<i class="fa fa-pause fa-3x"></i>';
 }
 
 function pauseVideo() {
   video.pause();
   isPlaying = false;
-  playpause_btn.innerHTML = '<i class="fa fa-play-circle fa-5x"></i>';
+  playpause_btn.innerHTML = '<i class="fa fa-play fa-3x"></i>';
 }
 
 function playpauseVideo() {
@@ -75,22 +72,14 @@ next_btn.addEventListener("click", () => {
 });
 
 prev_btn.addEventListener("click", () => {
-  video.currentTime = 0;
-});
-
-repeat_btn.addEventListener("click", () => {
-  isRepeating = !isRepeating;
-  video.loop = isRepeating;
-  repeat_btn.classList.toggle("active", isRepeating);
+  video.currentTime = Math.max(video.currentTime - 10, 0);
 });
 
 seek_slider.addEventListener("input", seekTo);
 volume_slider.addEventListener("input", setVolume);
 
 video.addEventListener("timeupdate", setUpdate);
-video.addEventListener("ended", () => {
-  if (!isRepeating) pauseVideo();
-});
+video.addEventListener("ended", pauseVideo);
 
 /* Init */
 reset();
