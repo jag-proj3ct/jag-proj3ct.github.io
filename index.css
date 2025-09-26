@@ -376,6 +376,7 @@ h1:hover, p:hover, a:hover {
     display: block;
     width: fit-content;
     margin: 30px auto 20px auto;
+    position: relative;
     z-index: 1; 
     padding: 10px 15px;
     border-radius: 8px;
