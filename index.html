@@ -1,7 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Domingo Gutierrez Ramos JAG 9th 2025</title>
+
+  <link rel="stylesheet" href="index.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
+  <link rel="icon" href="https://d1yjjnpx0p53s8.cloudfront.net/pp840x830-pad1000x1000f8f8f8.jpg?9oPTJs..erd0K9tiddIL4J9OjiCfetIN" />
+
+  <link rel="preload" as="image" href="images/background.png" />
+  <link rel="preload" as="image" href="images/vinyl.png" />
+  <link rel="preload" as="image" href="images/college-dropout-cover.jpg" />
 </head>
 <body>
   <div class="container-first">
@@ -23,12 +33,73 @@
       <button id="voteBtn">Vote Domingo!</button>
       <p id="voteMessage" style="color: #FFD700; margin-top: 10px; display: none;">Thank you for voting!</p>
       <a href="">LINK TO PROMOTIONAL VIDEO</a>
-
       
     </div>
   </div>
   
+  <div class="container">
+    <div class="player card">
+      <div class="wrapper">
+        <div class="details">
+          <div class="track-art">
+            <div class="cover"></div>
+            <div class="vinyl"></div>
+          </div>
+          <div class="track-name">Track Name</div>
+          <div class="track-artist">Track Artist</div>
+        </div>
+
+        <div class="slider_container">
+          <div class="current-time">00:00</div>
+          <input type="range" min="0" max="100" value="0" class="seek_slider" />
+          <div class="total-duration">00:00</div>
+        </div>
+
+        <div class="slider_container">
+          <i class="fa fa-volume-down"></i>
+          <input type="range" min="0" max="100" value="99" class="volume_slider" />
+          <i class="fa fa-volume-up"></i>
+        </div>
+
+        <div class="now-playing">PLAYING x OF y</div>
+
+        <div class="buttons">
+          <div class="random-track" title="Random">
+            <i class="fas fa-random fa-2x"></i>
+          </div>
+          <div class="prev-track" title="Previous">
+            <i class="fa fa-step-backward fa-2x"></i>
+          </div>
+          <div class="playpause-track" title="Play/Pause">
+            <i class="fa fa-play-circle fa-5x"></i>
+          </div>
+          <div class="next-track" title="Next">
+            <i class="fa fa-step-forward fa-2x"></i>
+          </div>
+          <div class="repeat-track" title="Repeat">
+            <i class="fa fa-repeat"></i>
+          </div>
+        </div>
+      </div>
+      
+      <div id="wave" class="loader">
+        <span class="stroke"></span>
+        <span class="stroke"></span>
+        <span class="stroke"></span>
+        <span class="stroke"></span>
+        <span class="stroke"></span>
+        <span class="stroke"></span>
+        <span class="stroke"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-anchor">
+      <a href="license.html">License and Copyright</a>
+  </div>
+
   <script src="js/music-player.js" defer></script>
+  
   <script>
     // PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE
     const SCRIPT_URL = "https://script.google.com/a/macros/fpsmail.org/s/AKfycbwgCknYOIETtxkce6hHQTvusBVzgBxGX26MGdWfHMU3Ji8fhBbqP07iOlzL1eEscjwD3w/exec"; 
@@ -41,7 +112,9 @@
     // 1. Fetch current votes on load
     async function fetchVotes() {
       try {
-        const response = await fetch(SCRIPT_URL, { method: 'GET' });
+        // Use a cache-busting parameter for GET requests to ensure fresh data
+        const cacheBuster = new Date().getTime();
+        const response = await fetch(`${SCRIPT_URL}?cb=${cacheBuster}`, { method: 'GET' });
         const count = await response.text();
         votesDisplay.textContent = count;
       } catch (error) {
