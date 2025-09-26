@@ -1,4 +1,4 @@
-/* DOM references */
+/* === DOM REFERENCES === */
 const video = document.getElementById("curr_video");
 
 const playpause_btn = document.querySelector(".playpause-track");
@@ -7,20 +7,14 @@ const prev_btn = document.querySelector(".prev-track");
 
 const curr_time = document.querySelector(".current-time");
 const total_duration = document.querySelector(".total-duration");
-const volume_display = document.querySelector(".volume-display");
 
 let isPlaying = false;
 
-// Always set volume to 100%
-video.volume = 1.0;
-if (volume_display) {
-  volume_display.textContent = "100%";
-}
-
+/* === HELPERS === */
 /**
- * Formats time from seconds into the "mm:ss" string format.
- * @param {number} secs The time in seconds.
- * @returns {string} The formatted time string.
+ * Formats time from seconds into "mm:ss".
+ * @param {number} secs - Time in seconds
+ * @returns {string} Formatted time string
  */
 function formatTime(secs) {
   const minutes = Math.floor(secs / 60);
@@ -29,10 +23,11 @@ function formatTime(secs) {
 }
 
 /**
- * Resets the player state, ensuring total duration is set if metadata is loaded.
+ * Resets player state (time + duration).
  */
 function reset() {
   curr_time.textContent = "00:00";
+  // Only set total duration if metadata is available
   if (!isNaN(video.duration)) {
     total_duration.textContent = formatTime(video.duration);
   } else {
@@ -40,7 +35,7 @@ function reset() {
   }
 }
 
-/* Play / Pause functions */
+/* === PLAYBACK CONTROLS === */
 function playVideo() {
   video.play();
   isPlaying = true;
@@ -57,34 +52,33 @@ function playpauseVideo() {
   isPlaying ? pauseVideo() : playVideo();
 }
 
-/**
- * Updates the current time display based on video progress.
- */
+/* === UPDATE TIMERS === */
 function setUpdate() {
   if (isNaN(video.duration)) return;
   curr_time.textContent = formatTime(video.currentTime);
 }
 
-/* Event listeners */
+/* === EVENT LISTENERS === */
 playpause_btn.addEventListener("click", playpauseVideo);
 
-// Fast forward 10 seconds
+// Fast forward 10s
 next_btn.addEventListener("click", () => {
   video.currentTime = Math.min(video.currentTime + 10, video.duration);
 });
 
-// Rewind 10 seconds
+// Rewind 10s
 prev_btn.addEventListener("click", () => {
   video.currentTime = Math.max(video.currentTime - 10, 0);
 });
 
+// Time updates
 video.addEventListener("timeupdate", setUpdate);
+
+// Reset on end
 video.addEventListener("ended", pauseVideo);
 
-// Ensures total duration is set as soon as the video metadata is loaded
-video.addEventListener("loadedmetadata", () => {
-  reset();
-});
+// Metadata loaded = set duration
+video.addEventListener("loadedmetadata", reset);
 
-/* Init */
+/* === INIT === */
 reset();
