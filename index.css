@@ -49,8 +49,6 @@ body {
   transition: transform 0.3s ease, box-shadow 0.3s ease; 
 }
 
-/* .game styles removed as they are obsolete */
-
 .stats {
   font-size: 18px;
 }
@@ -256,7 +254,8 @@ h1:hover, p:hover, a:hover {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  height: 5px;
+  /* FIX: Increased height from 5px to 10px */
+  height: 10px; 
   transition: opacity .2s;
   cursor: pointer;
   border-radius: 5px;
@@ -267,7 +266,7 @@ h1:hover, p:hover, a:hover {
   background: linear-gradient(to right, #FF8C00, #FFA500);
 }
 
-/* --- SEEK SLIDER THUMB FIX --- */
+/* --- SEEK SLIDER THUMB FIX (Kept the same) --- */
 .seek_slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
@@ -293,7 +292,7 @@ h1:hover, p:hover, a:hover {
   background: linear-gradient(to right, #FFD700, #FFFF66);
 }
 
-/* --- VOLUME SLIDER THUMB FIX --- */
+/* --- VOLUME SLIDER THUMB FIX (Kept the same) --- */
 .volume_slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
