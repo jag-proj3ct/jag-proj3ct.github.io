@@ -1,26 +1,44 @@
 // Code.gs (Google Apps Script)
 
-// CRITICAL FIX: Change 'Sheet1' to 'vote-data' to match your spreadsheet tab name
-const SHEET_NAME = 'vote-data'; 
+// IMPORTANT: This assumes your sheet TAB NAME is "Sheet1". 
+// If your sheet tab at the bottom is named "vote-data", change this line to:
+// const SHEET_NAME = 'vote-data';
+const SHEET_NAME = 'Sheet1'; 
 
 function doGet(e) {
+  // Check if the Sheet exists before trying to get a range
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
-  // Ensure we are getting the value from the correct cell (B1)
+  if (!sheet) {
+    return ContentService.createTextOutput("Error: Sheet not found.").setMimeType(ContentService.MimeType.TEXT);
+  }
+  
+  // Get the value from B1
   const voteCount = sheet.getRange('B1').getValue();
   
   // Return the current vote count
-  return ContentService.createTextOutput(voteCount).setMimeType(ContentService.MimeType.TEXT);
+  return ContentService.createTextOutput(voteCount.toString()).setMimeType(ContentService.MimeType.TEXT);
 }
 
 function doPost(e) {
+  // Check if the Sheet exists before trying to get a range
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+  if (!sheet) {
+    return ContentService.createTextOutput("Error: Sheet not found.").setMimeType(ContentService.MimeType.TEXT);
+  }
+  
   // Target the vote count cell (B1)
   const voteCountRange = sheet.getRange('B1');
-  const currentVotes = voteCountRange.getValue();
+  let currentVotes = voteCountRange.getValue();
+  
+  // Ensure the value is treated as a number before incrementing
+  if (typeof currentVotes !== 'number') {
+    currentVotes = parseInt(currentVotes) || 0;
+  }
   
   // Increment the vote count
-  voteCountRange.setValue(currentVotes + 1);
+  currentVotes += 1;
+  voteCountRange.setValue(currentVotes);
   
   // Return the new vote count
-  return ContentService.createTextOutput(currentVotes + 1).setMimeType(ContentService.MimeType.TEXT);
+  return ContentService.createTextOutput(currentVotes.toString()).setMimeType(ContentService.MimeType.TEXT);
 }
