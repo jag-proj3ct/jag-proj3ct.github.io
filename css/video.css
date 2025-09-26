@@ -1,3 +1,19 @@
+/* === GENERAL STYLES === */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  background-image: url("images/background.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  width: 100%; 
+  min-height: 100vh;
+  margin: 0;
+  padding: 60px 80px;
+  overflow-x: hidden;
+  overflow-y: auto; 
+  position: relative;
+}
 /* === VIDEO PAGE STYLES === */
 .container-vid {
   display: flex;
@@ -11,7 +27,7 @@
 .player {
   position: relative; /* Essential for positioning the overlay */
   width: 100%;
-  max-width: 50vw;
+  max-width: 75vw;
   min-height: 50vh;
   max-height: 100vh;
   display: flex;
@@ -146,20 +162,4 @@ input[type="range"]::-webkit-slider-thumb {
   background: #ffffff;
   cursor: pointer;
   margin-top: -3.3px;
-}
-/* === GENERAL STYLES === */
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: bold;
-  background-image: url("images/background.png");
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-attachment: fixed;
-  width: 100%; 
-  min-height: 100vh;
-  margin: 0;
-  padding: 60px 80px;
-  overflow-x: hidden;
-  overflow-y: auto; 
-  position: relative;
 }
