@@ -1,15 +1,19 @@
 // Code.gs (Google Apps Script)
 
-// IMPORTANT: This assumes your sheet TAB NAME is "Sheet1". 
-// If your sheet tab at the bottom is named "vote-data", change this line to:
-// const SHEET_NAME = 'vote-data';
-const SHEET_NAME = 'Sheet1'; 
+// CRITICAL: This is your explicit Spreadsheet ID
+const SPREADSHEET_ID = '1anGNXbaR9fIlyqXR0eIplGMqoHHDVi9o15o8G0PP30U'; 
+
+// CRITICAL: This confirms the tab name at the bottom of your sheet
+const SHEET_NAME = 'vote-data'; 
 
 function doGet(e) {
-  // Check if the Sheet exists before trying to get a range
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+  // Use openById to guarantee connection to the correct spreadsheet
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = ss.getSheetByName(SHEET_NAME);
+  
   if (!sheet) {
-    return ContentService.createTextOutput("Error: Sheet not found.").setMimeType(ContentService.MimeType.TEXT);
+    // This will return an explicit error if the tab name is wrong
+    return ContentService.createTextOutput("Error: Sheet tab not found. Check SHEET_NAME variable.").setMimeType(ContentService.MimeType.TEXT);
   }
   
   // Get the value from B1
@@ -20,10 +24,12 @@ function doGet(e) {
 }
 
 function doPost(e) {
-  // Check if the Sheet exists before trying to get a range
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+  // Use openById to guarantee connection to the correct spreadsheet
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = ss.getSheetByName(SHEET_NAME);
+  
   if (!sheet) {
-    return ContentService.createTextOutput("Error: Sheet not found.").setMimeType(ContentService.MimeType.TEXT);
+    return ContentService.createTextOutput("Error: Sheet tab not found. Check SHEET_NAME variable.").setMimeType(ContentService.MimeType.TEXT);
   }
   
   // Target the vote count cell (B1)
