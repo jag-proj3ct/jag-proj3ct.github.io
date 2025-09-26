@@ -31,15 +31,17 @@ if (voteBtn && votesDisplay && voteMessage) {
         }
     }
 
-    // 2. Check vote status
+    // 2. Check vote status and toggle voted class
     function checkVotedStatus() {
         if (localStorage.getItem(VOTE_KEY) === "true") {
             voteBtn.disabled = true;
             voteBtn.textContent = "Voted!";
+            voteBtn.classList.add("voted"); // add grey style
             voteMessage.style.display = 'block';
         } else {
             voteBtn.disabled = false;
             voteBtn.textContent = "Vote Domingo!";
+            voteBtn.classList.remove("voted"); // remove grey style
             voteMessage.style.display = 'none';
         }
     }
