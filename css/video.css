@@ -73,8 +73,6 @@
   flex-direction: column;
   align-items: center;
   gap: 15px;
-  /* Add a slight dark background to the controls for visibility on bright videos */
-  background: rgba(0, 0, 0, 0.3);
   padding: 10px;
   border-radius: 8px;
 }
@@ -148,4 +146,20 @@ input[type="range"]::-webkit-slider-thumb {
   background: #ffffff;
   cursor: pointer;
   margin-top: -3.3px;
+}
+/* === GENERAL STYLES === */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  background-image: url("images/background.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  width: 100%; 
+  min-height: 100vh;
+  margin: 0;
+  padding: 60px 80px;
+  overflow-x: hidden;
+  overflow-y: auto; 
+  position: relative;
 }
