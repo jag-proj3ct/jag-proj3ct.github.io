@@ -66,75 +66,49 @@ function renderWave() {
 }
 if (loader) renderWave();
 
-/* Music list */
+/* Music list setup */
 const basePath = "./music/";
 const coverDefault = "./images/college-dropout-cover.jpg";
-
 const kanyeSpotify = "https://open.spotify.com/artist/5K4W6rqBFWDnAN6FQUkS6x";
 
 const music_list = [
-  { name: "Intro (Skit)", file: "intro.mp3", url: "#" },
-  { name: "We Don’t Care", file: "we-dont-care.mp3", url: "#" },
-  { name: "Graduation Day", file: "graduation-day.mp3", url: "#" },
-  { name: "All Falls Down", file: "all-falls-down.mp3", url: "#" },
-  { name: "I’ll Fly Away", file: "fly-away.mp3", url: "#" },
-  { name: "Spaceship", file: "spaceship.mp3", url: "#" },
-  { name: "Jesus Walks", file: "jesuswalks.mp3", url: "#" },
-  { name: "Never Let Me Down", file: "never-let-me-down.mp3", url: "#" },
-  { name: "Get Em High", file: "get-em-high.mp3", url: "#" },
-  { name: "Workout Plan (Skit)", file: "workout-plan.mp3", url: "#" },
-  { name: "The New Workout Plan", file: "new-workout-plan.mp3", url: "#" },
-  { name: "Slow Jamz", file: "slow-jamz.mp3", url: "#" },
-  { name: "Breathe In Breathe Out", file: "bibo.mp3", url: "#" },
-  { name: "School Spirit (Skit 1)", file: "ss-s1.mp3", url: "#" },
-  { name: "School Spirit", file: "school-spirit.mp3", url: "#" },
-  { name: "School Spirit (Skit 2)", file: "ss-s2.mp3", url: "#" },
-  { name: "Lil Jimmy (Skit)", file: "lil-jimmy.mp3", url: "#" },
-  { name: "Two Words", file: "2words.mp3", url: "#" },
-  { name: "Through the Wire", file: "through-the-wire.mp3", url: "#" },
-  { name: "Family Business", file: "family-business.mp3", url: "#" },
+  { name: "Intro (Skit)", file: "intro.mp3", url: "https://open.spotify.com/track/7lIr3vVhpDkU5mQEDcnA0S" },
+  { name: "We Don’t Care", file: "we-dont-care.mp3", url: "https://open.spotify.com/track/0IW0qaeyxL5Et4UG2MrJKB" },
+  { name: "Graduation Day", file: "graduation-day.mp3", url: "https://open.spotify.com/track/7wL7Lb8Q3aYyq6gmRL0PZqQ" },
+  { name: "All Falls Down", file: "all-falls-down.mp3", url: "https://open.spotify.com/track/5SkRLpaGtvYPhw02vZhQQ9" },
+  { name: "I’ll Fly Away", file: "fly-away.mp3", url: "https://open.spotify.com/track/6MgGapP3EPFm9kYUvYBTZR" },
+  { name: "Spaceship", file: "spaceship.mp3", url: "https://open.spotify.com/track/1ko2NuvWlQdxtNRc8QQzmT" },
+  { name: "Jesus Walks", file: "jesuswalks.mp3", url: "https://open.spotify.com/track/5g1vtHqi9uV7xtYeCcFOBx" },
+  { name: "Never Let Me Down", file: "never-let-me-down.mp3", url: "https://open.spotify.com/track/34j4OxJxKznBs88cjSL2j9" },
+  { name: "Get Em High", file: "get-em-high.mp3", url: "https://open.spotify.com/track/1PS1QMdUqOal0ai3Gt7sDQ" },
+  { name: "Workout Plan (Skit)", file: "workout-plan.mp3", url: "https://open.spotify.com/track/2a1JSfTePKhysdIif2bzut" },
+  { name: "The New Workout Plan", file: "new-workout-plan.mp3", url: "https://open.spotify.com/track/1Vp4St7JcXaUoJcIahtf3L" },
+  { name: "Slow Jamz", file: "slow-jamz.mp3", url: "https://open.spotify.com/track/3A4cpTBPaIQdtPFb5JxtaX" },
+  { name: "Breathe In Breathe Out", file: "bibo.mp3", url: "https://open.spotify.com/track/4KFY4EEv9CN6ivrzD6vEvg" },
+  { name: "School Spirit (Skit 1)", file: "ss-s1.mp3", url: "https://open.spotify.com/track/25mwJPzWVmS2yronBNQJF1" },
+  { name: "School Spirit", file: "school-spirit.mp3", url: "https://open.spotify.com/track/1th3G3okofWlvGWAAR7Y4V" },
+  { name: "School Spirit (Skit 2)", file: "ss-s2.mp3", url: "https://open.spotify.com/track/5MAY7XyW322jMwLDtBQgsZ" },
+  { name: "Lil Jimmy (Skit)", file: "#", url: "https://open.spotify.com/track/3B5ftYUfOUVny9sQzmgPjK" }, // placeholder
+  { name: "Two Words", file: "2words.mp3", url: "https://open.spotify.com/track/62wtttQzoIA9HnNmGVd9Yq" },
+  { name: "Through the Wire", file: "through-the-wire.mp3", url: "https://open.spotify.com/track/4mmkhcEm1Ljy1U9nwtsxUo" },
+  { name: "Family Business", file: "family-business.mp3", url: "https://open.spotify.com/track/5DBmXF7QO43Cuy9yqva116" },
   {
     name: "Last Call",
-    artist: "Kanye West",
     file: ["lastcall1.mp3", "lastcall2.mp3", "lastcall3.mp3"],
-    url: "#"
+    url: "https://open.spotify.com/track/7iOhWWYjhhQiXzF4o4HhXN"
   }
 ].map(track => ({
-  img: track.cover || coverDefault,
+  img: coverDefault,
   name: track.name,
-  artist: track.artist || "Kanye West",
-  url: track.url || "https://open.spotify.com/artist/5K4W6rqBFWDnAN6FQUkS6x", // track-specific Spotify link
+  artist: "Kanye West",
+  url: track.url || kanyeSpotify,
   artistUrl: kanyeSpotify,
-  music: Array.isArray(track.file)
-    ? track.file.map(f => basePath + f)
-    : [basePath + track.file]
+  music: track.file === "#"
+    ? [] // Lil Jimmy → no playable file
+    : Array.isArray(track.file)
+      ? track.file.map(f => basePath + f)
+      : [basePath + track.file]
 }));
-
-/* Format MM:SS */
-function formatTime(time) {
-  const minutes = Math.floor(time / 60) || 0;
-  const seconds = Math.floor(time % 60) || 0;
-  return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-}
-
-/* Update time/slider */
-function setUpdate() {
-  if (isNaN(curr_track.duration)) return;
-
-  const track = music_list[track_index];
-  let currentOverall = curr_track.currentTime;
-
-  // add time of previous parts for multi-part songs
-  for (let i = 0; i < part_index; i++) {
-    currentOverall += track.musicDurations[i] || 0;
-  }
-
-  const seekPosition = (currentOverall / totalTrackDuration) * 100;
-  seek_slider.value = seekPosition;
-
-  curr_time.textContent = formatTime(currentOverall);
-  total_duration.textContent = formatTime(totalTrackDuration);
-}
 
 /* Reset */
 function reset() {
@@ -144,7 +118,7 @@ function reset() {
   totalTrackDuration = 0;
 }
 
-/* Load track */
+/* Load track (skips unavailable) */
 function loadTrack(index) {
   clearInterval(updateTimer);
   reset();
@@ -156,20 +130,23 @@ function loadTrack(index) {
   part_index = 0;
   const track = music_list[track_index];
 
+  if (!track.music.length) {
+    console.warn(`Skipping unavailable track: ${track.name}`);
+    return loadTrack(track_index + 1);
+  }
+
   curr_track.src = track.music[part_index];
   curr_track.load();
 
-  // preload all parts to calculate total duration
+  // preload durations
   track.musicDurations = [];
-  let promises = track.music.map((src, i) => {
-    return new Promise(resolve => {
-      const tempAudio = new Audio(src);
-      tempAudio.addEventListener("loadedmetadata", () => {
-        track.musicDurations[i] = tempAudio.duration || 0;
-        resolve();
-      });
+  const promises = track.music.map((src, i) => new Promise(resolve => {
+    const tempAudio = new Audio(src);
+    tempAudio.addEventListener("loadedmetadata", () => {
+      track.musicDurations[i] = tempAudio.duration || 0;
+      resolve();
     });
-  });
+  }));
 
   Promise.all(promises).then(() => {
     totalTrackDuration = track.musicDurations.reduce((a, b) => a + b, 0);
@@ -178,19 +155,34 @@ function loadTrack(index) {
 
   if (coverEl) coverEl.style.backgroundImage = `url("${track.img}")`;
 
-  // clickable track name link
   track_name.textContent = track.name;
   track_name.href = track.url;
   track_name.target = "_blank";
 
-  // clickable artist link
   track_artist.textContent = track.artist;
   track_artist.href = track.artistUrl;
   track_artist.target = "_blank";
 
   now_playing.textContent = `Playing ${track_index + 1} of ${music_list.length}`;
-
   updateTimer = setInterval(setUpdate, 1000);
+}
+
+/* Update time/slider */
+function setUpdate() {
+  if (isNaN(curr_track.duration)) return;
+
+  const track = music_list[track_index];
+  let currentOverall = curr_track.currentTime;
+
+  for (let i = 0; i < part_index; i++) {
+    currentOverall += track.musicDurations[i] || 0;
+  }
+
+  const seekPosition = (currentOverall / totalTrackDuration) * 100;
+  seek_slider.value = seekPosition;
+
+  curr_time.textContent = formatTime(currentOverall);
+  total_duration.textContent = formatTime(totalTrackDuration);
 }
 
 /* Next part or track */
@@ -208,11 +200,10 @@ function nextPartOrTrack() {
       do { randIndex = Math.floor(Math.random() * music_list.length); }
       while (randIndex === track_index);
       loadTrack(randIndex);
-      playTrack();
     } else {
       loadTrack(track_index + 1);
-      playTrack();
     }
+    playTrack();
   }
 }
 
@@ -240,12 +231,14 @@ function playTrack() {
 function pauseTrack() {
   curr_track.pause();
   isPlaying = false;
+
   if (vinylContainerEl && vinylEl) {
     vinylContainerEl.classList.remove('sliding');
     vinylEl.classList.remove('spinning');
     void vinylContainerEl.offsetWidth;
     vinylContainerEl.classList.add('return');
   }
+
   playpause_btn.innerHTML = '<i class="fa fa-play-circle fa-5x"></i>';
   if (loader) loader.classList.remove('visible');
 }
@@ -261,7 +254,6 @@ function seekTo() {
 
   const targetOverall = (seek_slider.value / 100) * totalTrackDuration;
 
-  // find which part target falls into
   let accumulated = 0;
   for (let i = 0; i < track.musicDurations.length; i++) {
     if (targetOverall < accumulated + track.musicDurations[i]) {
@@ -281,11 +273,12 @@ function setVolume() {
   curr_track.volume = volume_slider.value / 100;
 }
 
-/* Buttons */
+/* Button handlers */
 repeat_btn.addEventListener('click', () => {
   isRepeating = !isRepeating;
   repeat_btn.classList.toggle('active', isRepeating);
 });
+
 random_btn.addEventListener('click', () => {
   isRandom = !isRandom;
   random_btn.classList.toggle('active', isRandom);
@@ -316,5 +309,5 @@ prev_btn.addEventListener('click', () => {
 seek_slider.addEventListener('input', seekTo);
 volume_slider.addEventListener('input', setVolume);
 
-/* Initial */
+/* Init */
 loadTrack(track_index);
