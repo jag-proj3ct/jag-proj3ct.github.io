@@ -5,15 +5,17 @@ const playpause_btn = document.querySelector(".playpause-track");
 const next_btn = document.querySelector(".next-track");
 const prev_btn = document.querySelector(".prev-track");
 
-const seek_slider = document.querySelector(".seek_slider");
-const volume_slider = document.querySelector(".volume_slider");
 const curr_time = document.querySelector(".current-time");
 const total_duration = document.querySelector(".total-duration");
+const volume_display = document.querySelector(".volume-display");
 
 let isPlaying = false;
 
-// Set initial volume to slider value
-video.volume = volume_slider.value / 100;
+// Always set volume to 100%
+video.volume = 1.0;
+if (volume_display) {
+  volume_display.textContent = "100%";
+}
 
 /**
  * Formats time from seconds into the "mm:ss" string format.
@@ -31,8 +33,6 @@ function formatTime(secs) {
  */
 function reset() {
   curr_time.textContent = "00:00";
-  seek_slider.value = 0;
-  // Only set total duration if the video metadata is available
   if (!isNaN(video.duration)) {
     total_duration.textContent = formatTime(video.duration);
   } else {
@@ -57,38 +57,13 @@ function playpauseVideo() {
   isPlaying ? pauseVideo() : playVideo();
 }
 
-/* Seek functions */
-function seekTo() {
-  const seekto = video.duration * (seek_slider.value / 100);
-  video.currentTime = seekto;
-}
-
 /**
- * Updates the time slider and current time display based on video progress.
+ * Updates the current time display based on video progress.
  */
 function setUpdate() {
   if (isNaN(video.duration)) return;
-  
-  const seekPosition = (video.currentTime / video.duration) * 100;
-  seek_slider.value = seekPosition;
-
   curr_time.textContent = formatTime(video.currentTime);
 }
-
-/* Volume control */
-function setVolume() {
-  video.volume = volume_slider.value / 100;
-  // Optional: Update volume icon based on level
-  const volIcon = document.querySelector(".volume i");
-  if (video.volume === 0) {
-    volIcon.className = "fa fa-volume-off";
-  } else if (video.volume < 0.5) {
-    volIcon.className = "fa fa-volume-down";
-  } else {
-    volIcon.className = "fa fa-volume-up";
-  }
-}
-
 
 /* Event listeners */
 playpause_btn.addEventListener("click", playpauseVideo);
@@ -103,10 +78,6 @@ prev_btn.addEventListener("click", () => {
   video.currentTime = Math.max(video.currentTime - 10, 0);
 });
 
-seek_slider.addEventListener("input", seekTo);
-volume_slider.addEventListener("input", setVolume);
-
-// Crucial event for dynamic updates
 video.addEventListener("timeupdate", setUpdate);
 video.addEventListener("ended", pauseVideo);
 
@@ -116,5 +87,4 @@ video.addEventListener("loadedmetadata", () => {
 });
 
 /* Init */
-// Call reset initially. It will be called again on 'loadedmetadata' to set the duration.
 reset();
