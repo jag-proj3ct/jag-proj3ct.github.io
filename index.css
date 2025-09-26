@@ -399,7 +399,7 @@ h1:hover, p:hover, a:hover {
 
 .special-notice-title {
     font-weight: bold;
-    color: #FFA500;
+    color: #fff;
 }
 
 .license-info {
@@ -433,7 +433,7 @@ hr {
 
 .mit-license-text::before {
     content: '';
-    position: absolute;
+    position: relative;
     top: -3px;
     right: -3px;
     bottom: -3px; 
