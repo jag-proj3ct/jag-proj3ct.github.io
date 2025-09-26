@@ -139,10 +139,13 @@ body {
   background: url("images/college-dropout-cover.jpg") no-repeat center/cover;
   transform: translate(-50%, -50%);
   z-index: 3;
-}
-.cover:hover {
   transition: transform 0.3s ease; 
 }
+
+.cover:hover {
+  transform: translate(-50%, -50%) scale(1.08); /* grow smoothly */
+}
+
 
 .vinyl {
   position: absolute;
