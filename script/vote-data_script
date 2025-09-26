@@ -1,22 +1,26 @@
 // Code.gs (Google Apps Script)
-const SHEET_NAME = 'Sheet1'; // Ensure this matches the name of your sheet tab
+
+// CRITICAL FIX: Change 'Sheet1' to 'vote-data' to match your spreadsheet tab name
+const SHEET_NAME = 'vote-data'; 
 
 function doGet(e) {
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+  // Ensure we are getting the value from the correct cell (B1)
   const voteCount = sheet.getRange('B1').getValue();
-
+  
   // Return the current vote count
   return ContentService.createTextOutput(voteCount).setMimeType(ContentService.MimeType.TEXT);
 }
 
 function doPost(e) {
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+  // Target the vote count cell (B1)
   const voteCountRange = sheet.getRange('B1');
   const currentVotes = voteCountRange.getValue();
-
+  
   // Increment the vote count
   voteCountRange.setValue(currentVotes + 1);
-
+  
   // Return the new vote count
   return ContentService.createTextOutput(currentVotes + 1).setMimeType(ContentService.MimeType.TEXT);
 }
