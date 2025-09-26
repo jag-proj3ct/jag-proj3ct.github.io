@@ -5,20 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Domingo Gutierrez Ramos JAG 9th 2025</title>
 
+  <!-- Styles -->
   <link rel="stylesheet" href="index.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
   <link rel="icon" href="https://d1yjjnpx0p53s8.cloudfront.net/pp840x830-pad1000x1000f8f8f8.jpg?9oPTJs..erd0K9tiddIL4J9OjiCfetIN" />
 
+  <!-- Preload assets -->
   <link rel="preload" as="image" href="images/background.png" />
   <link rel="preload" as="image" href="images/vinyl.png" />
   <link rel="preload" as="image" href="images/college-dropout-cover.jpg" />
 
+  <!-- Voting system -->
   <script src="js/voting-system.js" defer></script>
-
 </head>
 <body>
   <div class="container-first">
-
     <div class="card profile-card">
       <div class="profile-pic-wrapper">
         <img src="images/meee.png" alt="Profile" class="profile">
@@ -35,21 +36,23 @@
 
       <button id="voteBtn">Vote Domingo!</button>
       <p id="voteMessage" style="color: #FFD700; margin-top: 10px; display: none;">Thank you for voting!</p>
-      <a href="">LINK TO PROMOTIONAL VIDEO</a> 
-      
+      <a href="#">LINK TO PROMOTIONAL VIDEO</a>
     </div>
   </div>
-  <!-- https://open.spotify.com/artist/5K4W6rqBFWDnAN6FQUkS6x -->
+
+  <!-- Music Player -->
   <div class="container">
     <div class="player card">
       <div class="wrapper">
         <div class="details">
           <div class="track-art">
             <div class="cover"></div>
-            <div class="vinyl"></div>
+            <div class="vinyl">
+              <div class="vinyl-inner"></div>
+            </div>
           </div>
-<a class="track-name" href="#" target="_blank">Track Name</a>
-<a class="track-artist" href="#" target="_blank">Track Artist</a>
+          <a class="track-name" href="#" target="_blank">Track Name</a>
+          <a class="track-artist" href="#" target="_blank">Track Artist</a>
         </div>
 
         <div class="slider_container">
@@ -79,13 +82,13 @@
           <div class="next-track" title="Next">
             <i class="fa fa-step-forward fa-2x"></i>
           </div>
-          <!-- fixed repeat button -->
           <div class="repeat-track" title="Repeat">
             <i class="fas fa-redo fa-2x"></i>
           </div>
         </div>
       </div>
       
+      <!-- Audio visualizer -->
       <div id="wave" class="loader">
         <span class="stroke"></span>
         <span class="stroke"></span>
@@ -98,15 +101,14 @@
     </div>
   </div>
 
-<!-- footer links -->
-<div class="footer">
-  <a href="">Actual Teacher Voting</a>
-  <a href="license.html">License and Copyright</a>
-  <a href="bloopers-video_player.html">Bloopers</a>
-</div>
+  <!-- Footer links -->
+  <div class="footer">
+    <a href="#">Actual Teacher Voting</a>
+    <a href="license.html">License and Copyright</a>
+    <a href="bloopers-video_player.html">Bloopers</a>
+  </div>
 
-
+  <!-- Music Player JS -->
   <script src="js/music-player.js" defer></script>
-  
-  </body>
+</body>
 </html>
