@@ -351,26 +351,30 @@ h1:hover, p:hover, a:hover {
 .stroke:nth-child(7) { animation-delay: 0s; }
 
 /* === FOOTER === */
-.footer-anchor {
-  display: block;
-  width: fit-content;
+.footer {
+  display: flex;
+  justify-content: center;   /* centers all buttons */
+  gap: 20px;                 /* space between buttons */
   margin: 30px auto 20px;
   position: relative;
-  z-index: 1; 
+  z-index: 1;
+}
+
+.footer a {
+  font-size: 1em;
+  color: #FFD700;
   padding: 10px 15px;
   border-radius: 8px;
   background: rgba(0, 0, 0, 0.4);
   box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+  text-decoration: none;
+  transition: transform 0.3s ease, color 0.3s ease, background 0.3s ease;
 }
 
-.footer-anchor a {
-  font-size: 1em;
-  color: #FFD700;
-}
-
-.footer-anchor a:hover {
+.footer a:hover {
   color: #EDA20C;
   transform: scale(1.1);
+  background: rgba(0, 0, 0, 0.6);
 }
 
 /* === LICENSE === */
