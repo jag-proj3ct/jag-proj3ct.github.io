@@ -1,0 +1,619 @@
+could you use my old css to fix up my repeat button + volume and video length slider thumbs to yellow border and white color? old css:body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #222; /* solid dark grey */
+  font-weight: bold;
+}
+
+.player {
+  height: 95vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.wrapper {
+  border: 1px solid transparent;
+  padding: 30px;
+  border-radius: 20px;
+  background-color: #ddd;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 20px 38px,
+              rgba(0, 0, 0, 0.22) 0px 20px 12px;
+
+}
+
+.details {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.track-art {
+  position: relative;
+  margin: 25px;
+  height: 280px;           /* square size */
+  width: 280px;
+  border-radius: 12px;     /* square with rounded corners */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;       /* vinyl can stick out */
+  box-shadow: 0px 2px 8px rgba(0,0,0,0.6);
+}
+
+/* Vinyl disc */
+.vinyl {
+  position: absolute;
+  height: 80%;             /* ~30% smaller than the square */
+  width: 80%;
+  top: 10%;
+  left: 50%;              /* push right so ~30% of vinyl sticks out */
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, #111 60%, #333 85%, #111 100%);
+  animation: rotation 8s infinite linear;
+  z-index: 0;
+}
+
+/* Album cover */
+.cover {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+  z-index: 2;              /* sits above vinyl */
+  box-shadow: 0px 4px 6px rgba(0,0,0,0.5);
+}
+
+/* Only vinyl rotates */
+.track-art.rotate .vinyl {
+  animation-play-state: running;
+}
+.track-art .vinyl {
+  animation-play-state: paused;
+}
+
+@keyframes rotation {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.track-name {
+  font-size: 2.5rem;
+}
+
+.track-artist {
+  margin-top: 5px;
+  font-size: 1.5rem;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.active {
+  color: black;
+}
+
+.repeat-track,
+.random-track,
+.playpause-track,
+.prev-track,
+.next-track {
+  padding: 25px;
+  opacity: 0.8;
+  transition: opacity .2s;
+}
+
+.repeat-track:hover,
+.random-track:hover,
+.playpause-track:hover,
+.prev-track:hover,
+.next-track:hover {
+  opacity: 1.0;
+}
+
+.slider_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.seek_slider,
+.volume_slider {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  height: 5px;
+  background: #83A9FF;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.seek_slider::-webkit-slider-thumb,
+.volume_slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  background: white;
+  border: 3px solid #3774FF;
+  cursor: grab;
+  border-radius: 100%;
+}
+
+.seek_slider:hover,
+.volume_slider:hover {
+  opacity: 1.0;
+}
+
+.seek_slider {
+  width: 60%;
+}
+
+.volume_slider {
+  width: 30%;
+}
+
+.current-time,
+.total-duration {
+  padding: 10px;
+}
+
+i.fa-volume-down,
+i.fa-volume-up {
+  padding: 10px;
+}
+
+i,
+i.fa-play-circle,
+i.fa-pause-circle,
+i.fa-step-forward,
+i.fa-step-backward,
+p {
+  cursor: pointer;
+}
+
+.randomActive {
+  color: black;
+}
+
+.rotate {
+  animation: rotation 8s infinite linear;
+}
+
+@keyframes rotation {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(359deg); }
+}
+
+.loader {
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader .stroke {
+  background: #f1f1f1;
+  height: 150%;
+  width: 10px;
+  border-radius: 50px;
+  margin: 0 5px;
+  animation: animate 1.4s linear infinite;
+}
+
+@keyframes animate {
+  50% {
+    height: 20%;
+    background: #4286f4;
+  }
+  100% {
+    background: #4286f4;
+    height: 100%;
+  }
+}
+
+.stroke:nth-child(1) { animation-delay: 0s; }
+.stroke:nth-child(2) { animation-delay: 0.3s; }
+.stroke:nth-child(3) { animation-delay: 0.6s; }
+.stroke:nth-child(4) { animation-delay: 0.9s; }
+.stroke:nth-child(5) { animation-delay: 0.6s; }
+.stroke:nth-child(6) { animation-delay: 0.3s; }
+.stroke:nth-child(7) { animation-delay: 0s; }
+	  ... new css:body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  background-image: url("images/background.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  width: 100%; 
+  min-height: 100vh;
+  margin: 0;
+  padding: 60px 80px 60px 80px;
+  overflow-x: hidden;
+  overflow-y: auto; 
+  position: relative;
+  color: #fff;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* --- Layout and Containers --- */
+
+.container,
+.container-first {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.card {
+  width: 100%;
+  max-width: 700px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+  padding: 30px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.profile-card {
+  flex-direction: column;
+  align-items: center;
+  background: none; 
+}
+
+.game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  background: none; 
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+}
+
+.stats {
+  font-size: 18px;
+}
+
+/* --- Profile Picture --- */
+.profile-pic-wrapper {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin-bottom: 15px;
+  transition: transform 0.3s ease;
+}
+
+.profile-pic-wrapper:hover {
+  transform: scale(1.05);
+}
+
+.profile-pic-wrapper img.profile {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+.profile-pic-wrapper img.frame {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 220px;
+  height: 220px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* --- Music Player Styling --- */
+
+.player {
+  align-items: center;
+}
+
+.player.card {
+  box-shadow: none; 
+}
+
+.player .wrapper {
+  border-radius: 20px;
+  padding: 40px 30px 30px 30px; 
+  background: rgba(255, 255, 255, 0.1); 
+  box-shadow: none; 
+  position: relative;
+  z-index: 2;
+}
+
+/* Track Details */
+.details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.track-name {
+  font-size: 2.5rem; 
+  margin-top: 15px;
+}
+.track-artist {
+  font-size: 1.5rem; 
+  margin-top: 5px;
+  color: #FFD700; 
+}
+.now-playing {
+  text-align: center;
+  width: 100%;
+  margin-top: 10px;
+  font-size: 1.2rem;
+}
+
+/* --- Vinyl Art, Sliding, and Spinning --- */
+.track-art {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  border-radius: 12px;
+  overflow: visible;
+}
+.cover {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 280px; height: 280px;
+  border-radius: 12px;
+  background: url("images/college-dropout-cover.jpg") no-repeat center/cover;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+}
+.vinyl {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 250px; height: 250px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  transition: transform 1s ease;
+}
+.vinyl-inner {
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  background: url("images/vinyl.png") no-repeat center/cover;
+}
+.vinyl.sliding {
+  transform: translate(-50%, -50%) translateX(30%);
+}
+.vinyl.return {
+  transform: translate(-50%, -50%) translateX(-30%);
+}
+.vinyl-inner.spinning {
+  animation: spin 8s linear infinite;
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* --- Text/Headings and Anchor Styling --- */
+
+h1, p, a {
+  margin: 8px 0;
+  color: inherit;
+  text-decoration: none; 
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+/* 🎯 NEW: Decrease h1 size in the game card by 50% */
+.game h1 {
+    font-size: 50%;
+}
+
+/* 🎯 NEW: Increase anchor tag size by 20% */
+a {
+    font-size: 1.2em; /* 1.2 times the size of the inherited font size */
+}
+
+a:visited {
+  color: inherit;
+}
+
+h1:hover, p:hover, a:hover {
+  transform: scale(1.05);
+  color: #EDA20C;
+  cursor: pointer;
+}
+.profile-card:hover{
+  transform: scale(1.05);
+  transition: transform 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+}
+
+/* --- Controls and Buttons --- */
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0; 
+  margin: 20px 0;
+}
+.buttons i {
+  color: #FFA500;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.buttons i:hover {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+.repeat-track,
+.random-track,
+.prev-track,
+.next-track {
+  padding: 25px; 
+  opacity: 0.8;
+  transition: opacity .2s;
+  cursor: pointer;
+}
+
+.playpause-track {
+  padding: 10px 25px; 
+}
+
+.profile-card button {
+  padding: 10px 20px;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  background: #EDA20C;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+.profile-card button:hover {
+  transform: scale(1.1);
+  background: #c87f00;
+}
+
+/* --- Detailed Slider Styling (Solid Yellow Border Thumbs) --- */
+
+.slider_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.seek_slider,
+.volume_slider {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  height: 5px;
+  transition: opacity .2s;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.seek_slider {
+  width: 60%;
+  background: linear-gradient(to right, #FF8C00, #FFA500);
+}
+.seek_slider::-webkit-slider-thumb,
+.seek_slider::-moz-range-thumb {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  background: white;
+  border: 3px solid #FFD700; 
+  border-radius: 100%;
+  cursor: grab;
+}
+
+.volume_slider {
+  width: 30%;
+  background: linear-gradient(to right, #FFD700, #FFFF66);
+}
+.volume_slider::-webkit-slider-thumb,
+.volume_slider::-moz-range-thumb {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  background: white;
+  border: 3px solid #FFD700; 
+  border-radius: 100%;
+  cursor: grab;
+}
+
+/* --- Visualizer/Loader --- */
+
+.loader {
+  height: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease, height 0.3s ease;
+  overflow: hidden;
+  pointer-events: none;
+  
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.loader.visible {
+  height: 90px;
+  opacity: 1;
+  margin-top: 15px;
+  pointer-events: auto;
+}
+
+.stroke {
+  width: 7px; 
+  border-radius: 3px;
+  transform-origin: bottom center;
+  transition: transform 0.1s ease-out;
+  transform: scaleY(0.2);
+  background: linear-gradient(to top, #FFA500, #FFD700);
+  box-shadow: 0 0 5px orange;
+}
+
+.loader .stroke {
+  height: 60px; 
+  width: 8px;
+  border-radius: 50px;
+  margin: 0 4px; 
+}
+
+.stroke:nth-child(2) { background: linear-gradient(to top, #FFD700, #FFA500); }
+.stroke:nth-child(3) { background: linear-gradient(to top, #FFA500, #FFD700); }
+.stroke:nth-child(4) { background: linear-gradient(to top, #FFD700, #FFA500); }
+.stroke:nth-child(5) { background: linear-gradient(to top, #FFA500, #FFD700); }
+.stroke:nth-child(6) { background: linear-gradient(to top, #FFD700, #FFA500); }
+.stroke:nth-child(7) { background: linear-gradient(to top, #FFA500, #FFD700); }
