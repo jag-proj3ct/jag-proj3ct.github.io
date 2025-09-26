@@ -19,8 +19,6 @@ body {
   box-sizing: border-box;
 }
 
-/* --- Layout and Containers --- */
-
 .container,
 .container-first {
   display: flex;
@@ -65,7 +63,6 @@ body {
   font-size: 18px;
 }
 
-/* --- Profile Picture --- */
 .profile-pic-wrapper {
   position: relative;
   width: 150px;
@@ -98,8 +95,6 @@ body {
   z-index: 2;
 }
 
-/* --- Music Player Styling --- */
-
 .player {
   align-items: center;
 }
@@ -117,7 +112,6 @@ body {
   z-index: 2;
 }
 
-/* Track Details */
 .details {
   display: flex;
   flex-direction: column;
@@ -139,7 +133,6 @@ body {
   font-size: 1.2rem;
 }
 
-/* --- Vinyl Art, Sliding, and Spinning --- */
 .track-art {
   position: relative;
   width: 280px;
@@ -184,8 +177,6 @@ body {
   to { transform: rotate(360deg); }
 }
 
-/* --- Text/Headings and Anchor Styling --- */
-
 h1, p, a {
   margin: 8px 0;
   color: inherit;
@@ -193,14 +184,12 @@ h1, p, a {
   transition: transform 0.3s ease, color 0.3s ease;
 }
 
-/* 🎯 NEW: Decrease h1 size in the game card by 50% */
 .game h1 {
     font-size: 50%;
 }
 
-/* 🎯 NEW: Increase anchor tag size by 20% */
 a {
-    font-size: 1.2em; /* 1.2 times the size of the inherited font size */
+    font-size: 1.2em;
 }
 
 a:visited {
@@ -217,8 +206,6 @@ h1:hover, p:hover, a:hover {
   transition: transform 0.3s ease, color 0.3s ease;
   cursor: pointer;
 }
-
-/* --- Controls and Buttons --- */
 
 .buttons {
   display: flex;
@@ -251,6 +238,10 @@ h1:hover, p:hover, a:hover {
   padding: 10px 25px; 
 }
 
+.active {
+  color: white; 
+}
+
 .profile-card button {
   padding: 10px 20px;
   font-size: 18px;
@@ -265,8 +256,6 @@ h1:hover, p:hover, a:hover {
   transform: scale(1.1);
   background: #c87f00;
 }
-
-/* --- Detailed Slider Styling (Solid Yellow Border Thumbs) --- */
 
 .slider_container {
   display: flex;
@@ -319,8 +308,6 @@ h1:hover, p:hover, a:hover {
   cursor: grab;
 }
 
-/* --- Visualizer/Loader --- */
-
 .loader {
   height: 0;
   opacity: 0;
@@ -365,3 +352,22 @@ h1:hover, p:hover, a:hover {
 .stroke:nth-child(5) { background: linear-gradient(to top, #FFA500, #FFD700); }
 .stroke:nth-child(6) { background: linear-gradient(to top, #FFD700, #FFA500); }
 .stroke:nth-child(7) { background: linear-gradient(to top, #FFA500, #FFD700); }
+
+@keyframes animate {
+  50% {
+    height: 20%;
+    background: #4286f4;
+  }
+  100% {
+    background: #4286f4;
+    height: 100%;
+  }
+}
+
+.stroke:nth-child(1) { animation-delay: 0s; }
+.stroke:nth-child(2) { animation-delay: 0.3s; }
+.stroke:nth-child(3) { animation-delay: 0.6s; }
+.stroke:nth-child(4) { animation-delay: 0.9s; }
+.stroke:nth-child(5) { animation-delay: 0.6s; }
+.stroke:nth-child(6) { animation-delay: 0.3s; }
+.stroke:nth-child(7) { animation-delay: 0s; }
