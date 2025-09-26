@@ -46,11 +46,10 @@ body {
   flex-direction: column;
   align-items: center;
   background: none; 
-  /* FIX: Apply transition here for smooth hover-out */
   transition: transform 0.3s ease, box-shadow 0.3s ease; 
 }
 
-/* Removed: .game rule (obsolete with voting system change) */
+/* .game styles removed as they are obsolete */
 
 .stats {
   font-size: 18px;
@@ -61,7 +60,6 @@ body {
   width: 150px;
   height: 150px;
   margin-bottom: 15px;
-  /* Already fixed: The transition property is on the base class */
   transition: transform 0.3s ease; 
 }
 
@@ -178,8 +176,6 @@ h1, p, a {
   transition: transform 0.3s ease, color 0.3s ease;
 }
 
-/* Removed: .game h1 rule (obsolete with voting system change) */
-
 a {
     font-size: 1.2em;
 }
@@ -196,7 +192,6 @@ h1:hover, p:hover, a:hover {
 
 .profile-card:hover{
   transform: scale(1.05);
-  /* The transition property is now on the base .profile-card class */
   cursor: pointer;
 }
 
@@ -271,11 +266,20 @@ h1:hover, p:hover, a:hover {
   width: 60%;
   background: linear-gradient(to right, #FF8C00, #FFA500);
 }
-.seek_slider::-webkit-slider-thumb,
-.seek_slider::-moz-range-thumb {
+
+/* --- SEEK SLIDER THUMB FIX --- */
+.seek_slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-  -moz-appearance: none;
   appearance: none;
+  width: 15px;
+  height: 15px;
+  background: white;
+  border: 3px solid #FFD700; 
+  border-radius: 100%;
+  cursor: grab;
+}
+
+.seek_slider::-moz-range-thumb {
   width: 15px;
   height: 15px;
   background: white;
@@ -288,10 +292,10 @@ h1:hover, p:hover, a:hover {
   width: 30%;
   background: linear-gradient(to right, #FFD700, #FFFF66);
 }
-.volume_slider::-webkit-slider-thumb,
-.volume_slider::-moz-range-thumb {
+
+/* --- VOLUME SLIDER THUMB FIX --- */
+.volume_slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-  -moz-appearance: none;
   appearance: none;
   width: 15px;
   height: 15px;
@@ -300,6 +304,16 @@ h1:hover, p:hover, a:hover {
   border-radius: 100%;
   cursor: grab;
 }
+
+.volume_slider::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  background: white;
+  border: 3px solid #FFD700; 
+  border-radius: 100%;
+  cursor: grab;
+}
+/* ------------------------------- */
 
 .loader {
   height: 0;
