@@ -302,5 +302,5 @@ prev_btn.addEventListener('click', () => {
 seek_slider.addEventListener('input', seekTo);
 volume_slider.addEventListener('input', setVolume);
 
-/* Init */
+/* Initual */
 loadTrack(track_index);
