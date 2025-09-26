@@ -1,12 +1,10 @@
 // js/voting-system.js
 
 // Current deployment URL
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyx1pB3AbeDIaWFxDANrrEWY2NkgNmRYB3k_aNR109pR5aEVExaWniEc5-oZ0D2xy6FXw/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz3gGvMYhLprAddC98Ynlr8dDzxYxJ_NjwJDoOYJg05nW-SIhKdSSicUq-LZE5H4vldcQ/exec";
 
 // Previous deployments (keep for reference)
-// const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz3gGvMYhLprAddC98Ynlr8dDzxYxJ_NjwJDoOYJg05nW-SIhKdSSicUq-LZE5H4vldcQ/exec";
-// const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyOvr3pR8hmLeLiAZDPQeklwJLKU3mUDFyjT08Q2RIpphzN_1KqurI1HTOzZyczPo56pw/exec";
-// const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwTvyIbKfncy1EZATocookPXV2h0UhYeunXbTOS_9iFK0RfvZZiUYX4RvpFSxKzrD8gdA/exec";
+// const SCRIPT_URL = "...";
 
 const VOTE_KEY = "hasVotedDomingo";
 
@@ -79,6 +77,9 @@ if (voteBtn && votesDisplay && voteMessage) {
     fetchVotes();
     checkVotedStatus();
     voteBtn.addEventListener("click", handleVote);
+
+    // Auto-refresh votes every 5 seconds
+    setInterval(fetchVotes, 5000);
 
 } else {
     console.error("Voting system elements not found in HTML. Check IDs.");
