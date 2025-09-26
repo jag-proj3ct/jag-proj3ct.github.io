@@ -2,7 +2,11 @@
 const now_playing = document.querySelector('.now-playing');
 const track_art = document.querySelector('.track-art');
 const coverEl = track_art.querySelector('.cover');
-const vinylEl = track_art.querySelector('.vinyl');
+
+// 🎯 FIX: Reference the vinyl container and the inner vinyl element for correct animation
+const vinylContainerEl = track_art.querySelector('.vinyl');
+const vinylEl = vinylContainerEl ? vinylContainerEl.querySelector('.vinyl-inner') : null;
+
 const track_name = document.querySelector('.track-name');
 const track_artist = document.querySelector('.track-artist');
 
@@ -10,14 +14,14 @@ const playpause_btn = document.querySelector('.playpause-track');
 const next_btn = document.querySelector('.next-track');
 const prev_btn = document.querySelector('.prev-track');
 const random_btn = document.querySelector('.random-track');
-const repeat_btn = document.querySelector('.repeat-track'); // Repeat button is correctly referenced
+const repeat_btn = document.querySelector('.repeat-track');
 
 const seek_slider = document.querySelector('.seek_slider');
 const volume_slider = document.querySelector('.volume_slider');
 const curr_time = document.querySelector('.current-time');
 const total_duration = document.querySelector('.total-duration');
 
-const loader = document.querySelector('.loader'); // Visualizer container
+const loader = document.querySelector('.loader');
 const strokes = loader ? Array.from(loader.querySelectorAll('.stroke')) : [];
 
 const curr_track = new Audio();
@@ -53,7 +57,8 @@ function renderWave() {
     const step = Math.floor(dataArray.length / strokes.length);
     strokes.forEach((stroke, i) => {
       let value = dataArray[i * step] / 256;
-      if (i < 3) value = Math.sqrt(value); // boost lower bars
+      if (i < 3) value = Math.sqrt(value);
+      // 🎯 FIX: Use 'scaleY' which is what your CSS animation references
       stroke.style.transform = `scaleY(${Math.max(0.2, value * 1.2)})`;
     });
   } else {
@@ -190,18 +195,22 @@ function playTrack() {
   curr_track.play().catch(e => console.error("Play failed:", e));
   isPlaying = true;
 
-  if (vinylEl) {
-    vinylEl.classList.remove('return', 'spinning', 'sliding');
-    void vinylEl.offsetWidth; // force reflow
-    vinylEl.classList.add('sliding');
+  // 🎯 FIX: Apply sliding and spinning classes to the vinyl container and inner vinyl
+  if (vinylContainerEl && vinylEl) {
+    vinylContainerEl.classList.remove('return', 'sliding');
+    vinylEl.classList.remove('spinning'); // Remove spinning from the inner element
 
-    vinylEl.addEventListener('transitionend', () => {
-      vinylEl.classList.remove('sliding');
+    void vinylContainerEl.offsetWidth; // force reflow
+    vinylContainerEl.classList.add('sliding');
+
+    // Start spinning after the slide transition ends
+    vinylContainerEl.addEventListener('transitionend', () => {
+      vinylContainerEl.classList.remove('sliding');
       vinylEl.classList.add('spinning');
     }, { once: true });
   }
 
-  track_art.classList.add('playing');
+  // track_art.classList.add('playing'); // Not strictly needed based on CSS
   playpause_btn.innerHTML = '<i class="fa fa-pause-circle fa-5x"></i>';
   if (loader) loader.classList.add('visible');
 }
@@ -211,13 +220,15 @@ function pauseTrack() {
   curr_track.pause();
   isPlaying = false;
 
-  if (vinylEl) {
-    vinylEl.classList.remove('sliding', 'spinning');
-    void vinylEl.offsetWidth;
-    vinylEl.classList.add('return');
+  // 🎯 FIX: Apply return class to the vinyl container and stop spinning on the inner vinyl
+  if (vinylContainerEl && vinylEl) {
+    vinylContainerEl.classList.remove('sliding');
+    vinylEl.classList.remove('spinning');
+    void vinylContainerEl.offsetWidth;
+    vinylContainerEl.classList.add('return');
   }
 
-  track_art.classList.remove('playing');
+  // track_art.classList.remove('playing'); // Not strictly needed based on CSS
   playpause_btn.innerHTML = '<i class="fa fa-play-circle fa-5x"></i>';
   if (loader) loader.classList.remove('visible');
 }
@@ -241,25 +252,15 @@ function setVolume() {
 /* Toggle repeat */
 repeat_btn.addEventListener('click', () => {
   isRepeating = !isRepeating;
-  // 🎯 FIX: Use the .active class to rely on CSS for styling
+  // 🎯 FIX: Use the .active class defined in your CSS for the styling
   repeat_btn.classList.toggle('active', isRepeating);
-  // 🎯 REMOVED: Deleting the inline style that forced the green color:
-  // const icon = repeat_btn.querySelector('i');
-  // icon.style.color = isRepeating ? '#1DB954' : ''; 
 });
 
 /* Toggle random */
 random_btn.addEventListener('click', () => {
   isRandom = !isRandom;
+  // 🎯 FIX: Use the .active class defined in your CSS for the styling
   random_btn.classList.toggle('active', isRandom);
-  // 🎯 FIX: Use the .active class instead of randomActive, which isn't used in your provided CSS
-  // (Your CSS was using randomActive, but let's stick to the .active convention for simplicity, 
-  // or you can adjust the CSS later). Since your CSS included both, I'll update the JS to match the CSS provided.
-  random_btn.classList.toggle('randomActive', isRandom);
-
-  // 🎯 REMOVED: Deleting the inline style that forced the green color:
-  // const icon = random_btn.querySelector('i');
-  // icon.style.color = isRandom ? '#1DB954' : '';
 });
 
 
@@ -269,39 +270,24 @@ curr_track.addEventListener('ended', () => {
     curr_track.currentTime = 0;
     playTrack();
   } else {
-    // 🎯 FIX: Check for next part before deciding to move to the next track
-    const track = music_list[track_index];
-    if (part_index < track.music.length - 1) {
-        nextPartOrTrack();
-    } else {
-        // This is the end of the multi-part track, now move to the next track/random
-        nextPartOrTrack();
-    }
+    // Check for next part/track
+    nextPartOrTrack();
   }
 });
 
 /* Controls */
 playpause_btn.addEventListener('click', playpauseTrack);
+
 next_btn.addEventListener('click', () => {
-  // If there are multiple parts, move to the next part first
   const track = music_list[track_index];
-  if (part_index < track.music.length - 1) {
-    nextPartOrTrack();
-  } else if (isRandom) {
-    let randIndex;
-    do {
-      randIndex = Math.floor(Math.random() * music_list.length);
-    } while (randIndex === track_index);
-    loadTrack(randIndex);
-    playTrack();
-  } else {
-    loadTrack(track_index + 1);
-    playTrack();
-  }
+  
+  // If there are multiple parts, move to the next part first (which nextPartOrTrack handles)
+  // Otherwise, nextPartOrTrack handles moving to the next *track* (random or sequential)
+  nextPartOrTrack();
 });
 
 prev_btn.addEventListener('click', () => {
-  // If we are past the first part, restart current part
+  // If we are past the first part, restart current part OR if it's the very beginning of the first part, go to prev track
   if (curr_track.currentTime > 3 || part_index === 0) {
       loadTrack(track_index - 1);
   } else {
