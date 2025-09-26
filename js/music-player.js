@@ -3,7 +3,7 @@ const now_playing = document.querySelector('.now-playing');
 const track_art = document.querySelector('.track-art');
 const coverEl = track_art.querySelector('.cover');
 
-// FIX: Reference the vinyl container and the inner vinyl element for correct animation
+// Vinyl elements
 const vinylContainerEl = track_art.querySelector('.vinyl');
 const vinylEl = vinylContainerEl ? vinylContainerEl.querySelector('.vinyl-inner') : null;
 
@@ -58,7 +58,6 @@ function renderWave() {
     strokes.forEach((stroke, i) => {
       let value = dataArray[i * step] / 256;
       if (i < 3) value = Math.sqrt(value);
-      // FIX: Use 'scaleY' which is what your CSS animation references
       stroke.style.transform = `scaleY(${Math.max(0.2, value * 1.2)})`;
     });
   } else {
@@ -134,8 +133,8 @@ function reset() {
   seek_slider.value = 0;
 }
 
-/* Load track */
-function loadTrack(index) {
+/* Load track (with optional part) */
+function loadTrack(index, startPart = 0) {
   clearInterval(updateTimer);
   reset();
 
@@ -144,7 +143,7 @@ function loadTrack(index) {
   else if (index >= music_list.length) index = 0;
 
   track_index = index;
-  part_index = 0; // Start at the first part of the track
+  part_index = startPart;
   const track = music_list[track_index];
 
   curr_track.src = track.music[part_index];
@@ -158,69 +157,59 @@ function loadTrack(index) {
   updateTimer = setInterval(setUpdate, 1000);
 }
 
-// Function to handle moving to the next part or next track
+/* Next part or next track */
 function nextPartOrTrack() {
-    const track = music_list[track_index];
-    
-    // Check if there is a next part in the current track
-    if (part_index < track.music.length - 1) {
-        part_index++;
-        curr_track.src = track.music[part_index];
-        curr_track.load();
-        playTrack();
-    } 
-    // If this is the last part, move to the next track in the playlist
-    else {
-        // This is the end of the full track
-        part_index = 0; 
-        
-        if (isRandom) {
-            let randIndex;
-            do {
-              randIndex = Math.floor(Math.random() * music_list.length);
-            } while (randIndex === track_index); // avoid same track twice
-            loadTrack(randIndex);
-            playTrack();
-        } else {
-            loadTrack(track_index + 1);
-            playTrack();
-        }
+  const track = music_list[track_index];
+
+  if (part_index < track.music.length - 1) {
+    part_index++;
+    curr_track.src = track.music[part_index];
+    curr_track.load();
+    playTrack();
+  } else {
+    part_index = 0;
+    if (isRandom) {
+      let randIndex;
+      do {
+        randIndex = Math.floor(Math.random() * music_list.length);
+      } while (randIndex === track_index);
+      loadTrack(randIndex);
+      playTrack();
+    } else {
+      loadTrack(track_index + 1);
+      playTrack();
     }
+  }
 }
 
-/* Play track */
+/* Play */
 function playTrack() {
   if (audioCtx.state === 'suspended') audioCtx.resume();
 
   curr_track.play().catch(e => console.error("Play failed:", e));
   isPlaying = true;
 
-  // FIX: Apply sliding and spinning classes to the vinyl container and inner vinyl
   if (vinylContainerEl && vinylEl) {
     vinylContainerEl.classList.remove('return', 'sliding');
-    vinylEl.classList.remove('spinning'); // Remove spinning from the inner element
-
-    void vinylContainerEl.offsetWidth; // force reflow
+    vinylEl.classList.remove('spinning');
+    void vinylContainerEl.offsetWidth;
     vinylContainerEl.classList.add('sliding');
 
-    // Start spinning after the slide transition ends
     vinylContainerEl.addEventListener('transitionend', () => {
       vinylContainerEl.classList.remove('sliding');
       vinylEl.classList.add('spinning');
     }, { once: true });
   }
 
-  // track_art.classList.add('playing'); // Not strictly needed based on CSS
   playpause_btn.innerHTML = '<i class="fa fa-pause-circle fa-5x"></i>';
   if (loader) loader.classList.add('visible');
 }
 
-/* Pause track */
+/* Pause */
 function pauseTrack() {
   curr_track.pause();
   isPlaying = false;
 
-  // FIX: Apply return class to the vinyl container and stop spinning on the inner vinyl
   if (vinylContainerEl && vinylEl) {
     vinylContainerEl.classList.remove('sliding');
     vinylEl.classList.remove('spinning');
@@ -228,7 +217,6 @@ function pauseTrack() {
     vinylContainerEl.classList.add('return');
   }
 
-  // track_art.classList.remove('playing'); // Not strictly needed based on CSS
   playpause_btn.innerHTML = '<i class="fa fa-play-circle fa-5x"></i>';
   if (loader) loader.classList.remove('visible');
 }
@@ -252,49 +240,36 @@ function setVolume() {
 /* Toggle repeat */
 repeat_btn.addEventListener('click', () => {
   isRepeating = !isRepeating;
-  // FIX: Use the .active class defined in your CSS for the styling
   repeat_btn.classList.toggle('active', isRepeating);
 });
 
 /* Toggle random */
 random_btn.addEventListener('click', () => {
   isRandom = !isRandom;
-  // FIX: Use the .active class defined in your CSS for the styling
   random_btn.classList.toggle('active', isRandom);
 });
 
-
-/* Track part end */
+/* On end */
 curr_track.addEventListener('ended', () => {
   if (isRepeating) {
     curr_track.currentTime = 0;
     playTrack();
   } else {
-    // Check for next part/track
     nextPartOrTrack();
   }
 });
 
 /* Controls */
 playpause_btn.addEventListener('click', playpauseTrack);
-
-next_btn.addEventListener('click', () => {
-  const track = music_list[track_index];
-  
-  // If there are multiple parts, move to the next part first (which nextPartOrTrack handles)
-  // Otherwise, nextPartOrTrack handles moving to the next *track* (random or sequential)
-  nextPartOrTrack();
-});
+next_btn.addEventListener('click', nextPartOrTrack);
 
 prev_btn.addEventListener('click', () => {
-  // If we are past the first part, restart current part OR if it's the very beginning of the first part, go to prev track
   if (curr_track.currentTime > 3 || part_index === 0) {
-      loadTrack(track_index - 1);
+    loadTrack(track_index - 1);
   } else {
-      // Go back to the previous part
-      part_index--;
-      curr_track.src = music_list[track_index].music[part_index];
-      curr_track.load();
+    part_index = Math.max(0, part_index - 1);
+    curr_track.src = music_list[track_index].music[part_index];
+    curr_track.load();
   }
   playTrack();
 });
