@@ -103,7 +103,7 @@ const music_list = [
   img: track.cover || coverDefault,
   name: track.name,
   artist: track.artist || "Kanye West",
-  url: track.url || "#", // track-specific Spotify link
+  url: track.url || "https://open.spotify.com/artist/5K4W6rqBFWDnAN6FQUkS6x", // track-specific Spotify link
   artistUrl: kanyeSpotify,
   music: Array.isArray(track.file)
     ? track.file.map(f => basePath + f)
