@@ -2,7 +2,7 @@
 
 // PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE
 // FIX: Updated to the LATEST DEPLOYMENT URL
-const SCRIPT_URL = "https://script.google.com/a/macros/fpsmail.org/s/AKfycbwJGVn6iktN7k1wfqBVHSiJ6w89X-KNa2d8INWxx0xZOrSsSR0PO1rwyb1V5ZjLL5UGOQ/exec"; 
+const SCRIPT_URL = "https://script.google.com/a/macros/fpsmail.org/s/AKfycbwTvyIbKfncy1EZATocookPXV2h0UhYeunXbTOS_9iFK0RfvZZiUYX4RvpFSxKzrD8gdA/exec"; 
 const VOTE_KEY = "hasVotedDomingo";
 
 // Check if the DOM elements are available (important when deferring script)
@@ -17,6 +17,10 @@ if (voteBtn && votesDisplay && voteMessage) {
         const cacheBuster = new Date().getTime();
         const response = await fetch(`${SCRIPT_URL}?cb=${cacheBuster}`, { method: 'GET' });
         const count = await response.text();
+        // Check if the script returned an error message instead of a number
+        if (isNaN(parseInt(count))) {
+            throw new Error(`Script returned non-numeric data: ${count}`);
+        }
         votesDisplay.textContent = count;
       } catch (error) {
         console.error("Error fetching votes:", error);
@@ -51,6 +55,11 @@ if (voteBtn && votesDisplay && voteMessage) {
         });
         
         const newCount = await response.text();
+        // Check if the script returned an error message instead of a number
+        if (isNaN(parseInt(newCount))) {
+            throw new Error(`Script returned non-numeric data: ${newCount}`);
+        }
+        
         votesDisplay.textContent = newCount;
 
         localStorage.setItem(VOTE_KEY, "true");
