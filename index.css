@@ -371,3 +371,26 @@ h1:hover, p:hover, a:hover {
 .stroke:nth-child(5) { animation-delay: 0.6s; }
 .stroke:nth-child(6) { animation-delay: 0.3s; }
 .stroke:nth-child(7) { animation-delay: 0s; }
+.footer-anchor {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%); 
+    z-index: 99;
+    padding: 10px 15px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.footer-anchor a {
+    margin: 0; 
+    padding: 0;
+    font-size: 1em;
+    color: #FFD700;
+}
+
+.footer-anchor a:hover {
+    color: #EDA20C;
+    transform: scale(1.1);
+}
