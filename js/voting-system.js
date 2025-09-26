@@ -1,20 +1,20 @@
 // js/voting-system.js
 
-// ✅ Current live deployment URL (new one)
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyOvr3pR8hmLeLiAZDPQeklwJLKU3mUDFyjT08Q2RIpphzN_1KqurI1HTOzZyczPo56pw/exec";
+// ✅ Current deployment URL
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz3gGvMYhLprAddC98Ynlr8dDzxYxJ_NjwJDoOYJg05nW-SIhKdSSicUq-LZE5H4vldcQ/exec";
 
-// 📝 Previous deployment (keep as reference)
+// 📝 Previous deployments (keep for reference)
+// const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyOvr3pR8hmLeLiAZDPQeklwJLKU3mUDFyjT08Q2RIpphzN_1KqurI1HTOzZyczPo56pw/exec";
 // const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwTvyIbKfncy1EZATocookPXV2h0UhYeunXbTOS_9iFK0RfvZZiUYX4RvpFSxKzrD8gdA/exec";
 
 const VOTE_KEY = "hasVotedDomingo";
 
-// Check if the DOM elements are available
 const voteBtn = document.getElementById("voteBtn");
 const votesDisplay = document.getElementById("currentVotes");
 const voteMessage = document.getElementById("voteMessage");
 
 if (voteBtn && votesDisplay && voteMessage) {
-    // 1. Fetch current votes on load
+    // 1. Fetch current votes
     async function fetchVotes() {
       try {
         const cacheBuster = new Date().getTime();
@@ -31,7 +31,7 @@ if (voteBtn && votesDisplay && voteMessage) {
       }
     }
 
-    // 2. Check if the user has already voted
+    // 2. Check vote status
     function checkVotedStatus() {
       if (localStorage.getItem(VOTE_KEY) === "true") {
         voteBtn.disabled = true;
@@ -44,7 +44,7 @@ if (voteBtn && votesDisplay && voteMessage) {
       }
     }
 
-    // 3. Handle the one-time vote
+    // 3. Handle voting
     async function handleVote() {
       if (localStorage.getItem(VOTE_KEY) === "true") return; 
 
@@ -64,7 +64,6 @@ if (voteBtn && votesDisplay && voteMessage) {
         }
         
         votesDisplay.textContent = newCount;
-
         localStorage.setItem(VOTE_KEY, "true");
         checkVotedStatus();
 
@@ -75,7 +74,7 @@ if (voteBtn && votesDisplay && voteMessage) {
       }
     }
 
-    // Initial load
+    // Init
     fetchVotes();
     checkVotedStatus();
     voteBtn.addEventListener("click", handleVote);
