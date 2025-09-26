@@ -3,7 +3,7 @@ const now_playing = document.querySelector('.now-playing');
 const track_art = document.querySelector('.track-art');
 const coverEl = track_art.querySelector('.cover');
 
-// 🎯 FIX: Reference the vinyl container and the inner vinyl element for correct animation
+// FIX: Reference the vinyl container and the inner vinyl element for correct animation
 const vinylContainerEl = track_art.querySelector('.vinyl');
 const vinylEl = vinylContainerEl ? vinylContainerEl.querySelector('.vinyl-inner') : null;
 
@@ -58,7 +58,7 @@ function renderWave() {
     strokes.forEach((stroke, i) => {
       let value = dataArray[i * step] / 256;
       if (i < 3) value = Math.sqrt(value);
-      // 🎯 FIX: Use 'scaleY' which is what your CSS animation references
+      // FIX: Use 'scaleY' which is what your CSS animation references
       stroke.style.transform = `scaleY(${Math.max(0.2, value * 1.2)})`;
     });
   } else {
@@ -195,7 +195,7 @@ function playTrack() {
   curr_track.play().catch(e => console.error("Play failed:", e));
   isPlaying = true;
 
-  // 🎯 FIX: Apply sliding and spinning classes to the vinyl container and inner vinyl
+  // FIX: Apply sliding and spinning classes to the vinyl container and inner vinyl
   if (vinylContainerEl && vinylEl) {
     vinylContainerEl.classList.remove('return', 'sliding');
     vinylEl.classList.remove('spinning'); // Remove spinning from the inner element
@@ -220,7 +220,7 @@ function pauseTrack() {
   curr_track.pause();
   isPlaying = false;
 
-  // 🎯 FIX: Apply return class to the vinyl container and stop spinning on the inner vinyl
+  // FIX: Apply return class to the vinyl container and stop spinning on the inner vinyl
   if (vinylContainerEl && vinylEl) {
     vinylContainerEl.classList.remove('sliding');
     vinylEl.classList.remove('spinning');
@@ -252,14 +252,14 @@ function setVolume() {
 /* Toggle repeat */
 repeat_btn.addEventListener('click', () => {
   isRepeating = !isRepeating;
-  // 🎯 FIX: Use the .active class defined in your CSS for the styling
+  // FIX: Use the .active class defined in your CSS for the styling
   repeat_btn.classList.toggle('active', isRepeating);
 });
 
 /* Toggle random */
 random_btn.addEventListener('click', () => {
   isRandom = !isRandom;
-  // 🎯 FIX: Use the .active class defined in your CSS for the styling
+  // FIX: Use the .active class defined in your CSS for the styling
   random_btn.classList.toggle('active', isRandom);
 });
 
