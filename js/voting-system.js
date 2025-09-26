@@ -28,7 +28,7 @@ if (voteBtn && votesDisplay && voteMessage) {
       votesDisplay.textContent = count;
     } catch (error) {
       console.error("Error fetching votes:", error);
-      votesDisplay.textContent = "...Error...";
+      votesDisplay.textContent = "error:/";
     }
   }
 
@@ -41,7 +41,7 @@ if (voteBtn && votesDisplay && voteMessage) {
       voteMessage.style.display = "block";
     } else {
       voteBtn.disabled = false;
-      voteBtn.textContent = "Vote For Domingo!";
+      voteBtn.textContent = "Vote Domingo!";
       voteBtn.classList.remove("voted");
       voteMessage.style.display = "none";
     }
