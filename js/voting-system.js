@@ -40,7 +40,7 @@ if (voteBtn && votesDisplay && voteMessage) {
             voteMessage.style.display = 'block';
         } else {
             voteBtn.disabled = false;
-            voteBtn.textContent = "Vote Domingo!";
+            voteBtn.textContent = "Vote For Domingo!";
             voteBtn.classList.remove("voted"); // remove grey style
             voteMessage.style.display = 'none';
         }
