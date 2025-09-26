@@ -41,7 +41,7 @@ if (voteBtn && votesDisplay && voteMessage) {
       voteMessage.style.display = "block";
     } else {
       voteBtn.disabled = false;
-      voteBtn.textContent = "Vote Domingo!";
+      voteBtn.textContent = "Vote For Domingo!";
       voteBtn.classList.remove("voted");
       voteMessage.style.display = "none";
     }
@@ -59,7 +59,7 @@ if (voteBtn && votesDisplay && voteMessage) {
       const response = await fetch(SCRIPT_URL, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({ count: votesDisplay.textContent })
+        body: new URLSearchParams({ action: "increment" }) // <-- safer
       });
 
       const newCount = await response.text();
@@ -77,7 +77,7 @@ if (voteBtn && votesDisplay && voteMessage) {
       alert("Failed to cast vote. Please try again later.");
       checkVotedStatus();
     } finally {
-      refreshInterval = setInterval(fetchVotes, 500); // resume auto-refresh
+      refreshInterval = setInterval(fetchVotes, 2000); // resume auto-refresh (2s instead of 0.5s)
     }
   }
 
@@ -86,8 +86,8 @@ if (voteBtn && votesDisplay && voteMessage) {
   checkVotedStatus();
   voteBtn.addEventListener("click", handleVote);
 
-  // Live updates every 0.5s
-  refreshInterval = setInterval(fetchVotes, 500);
+  // Live updates every 2s
+  refreshInterval = setInterval(fetchVotes, 2000);
 
 } else {
   console.error("Voting system elements not found in HTML. Check IDs.");
