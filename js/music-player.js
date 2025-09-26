@@ -88,7 +88,7 @@ const music_list = [
   { name: "School Spirit (Skit 1)", file: "ss-s1.mp3", url: "https://open.spotify.com/track/25mwJPzWVmS2yronBNQJF1" },
   { name: "School Spirit", file: "school-spirit.mp3", url: "https://open.spotify.com/track/1th3G3okofWlvGWAAR7Y4V" },
   { name: "School Spirit (Skit 2)", file: "ss-s2.mp3", url: "https://open.spotify.com/track/5MAY7XyW322jMwLDtBQgsZ" },
-  { name: "Lil Jimmy (Skit)", file: "#", url: "https://open.spotify.com/track/3B5ftYUfOUVny9sQzmgPjK" }, // placeholder
+  { name: "Lil Jimmy (Skit)", file: "#", url: "https://open.spotify.com/track/4BhwlQ9mTwhFGXpQvP9JTV?si=5-7HNlqCTiiXqxtIn7ABjg" },
   { name: "Two Words", file: "2words.mp3", url: "https://open.spotify.com/track/62wtttQzoIA9HnNmGVd9Yq" },
   { name: "Through the Wire", file: "through-the-wire.mp3", url: "https://open.spotify.com/track/4mmkhcEm1Ljy1U9nwtsxUo" },
   { name: "Family Business", file: "family-business.mp3", url: "https://open.spotify.com/track/5DBmXF7QO43Cuy9yqva116" },
