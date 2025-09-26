@@ -1,3 +1,4 @@
+/* === GENERAL STYLES === */
 body {
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
@@ -19,6 +20,7 @@ body {
   box-sizing: border-box;
 }
 
+/* === CONTAINERS === */
 .container,
 .container-first {
   display: flex;
@@ -53,6 +55,7 @@ body {
   font-size: 18px;
 }
 
+/* === PROFILE IMAGE === */
 .profile-pic-wrapper {
   position: relative;
   width: 150px;
@@ -85,6 +88,7 @@ body {
   z-index: 2;
 }
 
+/* === PLAYER === */
 .player {
   align-items: center;
 }
@@ -107,15 +111,18 @@ body {
   flex-direction: column;
   align-items: center;
 }
+
 .track-name {
   font-size: 2.5rem; 
   margin-top: 15px;
 }
+
 .track-artist {
   font-size: 1.5rem; 
   margin-top: 5px;
   color: #FFD700; 
 }
+
 .now-playing {
   text-align: center;
   width: 100%;
@@ -123,6 +130,7 @@ body {
   font-size: 1.2rem;
 }
 
+/* === TRACK ART & VINYL === */
 .track-art {
   position: relative;
   width: 280px;
@@ -130,6 +138,7 @@ body {
   border-radius: 12px;
   overflow: visible;
 }
+
 .cover {
   position: absolute;
   top: 50%; left: 50%;
@@ -139,6 +148,7 @@ body {
   transform: translate(-50%, -50%);
   z-index: 3;
 }
+
 .vinyl {
   position: absolute;
   top: 50%; left: 50%;
@@ -148,25 +158,31 @@ body {
   z-index: 1;
   transition: transform 1s ease;
 }
+
 .vinyl-inner {
   width: 100%; height: 100%;
   border-radius: 50%;
   background: url("images/vinyl.png") no-repeat center/cover;
 }
+
 .vinyl.sliding {
   transform: translate(-50%, -50%) translateX(30%);
 }
+
 .vinyl.return {
   transform: translate(-50%, -50%) translateX(-30%);
 }
+
 .vinyl-inner.spinning {
   animation: spin 8s linear infinite;
 }
+
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
+/* === TEXT & LINKS === */
 h1, p, a {
   margin: 8px 0;
   color: inherit;
@@ -174,13 +190,8 @@ h1, p, a {
   transition: transform 0.3s ease, color 0.3s ease;
 }
 
-a {
-    font-size: 1.2em;
-}
-
-a:visited {
-  color: inherit;
-}
+a { font-size: 1.2em; }
+a:visited { color: inherit; }
 
 h1:hover, p:hover, a:hover {
   transform: scale(1.05);
@@ -193,18 +204,21 @@ h1:hover, p:hover, a:hover {
   cursor: pointer;
 }
 
+/* === BUTTONS === */
 .buttons {
   display: flex;
   justify-content: center;
   gap: 0; 
   margin: 20px 0;
 }
+
 .buttons i {
   color: #FFA500;
   cursor: pointer;
   opacity: 0.8;
   transition: opacity 0.2s, transform 0.2s;
 }
+
 .buttons i:hover {
   opacity: 1;
   transform: scale(1.15);
@@ -224,10 +238,9 @@ h1:hover, p:hover, a:hover {
   padding: 10px 25px; 
 }
 
-.active {
-  color: white; 
-}
+.active { color: white; }
 
+/* === PROFILE-CARD BUTTONS (INCLUDING VOTED STATE) === */
 .profile-card button {
   padding: 10px 20px;
   font-size: 18px;
@@ -238,84 +251,69 @@ h1:hover, p:hover, a:hover {
   cursor: pointer;
   transition: transform 0.2s ease, background 0.3s ease;
 }
+
 .profile-card button:hover {
   transform: scale(1.1);
   background: #c87f00;
 }
 
+/* GREY VOTED BUTTON */
+.profile-card button.voted {
+  background: #555;
+  cursor: default;
+  transition: background 0.3s ease;
+}
+
+.profile-card button.voted:hover {
+  transform: none;
+  background: #555;
+}
+
+/* === SLIDERS === */
 .slider_container {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
 }
+
 .seek_slider,
 .volume_slider {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  /* FIX: Increased height from 5px to 10px */
   height: 10px; 
   transition: opacity .2s;
   cursor: pointer;
   border-radius: 5px;
 }
 
-.seek_slider {
-  width: 60%;
-  background: linear-gradient(to right, #FF8C00, #FFA500);
-}
+.seek_slider { width: 60%; background: linear-gradient(to right, #FF8C00, #FFA500); }
+.volume_slider { width: 30%; background: linear-gradient(to right, #FFD700, #FFFF66); }
 
-/* --- SEEK SLIDER THUMB FIX (Kept the same) --- */
-.seek_slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 15px;
-  height: 15px;
-  background: white;
-  border: 3px solid #FFD700; 
-  border-radius: 100%;
-  cursor: grab;
-}
-
-.seek_slider::-moz-range-thumb {
-  width: 15px;
-  height: 15px;
-  background: white;
-  border: 3px solid #FFD700; 
-  border-radius: 100%;
-  cursor: grab;
-}
-
-.volume_slider {
-  width: 30%;
-  background: linear-gradient(to right, #FFD700, #FFFF66);
-}
-
-/* --- VOLUME SLIDER THUMB FIX (Kept the same) --- */
+/* Slider thumbs */
+.seek_slider::-webkit-slider-thumb,
 .volume_slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
   width: 15px;
   height: 15px;
   background: white;
-  border: 3px solid #FFD700; 
+  border: 3px solid #FFD700;
   border-radius: 100%;
   cursor: grab;
 }
-
+.seek_slider::-moz-range-thumb,
 .volume_slider::-moz-range-thumb {
   width: 15px;
   height: 15px;
   background: white;
-  border: 3px solid #FFD700; 
+  border: 3px solid #FFD700;
   border-radius: 100%;
   cursor: grab;
 }
-/* ------------------------------- */
 
+/* === VISUALIZER === */
 .loader {
-  height: 0;
+  height: 140px; /* increased from 90px */
   opacity: 0;
   transition: opacity 0.5s ease, height 0.3s ease;
   overflow: hidden;
@@ -329,7 +327,7 @@ h1:hover, p:hover, a:hover {
 }
 
 .loader.visible {
-  height: 90px;
+  height: 140px; /* match increased height */
   opacity: 1;
   margin-top: 15px;
   pointer-events: auto;
@@ -352,6 +350,7 @@ h1:hover, p:hover, a:hover {
   margin: 0 4px; 
 }
 
+/* gradient for strokes */
 .stroke:nth-child(2) { background: linear-gradient(to top, #FFD700, #FFA500); }
 .stroke:nth-child(3) { background: linear-gradient(to top, #FFA500, #FFD700); }
 .stroke:nth-child(4) { background: linear-gradient(to top, #FFD700, #FFA500); }
@@ -360,14 +359,8 @@ h1:hover, p:hover, a:hover {
 .stroke:nth-child(7) { background: linear-gradient(to top, #FFA500, #FFD700); }
 
 @keyframes animate {
-  50% {
-    height: 20%;
-    background: #4286f4;
-  }
-  100% {
-    background: #4286f4;
-    height: 100%;
-  }
+  50% { height: 20%; background: #4286f4; }
+  100% { background: #4286f4; height: 100%; }
 }
 
 .stroke:nth-child(1) { animation-delay: 0s; }
@@ -378,73 +371,59 @@ h1:hover, p:hover, a:hover {
 .stroke:nth-child(6) { animation-delay: 0.3s; }
 .stroke:nth-child(7) { animation-delay: 0s; }
 
+/* === FOOTER === */
 .footer-anchor {
-    display: block;
-    width: fit-content;
-    margin: 30px auto 20px auto;
-    position: relative;
-    z-index: 1; 
-    padding: 10px 15px;
-    border-radius: 8px;
-    background: rgba(0, 0, 0, 0.4);
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+  display: block;
+  width: fit-content;
+  margin: 30px auto 20px auto;
+  position: relative;
+  z-index: 1; 
+  padding: 10px 15px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
 }
 
 .footer-anchor a {
-    margin: 0; 
-    padding: 0;
-    font-size: 1em;
-    color: #FFD700;
+  margin: 0; 
+  padding: 0;
+  font-size: 1em;
+  color: #FFD700;
 }
 
 .footer-anchor a:hover {
-    color: #EDA20C;
-    transform: scale(1.1);
+  color: #EDA20C;
+  transform: scale(1.1);
 }
 
-/* === LICENSE AND COPYRIGHT NOTICE STYLES (for license.html) === */
-
-.special-notice-title {
-    font-weight: bold;
-    color: #fff;
-}
-
-.license-info {
-    margin-top: 20px;
-}
-
-hr {
-    margin: 40px 0;
-    border: 0;
-    border-top: 1px solid #FFD700;
-    opacity: 0.5;
-    width: 100%;
-}
+/* === LICENSE === */
+.special-notice-title { font-weight: bold; color: #fff; }
+.license-info { margin-top: 20px; }
+hr { margin: 40px 0; border: 0; border-top: 1px solid #FFD700; opacity: 0.5; width: 100%; }
 
 .mit-license {
-    font-family: monospace;
-    white-space: pre-wrap;
-    color: yellow;
-    background-color: #222;
-    padding: 25px;
-    border-radius: 8px;
-    margin-bottom: 25px;
-    
-    position: relative;
-    z-index: 1;
-    overflow: hidden;
-    text-align: left;
-    font-size: 0.9em;
-    line-height: 1.5;
+  font-family: monospace;
+  white-space: pre-wrap;
+  color: yellow;
+  background-color: #222;
+  padding: 25px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  text-align: left;
+  font-size: 0.9em;
+  line-height: 1.5;
 }
 
 .mit-license::before {
-    content: '';
-    position: relative;
-    top: -3px;
-    right: -3px;
-    bottom: -3px; 
-    left: -3px;
-    z-index: -1;
-    border-radius: 10px;
+  content: '';
+  position: relative;
+  top: -3px;
+  right: -3px;
+  bottom: -3px; 
+  left: -3px;
+  z-index: -1;
+  border-radius: 10px;
 }
