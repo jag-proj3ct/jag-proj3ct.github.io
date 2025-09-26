@@ -7,19 +7,27 @@
   padding: 20px;
 }
 
-/* Player card stays centered */
-.player.card {
+/* Player now acts as a relative container for the video and overlay */
+.player {
+  position: relative; /* Essential for positioning the overlay */
   width: 100%;
-  max-width: 33vw;        /* cannot exceed 1/3 viewport width */
-  min-height: 50vh;       /* ensures video is at least half screen height */
-  max-height: 90vh;       /* ensures video never overflows */
+  max-width: 33vw;
+  min-height: 50vh;
+  max-height: 90vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: rgba(0,0,0,0.5);
-  border-radius: 12px;
-  padding: 20px;
+  /* Removed: background: rgba(0,0,0,0.5); */
+  /* Removed: border-radius: 12px; */
+  /* Removed: padding: 20px; */
+}
+
+/* Wrapper ensures video and overlay are stacked correctly */
+.wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 /* Video element scaling */
@@ -32,14 +40,43 @@
   margin: 0 auto;
 }
 
+/* NEW: Video Overlay to contain controls */
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Push controls to the bottom */
+    padding: 10px 20px;
+    z-index: 10;
+    /* Initial state: Hidden and smaller */
+    opacity: 0;
+    transform: scale(0.98);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* NEW: Show and grow overlay on hover */
+.player:hover .video-overlay {
+    opacity: 1;
+    transform: scale(1);
+}
+
+
 /* Controls */
 .controls {
   width: 100%;
-  margin-top: 15px;
+  /* Removed: margin-top: 15px; */
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 15px;
+  /* Add a slight dark background to the controls for visibility on bright videos */
+  background: rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  border-radius: 8px;
 }
 
 .timebar {
@@ -48,6 +85,7 @@
   align-items: center;
   gap: 10px;
   font-size: 14px;
+  color: white; /* Make time white */
 }
 
 .timebar .seek_slider {
@@ -63,7 +101,7 @@
 }
 
 .buttons i {
-  color: #FFA500;
+  color: white; /* Make buttons white */
   cursor: pointer;
   transition: transform 0.2s, opacity 0.2s;
   opacity: 0.8;
@@ -71,7 +109,7 @@
 
 .buttons i:hover {
   opacity: 1;
-  transform: scale(1.2);
+  transform: scale(1.3); /* Slightly increased scale for better visual feedback */
 }
 
 /* Volume */
@@ -80,8 +118,34 @@
   align-items: center;
   gap: 10px;
   width: 80%;
+  color: white; /* Make volume icons white */
 }
 
 .volume input[type="range"] {
   flex: 1;
+}
+
+/* Style the range inputs (sliders) to be more visible (Optional, but recommended) */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  background: #ffffff;
+  border-radius: 3px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  background: #ffffff;
+  cursor: pointer;
+  margin-top: -3.3px;
 }
