@@ -1,11 +1,10 @@
 // js/voting-system.js
 
-// PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE
-// FIX: Updated to the LATEST DEPLOYMENT URL
-const SCRIPT_URL = "https://docs.google.com/spreadsheets/d/1anGNXbaR9fIlyqXR0eIplGMqoHHDVi9o15o8G0PP30U/edit?usp=sharing"; 
+// USE THE DEPLOYMENT URL, not the sheet link
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwTvyIbKfncy1EZATocookPXV2h0UhYeunXbTOS_9iFK0RfvZZiUYX4RvpFSxKzrD8gdA/exec";
 const VOTE_KEY = "hasVotedDomingo";
 
-// Check if the DOM elements are available (important when deferring script)
+// Check if the DOM elements are available
 const voteBtn = document.getElementById("voteBtn");
 const votesDisplay = document.getElementById("currentVotes");
 const voteMessage = document.getElementById("voteMessage");
@@ -17,7 +16,7 @@ if (voteBtn && votesDisplay && voteMessage) {
         const cacheBuster = new Date().getTime();
         const response = await fetch(`${SCRIPT_URL}?cb=${cacheBuster}`, { method: 'GET' });
         const count = await response.text();
-        // Check if the script returned an error message instead of a number
+
         if (isNaN(parseInt(count))) {
             throw new Error(`Script returned non-numeric data: ${count}`);
         }
@@ -55,7 +54,7 @@ if (voteBtn && votesDisplay && voteMessage) {
         });
         
         const newCount = await response.text();
-        // Check if the script returned an error message instead of a number
+
         if (isNaN(parseInt(newCount))) {
             throw new Error(`Script returned non-numeric data: ${newCount}`);
         }
@@ -72,7 +71,7 @@ if (voteBtn && votesDisplay && voteMessage) {
       }
     }
 
-    // Initial load calls
+    // Initial load
     fetchVotes();
     checkVotedStatus();
     voteBtn.addEventListener("click", handleVote);
