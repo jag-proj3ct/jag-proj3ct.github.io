@@ -1,7 +1,7 @@
 // js/voting-system.js
 
-// Current deployment URL
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz3gGvMYhLprAddC98Ynlr8dDzxYxJ_NjwJDoOYJg05nW-SIhKdSSicUq-LZE5H4vldcQ/exec";
+// Current deployment URL (updated)
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyx1pB3AbeDIaWFxDANrrEWY2NkgNmRYB3k_aNR109pR5aEVExaWniEc5-oZ0D2xy6FXw/exec";
 
 const VOTE_KEY = "hasVotedDomingo";
 
@@ -10,6 +10,8 @@ const votesDisplay = document.getElementById("currentVotes");
 const voteMessage = document.getElementById("voteMessage");
 
 if (voteBtn && votesDisplay && voteMessage) {
+
+    let refreshInterval;
 
     // 1. Fetch current votes
     async function fetchVotes() {
@@ -46,6 +48,9 @@ if (voteBtn && votesDisplay && voteMessage) {
     async function handleVote() {
         if (localStorage.getItem(VOTE_KEY) === "true") return;
 
+        // Pause auto-refresh while voting
+        clearInterval(refreshInterval);
+
         voteBtn.disabled = true;
         voteBtn.textContent = "Submitting...";
 
@@ -70,6 +75,9 @@ if (voteBtn && votesDisplay && voteMessage) {
             console.error("Error submitting vote:", error);
             alert("Failed to cast vote. Please try again later.");
             checkVotedStatus(); 
+        } finally {
+            // Resume auto-refresh after voting
+            refreshInterval = setInterval(fetchVotes, 500);
         }
     }
 
@@ -78,8 +86,8 @@ if (voteBtn && votesDisplay && voteMessage) {
     checkVotedStatus();
     voteBtn.addEventListener("click", handleVote);
 
-    // Auto-refresh votes every 0.5 seconds for faster updates
-    setInterval(fetchVotes, 500);
+    // Auto-refresh votes every 0.5 seconds
+    refreshInterval = setInterval(fetchVotes, 500);
 
 } else {
     console.error("Voting system elements not found in HTML. Check IDs.");
