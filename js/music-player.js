@@ -32,8 +32,9 @@ let isRandom = false;
 let isRepeating = false;
 let updateTimer = null;
 let part_index = 0;
+let totalTrackDuration = 0; // store total duration of multi-part track
 
-/* Web Audio API setup */
+/* Web Audio API */
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 const analyser = audioCtx.createAnalyser();
 const source = audioCtx.createMediaElementSource(curr_track);
@@ -44,16 +45,14 @@ analyser.fftSize = 256;
 const bufferLength = analyser.frequencyBinCount;
 const dataArray = new Uint8Array(bufferLength);
 
-/* Visualizer rendering */
+/* Visualizer */
 function renderWave() {
   requestAnimationFrame(renderWave);
-
   if (!loader) return;
 
   if (isPlaying) {
     analyser.getByteFrequencyData(dataArray);
     loader.classList.add('visible');
-
     const step = Math.floor(dataArray.length / strokes.length);
     strokes.forEach((stroke, i) => {
       let value = dataArray[i * step] / 256;
@@ -62,9 +61,7 @@ function renderWave() {
     });
   } else {
     loader.classList.remove('visible');
-    strokes.forEach(stroke => {
-      stroke.style.transform = 'scaleY(0.2)';
-    });
+    strokes.forEach(stroke => stroke.style.transform = 'scaleY(0.2)');
   }
 }
 if (loader) renderWave();
@@ -119,35 +116,60 @@ function formatTime(time) {
 function setUpdate() {
   if (isNaN(curr_track.duration)) return;
 
-  const seekPosition = (curr_track.currentTime / curr_track.duration) * 100;
+  const track = music_list[track_index];
+  let currentOverall = curr_track.currentTime;
+
+  // add time of previous parts for multi-part songs
+  for (let i = 0; i < part_index; i++) {
+    currentOverall += track.musicDurations[i] || 0;
+  }
+
+  const seekPosition = (currentOverall / totalTrackDuration) * 100;
   seek_slider.value = seekPosition;
 
-  curr_time.textContent = formatTime(curr_track.currentTime);
-  total_duration.textContent = formatTime(curr_track.duration);
+  curr_time.textContent = formatTime(currentOverall);
+  total_duration.textContent = formatTime(totalTrackDuration);
 }
 
-/* Reset UI */
+/* Reset */
 function reset() {
   curr_time.textContent = "00:00";
   total_duration.textContent = "00:00";
   seek_slider.value = 0;
+  totalTrackDuration = 0;
 }
 
-/* Load track (with optional part) */
-function loadTrack(index, startPart = 0) {
+/* Load track */
+function loadTrack(index) {
   clearInterval(updateTimer);
   reset();
 
-  // Wrap around
   if (index < 0) index = music_list.length - 1;
   else if (index >= music_list.length) index = 0;
 
   track_index = index;
-  part_index = startPart;
+  part_index = 0;
   const track = music_list[track_index];
 
   curr_track.src = track.music[part_index];
   curr_track.load();
+
+  // preload all parts to calculate total duration
+  track.musicDurations = [];
+  let promises = track.music.map((src, i) => {
+    return new Promise(resolve => {
+      const tempAudio = new Audio(src);
+      tempAudio.addEventListener("loadedmetadata", () => {
+        track.musicDurations[i] = tempAudio.duration || 0;
+        resolve();
+      });
+    });
+  });
+
+  Promise.all(promises).then(() => {
+    totalTrackDuration = track.musicDurations.reduce((a, b) => a + b, 0);
+    total_duration.textContent = formatTime(totalTrackDuration);
+  });
 
   if (coverEl) coverEl.style.backgroundImage = `url("${track.img}")`;
   track_name.textContent = track.name;
@@ -157,10 +179,9 @@ function loadTrack(index, startPart = 0) {
   updateTimer = setInterval(setUpdate, 1000);
 }
 
-/* Next part or next track */
+/* Next part or track */
 function nextPartOrTrack() {
   const track = music_list[track_index];
-
   if (part_index < track.music.length - 1) {
     part_index++;
     curr_track.src = track.music[part_index];
@@ -170,9 +191,8 @@ function nextPartOrTrack() {
     part_index = 0;
     if (isRandom) {
       let randIndex;
-      do {
-        randIndex = Math.floor(Math.random() * music_list.length);
-      } while (randIndex === track_index);
+      do { randIndex = Math.floor(Math.random() * music_list.length); }
+      while (randIndex === track_index);
       loadTrack(randIndex);
       playTrack();
     } else {
@@ -182,10 +202,9 @@ function nextPartOrTrack() {
   }
 }
 
-/* Play */
+/* Play / Pause */
 function playTrack() {
   if (audioCtx.state === 'suspended') audioCtx.resume();
-
   curr_track.play().catch(e => console.error("Play failed:", e));
   isPlaying = true;
 
@@ -194,7 +213,6 @@ function playTrack() {
     vinylEl.classList.remove('spinning');
     void vinylContainerEl.offsetWidth;
     vinylContainerEl.classList.add('sliding');
-
     vinylContainerEl.addEventListener('transitionend', () => {
       vinylContainerEl.classList.remove('sliding');
       vinylEl.classList.add('spinning');
@@ -205,31 +223,43 @@ function playTrack() {
   if (loader) loader.classList.add('visible');
 }
 
-/* Pause */
 function pauseTrack() {
   curr_track.pause();
   isPlaying = false;
-
   if (vinylContainerEl && vinylEl) {
     vinylContainerEl.classList.remove('sliding');
     vinylEl.classList.remove('spinning');
     void vinylContainerEl.offsetWidth;
     vinylContainerEl.classList.add('return');
   }
-
   playpause_btn.innerHTML = '<i class="fa fa-play-circle fa-5x"></i>';
   if (loader) loader.classList.remove('visible');
 }
 
-/* Toggle play/pause */
 function playpauseTrack() {
   isPlaying ? pauseTrack() : playTrack();
 }
 
 /* Seek */
 function seekTo() {
-  if (!curr_track.duration) return;
-  curr_track.currentTime = curr_track.duration * (seek_slider.value / 100);
+  const track = music_list[track_index];
+  if (!totalTrackDuration) return;
+
+  const targetOverall = (seek_slider.value / 100) * totalTrackDuration;
+
+  // find which part target falls into
+  let accumulated = 0;
+  for (let i = 0; i < track.musicDurations.length; i++) {
+    if (targetOverall < accumulated + track.musicDurations[i]) {
+      part_index = i;
+      curr_track.src = track.music[part_index];
+      curr_track.load();
+      curr_track.currentTime = targetOverall - accumulated;
+      if (isPlaying) playTrack();
+      break;
+    }
+    accumulated += track.musicDurations[i];
+  }
 }
 
 /* Volume */
@@ -237,19 +267,16 @@ function setVolume() {
   curr_track.volume = volume_slider.value / 100;
 }
 
-/* Toggle repeat */
+/* Buttons */
 repeat_btn.addEventListener('click', () => {
   isRepeating = !isRepeating;
   repeat_btn.classList.toggle('active', isRepeating);
 });
-
-/* Toggle random */
 random_btn.addEventListener('click', () => {
   isRandom = !isRandom;
   random_btn.classList.toggle('active', isRandom);
 });
 
-/* On end */
 curr_track.addEventListener('ended', () => {
   if (isRepeating) {
     curr_track.currentTime = 0;
@@ -259,15 +286,13 @@ curr_track.addEventListener('ended', () => {
   }
 });
 
-/* Controls */
 playpause_btn.addEventListener('click', playpauseTrack);
 next_btn.addEventListener('click', nextPartOrTrack);
-
 prev_btn.addEventListener('click', () => {
   if (curr_track.currentTime > 3 || part_index === 0) {
     loadTrack(track_index - 1);
   } else {
-    part_index = Math.max(0, part_index - 1);
+    part_index--;
     curr_track.src = music_list[track_index].music[part_index];
     curr_track.load();
   }
@@ -277,5 +302,5 @@ prev_btn.addEventListener('click', () => {
 seek_slider.addEventListener('input', seekTo);
 volume_slider.addEventListener('input', setVolume);
 
-/* Initial */
+/* Init */
 loadTrack(track_index);
