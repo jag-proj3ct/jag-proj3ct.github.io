@@ -1,7 +1,11 @@
 // js/voting-system.js
 
-// USE THE DEPLOYMENT URL, not the sheet link
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwTvyIbKfncy1EZATocookPXV2h0UhYeunXbTOS_9iFK0RfvZZiUYX4RvpFSxKzrD8gdA/exec";
+// ✅ Current live deployment URL (new one)
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyOvr3pR8hmLeLiAZDPQeklwJLKU3mUDFyjT08Q2RIpphzN_1KqurI1HTOzZyczPo56pw/exec";
+
+// 📝 Previous deployment (keep as reference)
+// const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwTvyIbKfncy1EZATocookPXV2h0UhYeunXbTOS_9iFK0RfvZZiUYX4RvpFSxKzrD8gdA/exec";
+
 const VOTE_KEY = "hasVotedDomingo";
 
 // Check if the DOM elements are available
