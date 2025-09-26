@@ -72,18 +72,6 @@ body {
   transition: transform 0.3s ease; 
 }
 
-.profile-pic-wrapper:hover {
-  transform: scale(1.05);
-  /* REMOVED: transition: transform 0.3s ease; */
-}
-
-
-.profile-card:hover{
-  transform: scale(1.05);
-  transition: transform 0.3s ease, color 0.3s ease; 
-  cursor: pointer;
-}
-
 .profile-pic-wrapper img.profile {
   width: 150px;
   height: 150px;
@@ -264,6 +252,18 @@ h1:hover, p:hover, a:hover {
 .profile-card button:hover {
   transform: scale(1.1);
   background: #c87f00;
+}
+
+.profile-pic-wrapper:hover {
+  transform: scale(1.05);
+  /* REMOVED: transition: transform 0.3s ease; */
+}
+
+
+.profile-card:hover{
+  transform: scale(1.05);
+  transition: transform 0.3s ease, color 0.3s ease; 
+  cursor: pointer;
 }
 
 .slider_container {
