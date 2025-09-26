@@ -9,7 +9,7 @@ body {
   width: 100%; 
   min-height: 100vh;
   margin: 0;
-  padding: 60px 80px 60px 80px;
+  padding: 60px 80px;
   overflow-x: hidden;
   overflow-y: auto; 
   position: relative;
@@ -51,9 +51,7 @@ body {
   transition: transform 0.3s ease, box-shadow 0.3s ease; 
 }
 
-.stats {
-  font-size: 18px;
-}
+.stats { font-size: 18px; }
 
 /* === PROFILE IMAGE === */
 .profile-pic-wrapper {
@@ -64,9 +62,7 @@ body {
   transition: transform 0.3s ease; 
 }
 
-.profile-pic-wrapper:hover {
-  transform: scale(1.05);
-}
+.profile-pic-wrapper:hover { transform: scale(1.05); }
 
 .profile-pic-wrapper img.profile {
   width: 150px;
@@ -78,6 +74,7 @@ body {
   transform: translate(-50%, -50%);
   z-index: 1;
 }
+
 .profile-pic-wrapper img.frame {
   position: absolute;
   top: 50%; left: 50%;
@@ -89,17 +86,12 @@ body {
 }
 
 /* === PLAYER === */
-.player {
-  align-items: center;
-}
-
-.player.card {
-  box-shadow: none; 
-}
+.player { align-items: center; }
+.player.card { box-shadow: none; }
 
 .player .wrapper {
   border-radius: 20px;
-  padding: 40px 30px 30px 30px; 
+  padding: 40px 30px 30px;
   background: rgba(255, 255, 255, 0.1); 
   box-shadow: none; 
   position: relative;
@@ -165,21 +157,14 @@ body {
   background: url("images/vinyl.png") no-repeat center/cover;
 }
 
-.vinyl.sliding {
-  transform: translate(-50%, -50%) translateX(30%);
-}
+.vinyl.sliding { transform: translate(-50%, -50%) translateX(30%); }
+.vinyl.return { transform: translate(-50%, -50%) translateX(-30%); }
 
-.vinyl.return {
-  transform: translate(-50%, -50%) translateX(-30%);
-}
-
-.vinyl-inner.spinning {
-  animation: spin 8s linear infinite;
-}
+.vinyl-inner.spinning { animation: spin 8s linear infinite; }
 
 @keyframes spin {
   from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  to   { transform: rotate(360deg); }
 }
 
 /* === TEXT & LINKS === */
@@ -199,10 +184,7 @@ h1:hover, p:hover, a:hover {
   cursor: pointer;
 }
 
-.profile-card:hover{
-  transform: scale(1.05);
-  cursor: pointer;
-}
+.profile-card:hover { transform: scale(1.05); cursor: pointer; }
 
 /* === BUTTONS === */
 .buttons {
@@ -234,13 +216,11 @@ h1:hover, p:hover, a:hover {
   cursor: pointer;
 }
 
-.playpause-track {
-  padding: 10px 25px; 
-}
+.playpause-track { padding: 10px 25px; }
 
 .active { color: white; }
 
-/* === PROFILE-CARD BUTTONS (INCLUDING VOTED STATE) === */
+/* === PROFILE-CARD BUTTONS === */
 .profile-card button {
   padding: 10px 20px;
   font-size: 18px;
@@ -257,13 +237,11 @@ h1:hover, p:hover, a:hover {
   background: #c87f00;
 }
 
-/* GREY VOTED BUTTON */
+/* VOTED BUTTON STATE */
 .profile-card button.voted {
   background: #555;
   cursor: default;
-  transition: background 0.3s ease;
 }
-
 .profile-card button.voted:hover {
   transform: none;
   background: #555;
@@ -282,7 +260,7 @@ h1:hover, p:hover, a:hover {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  height: 10px; 
+  height: 5px;
   transition: opacity .2s;
   cursor: pointer;
   border-radius: 5px;
@@ -291,11 +269,10 @@ h1:hover, p:hover, a:hover {
 .seek_slider { width: 60%; background: linear-gradient(to right, #FF8C00, #FFA500); }
 .volume_slider { width: 30%; background: linear-gradient(to right, #FFD700, #FFFF66); }
 
-/* Slider thumbs */
 .seek_slider::-webkit-slider-thumb,
 .volume_slider::-webkit-slider-thumb {
-  width: 15px;
-  height: 15px;
+  -webkit-appearance: none;
+  width: 15px; height: 15px;
   background: white;
   border: 3px solid #FFD700;
   border-radius: 100%;
@@ -303,8 +280,7 @@ h1:hover, p:hover, a:hover {
 }
 .seek_slider::-moz-range-thumb,
 .volume_slider::-moz-range-thumb {
-  width: 15px;
-  height: 15px;
+  width: 15px; height: 15px;
   background: white;
   border: 3px solid #FFD700;
   border-radius: 100%;
@@ -313,7 +289,7 @@ h1:hover, p:hover, a:hover {
 
 /* === VISUALIZER === */
 .loader {
-  height: 140px; /* increased from 90px */
+  height: 140px; /* bigger than old 90px */
   opacity: 0;
   transition: opacity 0.5s ease, height 0.3s ease;
   overflow: hidden;
@@ -327,7 +303,7 @@ h1:hover, p:hover, a:hover {
 }
 
 .loader.visible {
-  height: 140px; /* match increased height */
+  height: 140px;
   opacity: 1;
   margin-top: 15px;
   pointer-events: auto;
@@ -350,7 +326,7 @@ h1:hover, p:hover, a:hover {
   margin: 0 4px; 
 }
 
-/* gradient for strokes */
+/* alternating gradients */
 .stroke:nth-child(2) { background: linear-gradient(to top, #FFD700, #FFA500); }
 .stroke:nth-child(3) { background: linear-gradient(to top, #FFA500, #FFD700); }
 .stroke:nth-child(4) { background: linear-gradient(to top, #FFD700, #FFA500); }
@@ -375,7 +351,7 @@ h1:hover, p:hover, a:hover {
 .footer-anchor {
   display: block;
   width: fit-content;
-  margin: 30px auto 20px auto;
+  margin: 30px auto 20px;
   position: relative;
   z-index: 1; 
   padding: 10px 15px;
@@ -385,8 +361,6 @@ h1:hover, p:hover, a:hover {
 }
 
 .footer-anchor a {
-  margin: 0; 
-  padding: 0;
   font-size: 1em;
   color: #FFD700;
 }
