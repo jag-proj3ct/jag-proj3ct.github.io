@@ -50,12 +50,12 @@ if (voteBtn && votesDisplay && voteMessage) {
         voteBtn.textContent = "Submitting...";
 
         try {
-            const response = await fetch(SCRIPT_URL, {
-                method: 'POST',
+            const response = await fetch(SCRIPT_URL, { 
+                method: 'POST', 
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: new URLSearchParams({ count: votesDisplay.textContent })
             });
-
+            
             const newCount = await response.text();
 
             if (isNaN(parseInt(newCount))) {
@@ -69,7 +69,7 @@ if (voteBtn && votesDisplay && voteMessage) {
         } catch (error) {
             console.error("Error submitting vote:", error);
             alert("Failed to cast vote. Please try again later.");
-            checkVotedStatus();
+            checkVotedStatus(); 
         }
     }
 
@@ -78,8 +78,8 @@ if (voteBtn && votesDisplay && voteMessage) {
     checkVotedStatus();
     voteBtn.addEventListener("click", handleVote);
 
-    // Auto-refresh votes every 5 seconds
-    setInterval(fetchVotes, 5000);
+    // Auto-refresh votes every 0.5 seconds for faster updates
+    setInterval(fetchVotes, 500);
 
 } else {
     console.error("Voting system elements not found in HTML. Check IDs.");
