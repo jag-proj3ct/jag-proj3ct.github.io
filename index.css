@@ -46,18 +46,11 @@ body {
   flex-direction: column;
   align-items: center;
   background: none; 
+  /* FIX: Apply transition here for smooth hover-out */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; 
 }
 
-.game {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-  background: none; 
-  border-radius: 12px;
-  padding: 30px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-}
+/* Removed: .game rule (obsolete with voting system change) */
 
 .stats {
   font-size: 18px;
@@ -68,8 +61,12 @@ body {
   width: 150px;
   height: 150px;
   margin-bottom: 15px;
-  /* FIX: The transition property should be on the base class */
+  /* Already fixed: The transition property is on the base class */
   transition: transform 0.3s ease; 
+}
+
+.profile-pic-wrapper:hover {
+  transform: scale(1.05);
 }
 
 .profile-pic-wrapper img.profile {
@@ -181,9 +178,7 @@ h1, p, a {
   transition: transform 0.3s ease, color 0.3s ease;
 }
 
-.game h1 {
-    font-size: 50%;
-}
+/* Removed: .game h1 rule (obsolete with voting system change) */
 
 a {
     font-size: 1.2em;
@@ -198,9 +193,10 @@ h1:hover, p:hover, a:hover {
   color: #EDA20C;
   cursor: pointer;
 }
+
 .profile-card:hover{
   transform: scale(1.05);
-  transition: transform 0.3s ease, color 0.3s ease;
+  /* The transition property is now on the base .profile-card class */
   cursor: pointer;
 }
 
@@ -252,18 +248,6 @@ h1:hover, p:hover, a:hover {
 .profile-card button:hover {
   transform: scale(1.1);
   background: #c87f00;
-}
-
-.profile-pic-wrapper:hover {
-  transform: scale(1.05);
-  /* REMOVED: transition: transform 0.3s ease; */
-}
-
-
-.profile-card:hover{
-  transform: scale(1.05);
-  transition: transform 0.3s ease, color 0.3s ease; 
-  cursor: pointer;
 }
 
 .slider_container {
