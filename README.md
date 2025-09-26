@@ -5,3 +5,6 @@ id:AKfycbyOvr3pR8hmLeLiAZDPQeklwJLKU3mUDFyjT08Q2RIpphzN_1KqurI1HTOzZyczPo56pw
 link:https://docs.google.com/spreadsheets/d/1anGNXbaR9fIlyqXR0eIplGMqoHHDVi9o15o8G0PP30U/edit?usp=sharing
 -->
 tcd:https://open.spotify.com/album/4Uv86qWpGTxf7fU7lG5X6F?si=RBqk80_JSdeYhWqnFBrmrQ
+
+
+lil jimmy https://open.spotify.com/track/4BhwlQ9mTwhFGXpQvP9JTV?si=5-7HNlqCTiiXqxtIn7ABjg
