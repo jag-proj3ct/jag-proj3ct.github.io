@@ -435,10 +435,9 @@ hr { margin: 40px 0; border: 0; border-top: 1px solid #FFD700; opacity: 0.5; wid
 /* General Cupid styling (applies to both img tags with class="cupid") */
 .cupid {
     position: absolute;
-    width: 100px; /* Adjust size as needed */
+    width: 150px; /* Adjust size as needed */
     height: auto;
     z-index: 5; /* Ensure it's above other elements */
-    pointer-events: none; /* Allows clicks to pass through */
     transition: transform 0.3s ease;
 }
 
@@ -448,12 +447,12 @@ hr { margin: 40px 0; border: 0; border-top: 1px solid #FFD700; opacity: 0.5; wid
 
 /* Specific positioning for the Cupid in the FIRST container (bottom right) */
 .cupid-first-container {
-    bottom: 20px;
-    right: -50px; 
+    bottom: -50px;
+    right: 30px; 
 }
 
 /* Specific positioning for the Cupid in the MUSIC PLAYER container (bottom left) */
 .cupid-music-player {
-    bottom: 0px;
-    left: -50px;
+    bottom: 150px;
+    left: 130px;
 }
