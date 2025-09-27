@@ -130,7 +130,7 @@ function loadTrack(index) {
   clearInterval(updateTimer);
   reset();
 
-  // Handle boundary conditions and looping
+  // Handle boundary conditions and looping (standard wrap-around)
   if (index < 0) index = flat_music_list.length - 1;
   else if (index >= flat_music_list.length) index = 0;
 
@@ -212,7 +212,7 @@ function nextTrack() {
   playTrack();
 }
 
-/* Previous track logic (handling multi-part) */
+/* Previous track logic (handling multi-part and new special wrap-around) */
 function prevTrack() {
   const currentTrack = flat_music_list[track_index];
 
@@ -223,12 +223,22 @@ function prevTrack() {
     // Go to the previous part of the current multi-part song
     loadTrack(track_index - 1);
   } else {
-    // Go to the previous *song*. For multi-part songs, go to the last part of the previous song
+    // Go to the previous *song*.
     let prevIndex = track_index - 1;
-    if (prevIndex < 0) {
-      prevIndex = flat_music_list.length - 1; // Wrap around
-    }
 
+    // *** MODIFICATION START: Implement special wrap-around logic ***
+    if (prevIndex < 0) {
+        // Track 1 is flat_music_list[0]
+        // Instead of wrapping to the very last track (Last Call Part 3, index 22), 
+        // we wrap to Family Business (original index 20) which is flat_music_list index 20.
+        // NOTE: Family Business is track 21 (original_music_list index 20), which is the one before Last Call.
+        
+        // Find the index of the last track (Family Business is the last single song before the multi-part one).
+        // The index of "Family Business" is 20 in the flat_music_list.
+        prevIndex = 20;
+    }
+    // *** MODIFICATION END ***
+    
     const prevTrack = flat_music_list[prevIndex];
     if (prevTrack.isMultiPart) {
       // Find the index of the *last* part of the previous song
@@ -360,7 +370,7 @@ const randomTrumpetSounds = [
     'c-trumpet.mp3',
     'c2-trumpet.mp3',
     'd-trumpet.mp3',
-    'e-trumpet-fixed.mp3',
+    'e-trumpet-fixed.mp3', // This is included and should be working based on the logic below
     'f-trumpet.mp3',
     'g-trumpet.mp3'
 ];
