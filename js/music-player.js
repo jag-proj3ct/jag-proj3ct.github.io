@@ -386,7 +386,7 @@ const randomTrumpetSounds = [
     'c-trumpet.mp3',
     'c2-trumpet.mp3',
     'd-trumpet.mp3',
-    'e-trumpet-fixed.mp3', // Note: Renamed back to fixed
+    'e-trumpet.mp3', // Note: Renamed back to fixed
     'f-trumpet.mp3',
     'g-trumpet.mp3'
 ];
@@ -415,7 +415,7 @@ const keyTrumpetMap = {
     '5': 'c-trumpet.mp3',
     '6': 'c2-trumpet.mp3',
     '7': 'd-trumpet.mp3',
-    '8': 'e-trumpet-fixed.mp3', // Note: Renamed back to fixed
+    '8': 'e-trumpet.mp3', // Note: Renamed back to fixed
     '9': 'f-trumpet.mp3',
     '0': 'g-trumpet.mp3'
 };
