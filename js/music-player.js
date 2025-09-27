@@ -1,5 +1,3 @@
-// js/music-player.js
-
 /* DOM references */
 const now_playing = document.querySelector('.now-playing');
 const track_art = document.querySelector('.track-art');
@@ -325,6 +323,60 @@ function renderWave() {
 }
 if (loader) renderWave();
 
+
+// ===================================
+// 🎺 CUPID SOUND FUNCTIONALITY 🎺
+// ===================================
+
+// 1. Get references to the cupid elements
+const cupids = document.querySelectorAll('.cupid');
+
+// 2. Define the sound files
+const trumpetSounds = [
+    'trumpet1.mp3',
+    'trumpet2.mp3',
+    'trumpet3.mp3',
+    'trumpet4.mp3',
+    'trumpet5.mp3',
+    'trumpet6.mp3',
+    'trumpet7.mp3'
+];
+
+/**
+ * Plays a random trumpet sound from the defined list.
+ * Note: A new Audio element is created each time to allow sounds to overlap.
+ */
+function playRandomTrumpet() {
+    // Choose a random sound index
+    const randomIndex = Math.floor(Math.random() * trumpetSounds.length);
+    const soundFile = trumpetSounds[randomIndex];
+    
+    // Create a new Audio object for the sound
+    const trumpetAudio = new Audio(`/sounds/${soundFile}`); // Assumes sounds are in a 'sounds' folder
+    
+    // Set the volume to the current player volume
+    trumpetAudio.volume = curr_track.volume;
+
+    // Play the sound
+    trumpetAudio.play().catch(e => console.warn("Trumpet sound failed to play:", e));
+
+    // Optional: Log which sound played
+    console.log(`Playing: ${soundFile}`);
+}
+
+// 3. Add the click listener to all cupids
+cupids.forEach(cupid => {
+    // Re-enable pointer events for the click
+    cupid.style.pointerEvents = 'auto'; 
+    
+    cupid.addEventListener('click', playRandomTrumpet);
+});
+
+// 4. Update the volume slider's input handler to update the main track volume AND the trumpet volume
+volume_slider.addEventListener('input', setVolume); 
+// Note: This only sets the volume for new trumpet sounds, currently playing sounds will use the volume set when they were created.
+
+
 // --- EVENT LISTENERS ---
 
 repeat_btn.addEventListener('click', () => {
@@ -352,9 +404,8 @@ next_btn.addEventListener('click', nextTrack);
 prev_btn.addEventListener('click', prevTrack);
 
 seek_slider.addEventListener('input', seekTo);
-volume_slider.addEventListener('input', setVolume);
 curr_track.volume = volume_slider.value / 100; // Set initial volume
 
 /* Init */
 // Ensure we start on a valid, first part of a song
-loadTrack(flat_music_list.findIndex(t => t.partIndex === 0)); 
+loadTrack(flat_music_list.findIndex(t => t.partIndex === 0));
