@@ -241,7 +241,8 @@ h1:hover, p:hover, a:hover {
   cursor: pointer;
 }
 
-.playpause-track { padding: 10px 25px; }
+/* This is the container for the play/pause icon */
+.playpause-track { padding: 10px 25px; } 
 
 .active { color: white; }
 
@@ -514,8 +515,14 @@ hr { margin: 40px 0; border: 0; border-top: 1px solid #FFD700; opacity: 0.5; wid
         gap: 0px; 
     }
     
+    /* Shrink ALL icons EXCEPT the main play/pause button */
     .buttons i {
         font-size: 1.5em; /* Shrink icons slightly */
+    }
+
+    /* FIX: Make the play/pause button larger on mobile */
+    .playpause-track i { 
+        font-size: 4em !important; /* Override the smaller size for this specific icon */
     }
 
     /* Visualizer */
