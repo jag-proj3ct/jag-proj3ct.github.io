@@ -2,6 +2,7 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
+  background-color: #222;
   background-image: url("images/background.png");
   background-repeat: no-repeat;
   background-position: center center;
@@ -474,6 +475,7 @@ hr { margin: 40px 0; border: 0; border-top: 1px solid #FFD700; opacity: 0.5; wid
     body {
         /* Reduce padding around the entire content */
         padding: 20px 10px; 
+        background-color: #222; /* Ensure background looks grey on mobile */
         background-size: cover; /* Ensure background looks good on mobile */
     }
 
