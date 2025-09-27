@@ -462,3 +462,98 @@ hr { margin: 40px 0; border: 0; border-top: 1px solid #FFD700; opacity: 0.5; wid
     bottom: 150px;
     left: 130px;
 }
+/* =================================== */
+/* === MOBILE OPTIMIZATION (CSS) === */
+/* =================================== */
+
+/* Target devices with a viewport width of 768px or less (standard tablet/phone breakpoint) */
+@media (max-width: 768px) {
+    
+    /* Global Adjustments */
+    body {
+        /* Reduce padding around the entire content */
+        padding: 20px 10px; 
+        background-size: cover; /* Ensure background looks good on mobile */
+    }
+
+    /* Card/Container Adjustments */
+    .container-first,
+    .container {
+        /* Remove max-width constraints if needed, or simply let the default 900px apply */
+        max-width: 100%;
+    }
+
+    /* Footer Adjustments */
+    .footer {
+        /* Switch to column layout on smaller screens to prevent links from stacking horizontally */
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 20px;
+    }
+    
+    .footer a {
+        padding: 8px; /* Slightly smaller padding for buttons */
+        font-size: 0.9em;
+    }
+
+    /* Music Player Adjustments */
+    .player .wrapper {
+        padding: 30px 20px 50px; /* Reduced padding */
+    }
+
+    .track-name {
+        font-size: 2rem; /* Reduce large font size */
+    }
+
+    .track-artist {
+        font-size: 1.2rem;
+    }
+    
+    /* Player Buttons */
+    .buttons {
+        gap: 0px; 
+    }
+    
+    .buttons i {
+        font-size: 1.5em; /* Shrink icons slightly */
+    }
+
+    /* Visualizer */
+    .loader.visible {
+        height: 100px; /* Make the visualizer shorter */
+        margin-top: 20px;
+    }
+
+    .loader .stroke {
+        height: 60px; /* Make the strokes shorter */
+        width: 6px;
+        margin: 0 3px;
+    }
+
+    /* Hide Cupids on smaller screens if they cause clutter */
+    .cupid {
+        display: none; 
+    }
+}
+
+/* =================================== */
+/* === TOUCH-SPECIFIC STYLING (Optional) === */
+/* =================================== */
+
+/* Use the class added by the JS to adjust things only when touch is detected */
+.touch-device .profile-card:hover,
+.touch-device .cupid:hover,
+.touch-device h1:hover, 
+.touch-device p:hover, 
+.touch-device a:hover,
+.touch-device .cover:hover,
+.touch-device .profile-pic-wrapper:hover {
+    /* Prevent hover effects on touch devices if they look awkward (e.g., scale flicker) */
+    transform: none !important;
+    cursor: default;
+}
+
+.touch-device .profile-card button:hover {
+    /* Keep button press feedback */
+    transform: scale(1.05);
+}
