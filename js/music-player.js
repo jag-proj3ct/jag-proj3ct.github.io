@@ -130,7 +130,7 @@ function loadTrack(index) {
   clearInterval(updateTimer);
   reset();
 
-  // Handle boundary conditions and looping (standard wrap-around)
+  // Handle standard boundary conditions
   if (index < 0) index = flat_music_list.length - 1;
   else if (index >= flat_music_list.length) index = 0;
 
@@ -145,9 +145,11 @@ function loadTrack(index) {
     // Only set duration once the metadata is loaded
     total_duration.textContent = formatTime(curr_track.duration);
     
-    // Update display text (to show multi-part status)
+    // Update display text
     const totalSongs = original_music_list.filter(t => t.file !== "#").length;
-    let songNumber = flat_music_list.slice(0, track_index + 1).filter(t => t.partIndex === 0).length;
+    // Find the current song number based on its original index (if it's the start of a song)
+    const currentSongIndex = flat_music_list.findIndex(t => t.originalIndex === track.originalIndex && t.partIndex === 0);
+    const songNumber = flat_music_list.slice(0, currentSongIndex + 1).filter(t => t.partIndex === 0).length;
     
     let nowPlayingText = `Playing ${songNumber} of ${totalSongs}`;
     if (track.isMultiPart) {
@@ -182,73 +184,87 @@ function setUpdate() {
   curr_time.textContent = formatTime(curr_track.currentTime);
 }
 
-/* Next track logic (including multi-part chaining) */
-function nextTrack() {
-  const currentTrack = flat_music_list[track_index];
+// --- MODIFIED NEXT/PREV TRACK FUNCTIONS ---
 
-  // If this is a multi-part song and not the last part, go to the next part
-  if (currentTrack.isMultiPart && currentTrack.partIndex < currentTrack.lastPartIndex) {
-    loadTrack(track_index + 1);
-  } else {
-    // Otherwise, go to the next song/track, handling random mode
+/* Next track logic (simplified for logical song jumps) */
+function nextTrack() {
+    const currentTrack = flat_music_list[track_index];
+    let nextIndex = track_index + 1;
+
+    // If we're inside a multi-part song and not on the last part, the 'ended' event will handle the transition.
+    // If the user clicks next, we should jump to the *next logical song*.
+
+    if (currentTrack.isMultiPart && currentTrack.partIndex < currentTrack.lastPartIndex) {
+        // If they click next, jump over the remaining parts of this song
+        nextIndex = flat_music_list.findIndex(t => t.originalIndex > currentTrack.originalIndex && t.partIndex === 0);
+        // If not found (i.e., this is the last song), wrap around to 0
+        if (nextIndex === -1) nextIndex = 0;
+    } 
+    
+    // Handle random mode, ensuring we always start at the first part of a multi-part track
     if (isRandom) {
       let randIndex;
       do {
         randIndex = Math.floor(Math.random() * flat_music_list.length);
       } while (randIndex === track_index);
       
-      // If the random track is a part of a multi-part song, start from its first part
-      if(flat_music_list[randIndex].isMultiPart) {
-          // Find the index of the first part of the randomly selected song
-          randIndex = flat_music_list.findIndex(t => t.originalIndex === flat_music_list[randIndex].originalIndex && t.partIndex === 0);
-      }
+      // Always find the *first part* of the randomly selected song
+      randIndex = flat_music_list.findIndex(t => t.originalIndex === flat_music_list[randIndex].originalIndex && t.partIndex === 0);
       loadTrack(randIndex);
 
     } else {
-      // Normal sequential load (wraps around)
-      loadTrack(track_index + 1);
+        // Normal sequential load (which handles wrap-around inside loadTrack)
+        loadTrack(nextIndex);
     }
-  }
-  playTrack();
+    
+    playTrack();
 }
 
-/* Previous track logic (handling multi-part and new special wrap-around) */
+/* Previous track logic (fixed for special wrap-around) */
 function prevTrack() {
-  const currentTrack = flat_music_list[track_index];
+    const currentTrack = flat_music_list[track_index];
 
-  if (curr_track.currentTime > 3) {
-    // Restart current track/part if played for more than 3 seconds
-    curr_track.currentTime = 0;
-  } else if (currentTrack.isMultiPart && currentTrack.partIndex > 0) {
-    // Go to the previous part of the current multi-part song
-    loadTrack(track_index - 1);
-  } else {
-    // Go to the previous *song*.
-    let prevIndex = track_index - 1;
-
-    // *** MODIFICATION START: Implement special wrap-around logic ***
-    if (prevIndex < 0) {
-        // Track 1 is flat_music_list[0]
-        // Instead of wrapping to the very last track (Last Call Part 3, index 22), 
-        // we wrap to Family Business (original index 20) which is flat_music_list index 20.
-        // NOTE: Family Business is track 21 (original_music_list index 20), which is the one before Last Call.
+    if (curr_track.currentTime > 3 || (currentTrack.isMultiPart && currentTrack.partIndex > 0)) {
+        // If the track is part of a multi-part song and not the first part, go back one part
+        // OR if the current time is > 3 seconds, restart the current part.
+        let prevPartIndex = track_index;
+        if (currentTrack.isMultiPart && currentTrack.partIndex > 0) {
+            prevPartIndex = track_index - 1;
+        } else {
+            curr_track.currentTime = 0;
+            if (isPlaying) return; // If restarting, and playing, just continue playing
+        }
+        loadTrack(prevPartIndex);
         
-        // Find the index of the last track (Family Business is the last single song before the multi-part one).
-        // The index of "Family Business" is 20 in the flat_music_list.
-        prevIndex = 20;
+    } else {
+        // We are at the start of a song (partIndex === 0 or single-part)
+        let prevIndex = track_index - 1;
+
+        // Find the index of the *first part* of the logically previous song
+        let prevSongIndex = flat_music_list.findLastIndex(t => t.originalIndex < currentTrack.originalIndex && t.partIndex === 0);
+        
+        if (prevSongIndex !== -1) {
+            // Found a previous song, now jump to its last part (for a full reverse experience)
+            prevIndex = flat_music_list.findLastIndex(t => t.originalIndex === flat_music_list[prevSongIndex].originalIndex);
+        } else {
+            // Case 1: We are on the first song (Intro Skit, index 0).
+            // We need to wrap around to "Family Business" (Track 21, originalIndex 20).
+            // Family Business is a single-part track, which is flat_music_list index 20.
+            if (track_index === 0) {
+                prevIndex = 20; 
+            } else {
+                // Should not happen, but as a fallback, wrap to the actual last item
+                prevIndex = flat_music_list.length - 1; 
+            }
+        }
+        
+        loadTrack(prevIndex);
     }
-    // *** MODIFICATION END ***
     
-    const prevTrack = flat_music_list[prevIndex];
-    if (prevTrack.isMultiPart) {
-      // Find the index of the *last* part of the previous song
-      prevIndex = flat_music_list.findLastIndex(t => t.originalIndex === prevTrack.originalIndex);
-    }
-    
-    loadTrack(prevIndex);
-  }
-  playTrack();
+    playTrack();
 }
+// --- END MODIFIED NEXT/PREV TRACK FUNCTIONS ---
+
 
 /* Play / Pause */
 function playTrack() {
@@ -370,7 +386,7 @@ const randomTrumpetSounds = [
     'c-trumpet.mp3',
     'c2-trumpet.mp3',
     'd-trumpet.mp3',
-    'e-trumpet.mp3', // This is included and should be working based on the logic below
+    'e-trumpet-fixed.mp3', // Note: Renamed back to fixed
     'f-trumpet.mp3',
     'g-trumpet.mp3'
 ];
@@ -399,7 +415,7 @@ const keyTrumpetMap = {
     '5': 'c-trumpet.mp3',
     '6': 'c2-trumpet.mp3',
     '7': 'd-trumpet.mp3',
-    '8': 'e-trumpet.mp3',
+    '8': 'e-trumpet-fixed.mp3', // Note: Renamed back to fixed
     '9': 'f-trumpet.mp3',
     '0': 'g-trumpet.mp3'
 };
@@ -443,9 +459,18 @@ curr_track.addEventListener('ended', () => {
   if (isRepeating) {
     curr_track.currentTime = 0;
     playTrack();
+    return;
+  }
+  
+  const currentTrack = flat_music_list[track_index];
+  
+  // If this is a multi-part song and not the last part, go to the next part
+  if (currentTrack.isMultiPart && currentTrack.partIndex < currentTrack.lastPartIndex) {
+      loadTrack(track_index + 1);
+      playTrack();
   } else {
-    // Call nextTrack(), which handles the multi-part chaining automatically
-    nextTrack();
+      // Otherwise, go to the next logical song (handled by the regular nextTrack logic)
+      nextTrack();
   }
 });
 
