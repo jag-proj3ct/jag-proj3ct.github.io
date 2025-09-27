@@ -333,13 +333,16 @@ const cupids = document.querySelectorAll('.cupid');
 
 // 2. Define the sound files
 const trumpetSounds = [
+    'a-trumpet.mp3',
+    'b-trumpet.mp3',
+    'c-trumpet.mp3',
+    'c2-trumpet.mp3',
+    'd-trumpet.mp3',
+    'e-trumpet.mp3',
+    'f-trumpet.mp3',
+    'g-trumpet.mp3',
     'trumpet1.mp3',
-    'trumpet2.mp3',
-    'trumpet3.mp3',
-    'trumpet4.mp3',
-    'trumpet5.mp3',
-    'trumpet6.mp3',
-    'trumpet7.mp3'
+    'trumpet2.mp3'
 ];
 
 /**
