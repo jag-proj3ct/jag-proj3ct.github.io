@@ -93,7 +93,8 @@ body {
 
 .player .wrapper {
   border-radius: 20px;
-  padding: 40px 30px 30px;
+  /* MODIFIED: Increased bottom padding for visualizer space */
+  padding: 40px 30px 60px; 
   background: rgba(255, 255, 255, 0.1); 
   box-shadow: none; 
   position: relative;
@@ -313,7 +314,8 @@ h1:hover, p:hover, a:hover {
 
 /* === VISUALIZER === */
 .loader {
-  height: 140px; /* bigger than old 90px */
+  /* MODIFIED: Increased height for more space */
+  height: 180px; 
   opacity: 0;
   transition: opacity 0.5s ease, height 0.3s ease;
   overflow: hidden;
@@ -321,15 +323,18 @@ h1:hover, p:hover, a:hover {
   
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  /* MODIFIED: Moved down further from controls */
+  margin-top: 40px; 
   position: relative;
   z-index: 2;
 }
 
 .loader.visible {
-  height: 140px;
+  /* MODIFIED: Increased height to match above */
+  height: 180px;
   opacity: 1;
-  margin-top: 15px;
+  /* MODIFIED: Maintained new margin */
+  margin-top: 40px;
   pointer-events: auto;
 }
 
@@ -344,7 +349,8 @@ h1:hover, p:hover, a:hover {
 }
 
 .loader .stroke {
-  height: 60px; 
+  /* MODIFIED: Increased base height of strokes */
+  height: 100px; 
   width: 8px;
   border-radius: 50px;
   margin: 0 4px; 
