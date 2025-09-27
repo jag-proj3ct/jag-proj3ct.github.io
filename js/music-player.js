@@ -1,3 +1,5 @@
+// js/music-player.js
+
 /* DOM references */
 const now_playing = document.querySelector('.now-playing');
 const track_art = document.querySelector('.track-art');
@@ -39,47 +41,24 @@ let isPlaying = false;
 let isRandom = false;
 let isRepeating = false;
 let updateTimer = null;
-let part_index = 0;
-let totalTrackDuration = 0;
 
-/* Web Audio API */
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-const analyser = audioCtx.createAnalyser();
-const source = audioCtx.createMediaElementSource(curr_track);
-source.connect(analyser);
-analyser.connect(audioCtx.destination);
-analyser.fftSize = 256;
+// --- CRITICAL REMOVAL: part_index and totalTrackDuration are no longer needed for song duration ---
 
-const bufferLength = analyser.frequencyBinCount;
-const dataArray = new Uint8Array(bufferLength);
-
-/* Visualizer */
-function renderWave() {
-  requestAnimationFrame(renderWave);
-  if (!loader) return;
-
-  if (isPlaying) {
-    analyser.getByteFrequencyData(dataArray);
-    loader.classList.add('visible');
-    const step = Math.floor(dataArray.length / strokes.length);
-    strokes.forEach((stroke, i) => {
-      let value = dataArray[i * step] / 256;
-      if (i < 3) value = Math.sqrt(value);
-      stroke.style.transform = `scaleY(${Math.max(0.2, value * 1.2)})`;
-    });
-  } else {
-    loader.classList.remove('visible');
-    strokes.forEach(stroke => stroke.style.transform = 'scaleY(0.2)');
-  }
+/* Helper: Time Formatting */
+function formatTime(sec) {
+  const min = Math.floor(sec / 60);
+  const seconds = Math.floor(sec % 60);
+  return `${min.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 }
-if (loader) renderWave();
 
-/* Music list setup */
+// --- MUSIC LIST RESTRUCTURING ---
+
 const basePath = "./music/";
 const coverDefault = "./images/college-dropout-cover.jpg";
 const kanyeSpotify = "https://open.spotify.com/artist/5K4W6rqBFWDnAN6FQUkS6x";
 
-const music_list = [
+// 1. Define the original tracklist including the special multi-part track
+const original_music_list = [
   { name: "Intro (Skit)", file: "intro.mp3", url: "https://open.spotify.com/track/7lIr3vVhpDkU5mQEDcnA0S" },
   { name: "We Don’t Care", file: "we-dont-care.mp3", url: "https://open.spotify.com/track/0IW0qaeyxL5Et4UG2MrJKB" },
   { name: "Graduation Day", file: "graduation-day.mp3", url: "https://open.spotify.com/track/7wL7Lb8Q3aYyq6gmRL0PZqQ" },
@@ -100,30 +79,52 @@ const music_list = [
   { name: "Two Words", file: "2words.mp3", url: "https://open.spotify.com/track/62wtttQzoIA9HnNmGVd9Yq" },
   { name: "Through the Wire", file: "through-the-wire.mp3", url: "https://open.spotify.com/track/4mmkhcEm1Ljy1U9nwtsxUo" },
   { name: "Family Business", file: "family-business.mp3", url: "https://open.spotify.com/track/5DBmXF7QO43Cuy9yqva116" },
+  // Multi-part song
   {
     name: "Last Call",
     file: ["lastcall1.mp3", "lastcall2.mp3", "lastcall3.mp3"],
     url: "https://open.spotify.com/track/7iOhWWYjhhQiXzF4o4HhXN"
   }
-].map(track => ({
-  img: coverDefault,
-  name: track.name,
-  artist: "Kanye West",
-  url: track.url || kanyeSpotify,
-  artistUrl: kanyeSpotify,
-  music: track.file === "#"
-    ? []
-    : Array.isArray(track.file)
-      ? track.file.map(f => basePath + f)
-      : [basePath + track.file]
-}));
+];
+
+// 2. Flatten the list into a new array. Multi-part songs are chained together.
+let flat_music_list = [];
+original_music_list.forEach((track, originalIndex) => {
+  // Handle unavailable tracks
+  if (track.file === "#") return;
+
+  // Normalize single and multi-part files into an array of music sources
+  const musicFiles = Array.isArray(track.file) ? track.file : [track.file];
+  
+  // Track the original index and the part number
+  let currentMusic = musicFiles.map((file, part) => ({
+    // Inherit track details
+    name: track.name,
+    artist: "Kanye West",
+    url: track.url || kanyeSpotify,
+    artistUrl: kanyeSpotify,
+    img: coverDefault,
+    
+    // File details
+    musicSrc: basePath + file,
+    
+    // Chaining/Indexing details
+    isMultiPart: musicFiles.length > 1,
+    partIndex: part,
+    originalIndex: originalIndex,
+    lastPartIndex: musicFiles.length - 1
+  }));
+  
+  flat_music_list = flat_music_list.concat(currentMusic);
+});
+
+// --- CORE PLAYER FUNCTIONS ---
 
 /* Reset */
 function reset() {
   curr_time.textContent = "00:00";
   total_duration.textContent = "00:00";
   seek_slider.value = 0;
-  totalTrackDuration = 0;
 }
 
 /* Load track */
@@ -131,37 +132,34 @@ function loadTrack(index) {
   clearInterval(updateTimer);
   reset();
 
-  if (index < 0) index = music_list.length - 1;
-  else if (index >= music_list.length) index = 0;
+  // Handle boundary conditions and looping
+  if (index < 0) index = flat_music_list.length - 1;
+  else if (index >= flat_music_list.length) index = 0;
 
   track_index = index;
-  part_index = 0;
-  const track = music_list[track_index];
+  const track = flat_music_list[track_index];
 
-  if (!track.music.length) {
-    console.warn(`Skipping unavailable track: ${track.name}`);
-    return loadTrack(track_index + 1);
-  }
-
-  curr_track.src = track.music[part_index];
+  curr_track.src = track.musicSrc;
   curr_track.load();
 
-  // preload durations
-  track.musicDurations = [];
-  const promises = track.music.map((src, i) => new Promise(resolve => {
-    const tempAudio = new Audio(src);
-    tempAudio.addEventListener("loadedmetadata", () => {
-      track.musicDurations[i] = tempAudio.duration || 0;
-      resolve();
-    });
-  }));
+  // Use 'loadedmetadata' to update duration/UI
+  curr_track.onloadedmetadata = () => {
+    // Only set duration once the metadata is loaded
+    total_duration.textContent = formatTime(curr_track.duration);
+    
+    // Update display text (to show multi-part status)
+    const totalSongs = original_music_list.filter(t => t.file !== "#").length;
+    let songNumber = flat_music_list.slice(0, track_index + 1).filter(t => t.partIndex === 0).length;
+    
+    let nowPlayingText = `Playing ${songNumber} of ${totalSongs}`;
+    if (track.isMultiPart) {
+        nowPlayingText += ` (${track.name} - Part ${track.partIndex + 1}/${track.lastPartIndex + 1})`;
+    }
 
-  Promise.all(promises).then(() => {
-    totalTrackDuration = track.musicDurations.reduce((a, b) => a + b, 0);
-    total_duration.textContent = formatTime(totalTrackDuration);
-  });
-
-  // update cover background
+    now_playing.textContent = nowPlayingText;
+  };
+  
+  // Update UI elements
   const cover = coverLink.querySelector(".cover");
   if (cover) cover.style.backgroundImage = `url("${track.img}")`;
 
@@ -173,7 +171,6 @@ function loadTrack(index) {
   track_artist.href = track.artistUrl;
   track_artist.target = "_blank";
 
-  now_playing.textContent = `Playing ${track_index + 1} of ${music_list.length}`;
   updateTimer = setInterval(setUpdate, 1000);
 }
 
@@ -181,40 +178,68 @@ function loadTrack(index) {
 function setUpdate() {
   if (isNaN(curr_track.duration)) return;
 
-  const track = music_list[track_index];
-  let currentOverall = curr_track.currentTime;
-
-  for (let i = 0; i < part_index; i++) {
-    currentOverall += track.musicDurations[i] || 0;
-  }
-
-  const seekPosition = (currentOverall / totalTrackDuration) * 100;
+  const seekPosition = (curr_track.currentTime / curr_track.duration) * 100;
   seek_slider.value = seekPosition;
 
-  curr_time.textContent = formatTime(currentOverall);
-  total_duration.textContent = formatTime(totalTrackDuration);
+  curr_time.textContent = formatTime(curr_track.currentTime);
 }
 
-/* Next part or track */
-function nextPartOrTrack() {
-  const track = music_list[track_index];
-  if (part_index < track.music.length - 1) {
-    part_index++;
-    curr_track.src = track.music[part_index];
-    curr_track.load();
-    playTrack();
+/* Next track logic (including multi-part chaining) */
+function nextTrack() {
+  const currentTrack = flat_music_list[track_index];
+
+  // If this is a multi-part song and not the last part, go to the next part
+  if (currentTrack.isMultiPart && currentTrack.partIndex < currentTrack.lastPartIndex) {
+    loadTrack(track_index + 1);
   } else {
-    part_index = 0;
+    // Otherwise, go to the next song/track, handling random mode
     if (isRandom) {
       let randIndex;
-      do { randIndex = Math.floor(Math.random() * music_list.length); }
-      while (randIndex === track_index);
+      do {
+        randIndex = Math.floor(Math.random() * flat_music_list.length);
+      } while (randIndex === track_index);
+      
+      // If the random track is a part of a multi-part song, start from its first part
+      if(flat_music_list[randIndex].isMultiPart) {
+          // Find the index of the first part of the randomly selected song
+          randIndex = flat_music_list.findIndex(t => t.originalIndex === flat_music_list[randIndex].originalIndex && t.partIndex === 0);
+      }
       loadTrack(randIndex);
+
     } else {
+      // Normal sequential load (wraps around)
       loadTrack(track_index + 1);
     }
-    playTrack();
   }
+  playTrack();
+}
+
+/* Previous track logic (handling multi-part) */
+function prevTrack() {
+  const currentTrack = flat_music_list[track_index];
+
+  if (curr_track.currentTime > 3) {
+    // Restart current track/part if played for more than 3 seconds
+    curr_track.currentTime = 0;
+  } else if (currentTrack.isMultiPart && currentTrack.partIndex > 0) {
+    // Go to the previous part of the current multi-part song
+    loadTrack(track_index - 1);
+  } else {
+    // Go to the previous *song*. For multi-part songs, go to the last part of the previous song
+    let prevIndex = track_index - 1;
+    if (prevIndex < 0) {
+      prevIndex = flat_music_list.length - 1; // Wrap around
+    }
+
+    const prevTrack = flat_music_list[prevIndex];
+    if (prevTrack.isMultiPart) {
+      // Find the index of the *last* part of the previous song
+      prevIndex = flat_music_list.findLastIndex(t => t.originalIndex === prevTrack.originalIndex);
+    }
+    
+    loadTrack(prevIndex);
+  }
+  playTrack();
 }
 
 /* Play / Pause */
@@ -226,7 +251,7 @@ function playTrack() {
   if (vinylContainerEl && vinylEl) {
     vinylContainerEl.classList.remove('return', 'sliding');
     vinylEl.classList.remove('spinning');
-    void vinylContainerEl.offsetWidth;
+    void vinylContainerEl.offsetWidth; // Force reflow
     vinylContainerEl.classList.add('sliding');
     vinylContainerEl.addEventListener('transitionend', () => {
       vinylContainerEl.classList.remove('sliding');
@@ -245,7 +270,7 @@ function pauseTrack() {
   if (vinylContainerEl && vinylEl) {
     vinylContainerEl.classList.remove('sliding');
     vinylEl.classList.remove('spinning');
-    void vinylContainerEl.offsetWidth;
+    void vinylContainerEl.offsetWidth; // Force reflow
     vinylContainerEl.classList.add('return');
   }
 
@@ -259,23 +284,9 @@ function playpauseTrack() {
 
 /* Seek */
 function seekTo() {
-  const track = music_list[track_index];
-  if (!totalTrackDuration) return;
-
-  const targetOverall = (seek_slider.value / 100) * totalTrackDuration;
-
-  let accumulated = 0;
-  for (let i = 0; i < track.musicDurations.length; i++) {
-    if (targetOverall < accumulated + track.musicDurations[i]) {
-      part_index = i;
-      curr_track.src = track.music[part_index];
-      curr_track.load();
-      curr_track.currentTime = targetOverall - accumulated;
-      if (isPlaying) playTrack();
-      break;
-    }
-    accumulated += track.musicDurations[i];
-  }
+  if (isNaN(curr_track.duration)) return;
+  const seekTime = (seek_slider.value / 100) * curr_track.duration;
+  curr_track.currentTime = seekTime;
 }
 
 /* Volume */
@@ -283,7 +294,39 @@ function setVolume() {
   curr_track.volume = volume_slider.value / 100;
 }
 
-/* Button handlers */
+/* Web Audio API & Visualizer setup (Unchanged) */
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+const analyser = audioCtx.createAnalyser();
+const source = audioCtx.createMediaElementSource(curr_track);
+source.connect(analyser);
+analyser.connect(audioCtx.destination);
+analyser.fftSize = 256;
+
+const bufferLength = analyser.frequencyBinCount;
+const dataArray = new Uint8Array(bufferLength);
+
+function renderWave() {
+  requestAnimationFrame(renderWave);
+  if (!loader) return;
+
+  if (isPlaying) {
+    analyser.getByteFrequencyData(dataArray);
+    loader.classList.add('visible');
+    const step = Math.floor(dataArray.length / strokes.length);
+    strokes.forEach((stroke, i) => {
+      let value = dataArray[i * step] / 256;
+      if (i < 3) value = Math.sqrt(value);
+      stroke.style.transform = `scaleY(${Math.max(0.2, value * 1.2)})`;
+    });
+  } else {
+    loader.classList.remove('visible');
+    strokes.forEach(stroke => stroke.style.transform = 'scaleY(0.2)');
+  }
+}
+if (loader) renderWave();
+
+// --- EVENT LISTENERS ---
+
 repeat_btn.addEventListener('click', () => {
   isRepeating = !isRepeating;
   repeat_btn.classList.toggle('active', isRepeating);
@@ -299,25 +342,19 @@ curr_track.addEventListener('ended', () => {
     curr_track.currentTime = 0;
     playTrack();
   } else {
-    nextPartOrTrack();
+    // Call nextTrack(), which handles the multi-part chaining automatically
+    nextTrack();
   }
 });
 
 playpause_btn.addEventListener('click', playpauseTrack);
-next_btn.addEventListener('click', nextPartOrTrack);
-prev_btn.addEventListener('click', () => {
-  if (curr_track.currentTime > 3 || part_index === 0) {
-    loadTrack(track_index - 1);
-  } else {
-    part_index--;
-    curr_track.src = music_list[track_index].music[part_index];
-    curr_track.load();
-  }
-  playTrack();
-});
+next_btn.addEventListener('click', nextTrack);
+prev_btn.addEventListener('click', prevTrack);
 
 seek_slider.addEventListener('input', seekTo);
 volume_slider.addEventListener('input', setVolume);
+curr_track.volume = volume_slider.value / 100; // Set initial volume
 
 /* Init */
-loadTrack(track_index);
+// Ensure we start on a valid, first part of a song
+loadTrack(flat_music_list.findIndex(t => t.partIndex === 0)); 
