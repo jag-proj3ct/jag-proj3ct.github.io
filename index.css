@@ -29,7 +29,7 @@ body {
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
-  /* MODIFICATION: Added position: relative to support absolute positioning of the Cupids */
+  /* MODIFICATION: position: relative is added here and is the correct change */
   position: relative; 
 }
 
@@ -430,23 +430,9 @@ hr { margin: 40px 0; border: 0; border-top: 1px solid #FFD700; opacity: 0.5; wid
   border-radius: 10px;
 }
 
-
 /* --- CUPID STYLES ADDED BELOW --- */
 
-/* Modification to ensure containers are positioned relatively for absolute children */
-.container,
-.container-first {
-  /* This block is repeated from above, but position: relative; is critical */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
-  position: relative; 
-}
-
-/* General Cupid styling for size and behavior */
+/* General Cupid styling (applies to both img tags with class="cupid") */
 .cupid {
     position: absolute;
     width: 100px; /* Adjust size as needed */
