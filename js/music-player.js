@@ -131,6 +131,7 @@ function loadTrack(index) {
   reset();
 
   // Handle standard boundary conditions
+  // NOTE: nextTrack/prevTrack handle the intentional wrap-around logic.
   if (index < 0) index = flat_music_list.length - 1;
   else if (index >= flat_music_list.length) index = 0;
 
@@ -145,12 +146,18 @@ function loadTrack(index) {
     // Only set duration once the metadata is loaded
     total_duration.textContent = formatTime(curr_track.duration);
     
-    // Update display text
-    const totalSongs = original_music_list.filter(t => t.file !== "#").length;
-    // Find the current song number based on its original index (if it's the start of a song)
-    const currentSongIndex = flat_music_list.findIndex(t => t.originalIndex === track.originalIndex && t.partIndex === 0);
-    const songNumber = flat_music_list.slice(0, currentSongIndex + 1).filter(t => t.partIndex === 0).length;
+    // Calculate total logical songs (21)
+    const totalSongs = original_music_list.filter(t => t.file !== "#").length; // Should be 21
     
+    // Find the current song number (1-based index of the logical song)
+    // We count how many *first parts* (or single-part tracks) occur up to this track's original index.
+    let songNumber = 0;
+    for (let i = 0; i <= track_index; i++) {
+        if (flat_music_list[i].partIndex === 0) {
+            songNumber++;
+        }
+    }
+
     let nowPlayingText = `Playing ${songNumber} of ${totalSongs}`;
     if (track.isMultiPart) {
         nowPlayingText += ` (${track.name} - Part ${track.partIndex + 1}/${track.lastPartIndex + 1})`;
@@ -191,19 +198,29 @@ function nextTrack() {
     const currentTrack = flat_music_list[track_index];
     let nextIndex = track_index + 1;
 
-    // If we're inside a multi-part song and not on the last part, the 'ended' event will handle the transition.
-    // If the user clicks next, we should jump to the *next logical song*.
-
+    // Determine the target index for the next logical song
     if (currentTrack.isMultiPart && currentTrack.partIndex < currentTrack.lastPartIndex) {
         // If they click next, jump over the remaining parts of this song
+        // Find the index of the first part of the next song after the current one's original index
         nextIndex = flat_music_list.findIndex(t => t.originalIndex > currentTrack.originalIndex && t.partIndex === 0);
-        // If not found (i.e., this is the last song), wrap around to 0
-        if (nextIndex === -1) nextIndex = 0;
-    } 
+        
+        // SPECIAL CASE: If not found, it means the current song (Last Call) is the last logical song.
+        if (nextIndex === -1) {
+            // Wrap around to Intro (Skit) which is flat_music_list index 0.
+            nextIndex = 0;
+        }
+    } else if (track_index === flat_music_list.length - 1) {
+        // If this is the very last part of the very last song (Last Call Part 3), wrap to Intro (Skit).
+        nextIndex = 0;
+    } else {
+        // Regular next track
+        nextIndex = track_index + 1;
+    }
     
     // Handle random mode, ensuring we always start at the first part of a multi-part track
     if (isRandom) {
       let randIndex;
+      // Do-while loop ensures a new track is selected (prevents playing the same track again)
       do {
         randIndex = Math.floor(Math.random() * flat_music_list.length);
       } while (randIndex === track_index);
@@ -213,7 +230,6 @@ function nextTrack() {
       loadTrack(randIndex);
 
     } else {
-        // Normal sequential load (which handles wrap-around inside loadTrack)
         loadTrack(nextIndex);
     }
     
@@ -225,8 +241,8 @@ function prevTrack() {
     const currentTrack = flat_music_list[track_index];
 
     if (curr_track.currentTime > 3 || (currentTrack.isMultiPart && currentTrack.partIndex > 0)) {
-        // If the track is part of a multi-part song and not the first part, go back one part
-        // OR if the current time is > 3 seconds, restart the current part.
+        // 1. Restart current track/part if played for more than 3 seconds
+        // 2. Go back one part if it's a multi-part song and not the first part
         let prevPartIndex = track_index;
         if (currentTrack.isMultiPart && currentTrack.partIndex > 0) {
             prevPartIndex = track_index - 1;
@@ -238,7 +254,7 @@ function prevTrack() {
         
     } else {
         // We are at the start of a song (partIndex === 0 or single-part)
-        let prevIndex = track_index - 1;
+        let prevIndex;
 
         // Find the index of the *first part* of the logically previous song
         let prevSongIndex = flat_music_list.findLastIndex(t => t.originalIndex < currentTrack.originalIndex && t.partIndex === 0);
@@ -248,13 +264,13 @@ function prevTrack() {
             prevIndex = flat_music_list.findLastIndex(t => t.originalIndex === flat_music_list[prevSongIndex].originalIndex);
         } else {
             // Case 1: We are on the first song (Intro Skit, index 0).
-            // We need to wrap around to "Family Business" (Track 21, originalIndex 20).
-            // Family Business is a single-part track, which is flat_music_list index 20.
+            // Wrap around to "Family Business" (Track 21, originalIndex 20).
+            // The index of "Family Business" is 20 in the flat_music_list.
             if (track_index === 0) {
                 prevIndex = 20; 
             } else {
                 // Should not happen, but as a fallback, wrap to the actual last item
-                prevIndex = flat_music_list.length - 2; 
+                prevIndex = flat_music_list.length - 1; 
             }
         }
         
@@ -318,7 +334,7 @@ function setVolume() {
   curr_track.volume = volume_slider.value / 100;
 }
 
-/* Web Audio API & Visualizer setup (Unchanged) */
+/* Web Audio API & Visualizer setup */
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 const analyser = audioCtx.createAnalyser();
 const source = audioCtx.createMediaElementSource(curr_track);
@@ -329,6 +345,7 @@ analyser.fftSize = 256;
 const bufferLength = analyser.frequencyBinCount;
 const dataArray = new Uint8Array(bufferLength);
 
+// --- MODIFIED VISUALIZER FUNCTION ---
 function renderWave() {
   requestAnimationFrame(renderWave);
   if (!loader) return;
@@ -340,7 +357,8 @@ function renderWave() {
     strokes.forEach((stroke, i) => {
       let value = dataArray[i * step] / 256;
       if (i < 3) value = Math.sqrt(value);
-      stroke.style.transform = `scaleY(${Math.max(0.2, value * 1.2)})`;
+      // MODIFIED: Reduced max multiplier (e.g., from 1.2 to 1.0) for smaller height
+      stroke.style.transform = `scaleY(${Math.max(0.2, value * 1.0)})`; 
     });
   } else {
     loader.classList.remove('visible');
@@ -386,7 +404,7 @@ const randomTrumpetSounds = [
     'c-trumpet.mp3',
     'c2-trumpet.mp3',
     'd-trumpet.mp3',
-    'e-trumpet.mp3', // Note: Renamed back to fixed
+    'e-trumpet-fixed.mp3', // Using the fixed name
     'f-trumpet.mp3',
     'g-trumpet.mp3'
 ];
@@ -415,7 +433,7 @@ const keyTrumpetMap = {
     '5': 'c-trumpet.mp3',
     '6': 'c2-trumpet.mp3',
     '7': 'd-trumpet.mp3',
-    '8': 'e-trumpet.mp3', // Note: Renamed back to fixed
+    '8': 'e-trumpet-fixed.mp3', // Using the fixed name
     '9': 'f-trumpet.mp3',
     '0': 'g-trumpet.mp3'
 };
@@ -426,7 +444,6 @@ document.addEventListener('keydown', (event) => {
 
     // Check if the pressed key is one of the mapped trumpet keys
     if (soundFile) {
-        // Prevent default actions (like scrolling if a number key is also a shortcut)
         // event.preventDefault(); 
         playTrumpetSound(soundFile);
     }
@@ -470,6 +487,7 @@ curr_track.addEventListener('ended', () => {
       playTrack();
   } else {
       // Otherwise, go to the next logical song (handled by the regular nextTrack logic)
+      // This will ensure that after Last Call Part 3, it wraps to Intro (Skit)
       nextTrack();
   }
 });
@@ -483,5 +501,5 @@ volume_slider.addEventListener('input', setVolume);
 curr_track.volume = volume_slider.value / 100; // Set initial volume
 
 /* Init */
-// Ensure we start on a valid, first part of a song
+// Ensure we start on a valid, first part of a song (Intro Skit)
 loadTrack(flat_music_list.findIndex(t => t.partIndex === 0));
