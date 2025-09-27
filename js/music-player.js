@@ -325,14 +325,36 @@ if (loader) renderWave();
 
 
 // ===================================
-// 🎺 CUPID SOUND FUNCTIONALITY 🎺
+// 🎺 CUPID & KEYBOARD SOUND FUNCTIONALITY 🎺
 // ===================================
+
+// --- Sound Playback Helper ---
+/**
+ * Creates and plays a specified trumpet sound file.
+ * @param {string} fileName - The name of the MP3 file (e.g., 'trumpet1.mp3').
+ */
+function playTrumpetSound(fileName) {
+    // A new Audio element is created each time to allow sounds to overlap.
+    const trumpetAudio = new Audio(`/sounds/${fileName}`); 
+    
+    // Set the volume to the current player volume
+    trumpetAudio.volume = curr_track.volume;
+
+    // Play the sound, catching errors if playback fails
+    trumpetAudio.play().catch(e => console.warn(`Trumpet sound failed to play: ${fileName}`, e));
+
+    console.log(`Playing: ${fileName}`);
+}
+
+// --- Cupid Click Handler (Random Trumpet) ---
 
 // 1. Get references to the cupid elements
 const cupids = document.querySelectorAll('.cupid');
 
-// 2. Define the sound files
-const trumpetSounds = [
+// 2. Define the sound files for RANDOM PLAYBACK
+const randomTrumpetSounds = [
+    'trumpet1.mp3',
+    'trumpet2.mp3',
     'a-trumpet.mp3',
     'b-trumpet.mp3',
     'c-trumpet.mp3',
@@ -340,44 +362,59 @@ const trumpetSounds = [
     'd-trumpet.mp3',
     'e-trumpet.mp3',
     'f-trumpet.mp3',
-    'g-trumpet.mp3',
-    'trumpet1.mp3',
-    'trumpet2.mp3'
+    'g-trumpet.mp3'
 ];
 
-/**
- * Plays a random trumpet sound from the defined list.
- * Note: A new Audio element is created each time to allow sounds to overlap.
- */
 function playRandomTrumpet() {
     // Choose a random sound index
-    const randomIndex = Math.floor(Math.random() * trumpetSounds.length);
-    const soundFile = trumpetSounds[randomIndex];
-    
-    // Create a new Audio object for the sound
-    const trumpetAudio = new Audio(`/sounds/${soundFile}`); // Assumes sounds are in a 'sounds' folder
-    
-    // Set the volume to the current player volume
-    trumpetAudio.volume = curr_track.volume;
-
-    // Play the sound
-    trumpetAudio.play().catch(e => console.warn("Trumpet sound failed to play:", e));
-
-    // Optional: Log which sound played
-    console.log(`Playing: ${soundFile}`);
+    const randomIndex = Math.floor(Math.random() * randomTrumpetSounds.length);
+    playTrumpetSound(randomTrumpetSounds[randomIndex]);
 }
 
 // 3. Add the click listener to all cupids
 cupids.forEach(cupid => {
-    // Re-enable pointer events for the click
     cupid.style.pointerEvents = 'auto'; 
-    
     cupid.addEventListener('click', playRandomTrumpet);
 });
 
-// 4. Update the volume slider's input handler to update the main track volume AND the trumpet volume
-volume_slider.addEventListener('input', setVolume); 
-// Note: This only sets the volume for new trumpet sounds, currently playing sounds will use the volume set when they were created.
+
+// --- Keyboard Handler (Specific Trumpet) ---
+
+// Map number keys to specific trumpet files (assuming files exist in /sounds/ folder)
+const keyTrumpetMap = {
+    '1': 'trumpet1.mp3',
+    '2': 'trumpet2.mp3',
+    '3': 'a-trumpet.mp3',
+    '4': 'b-trumpet.mp3',
+    '5': 'c-trumpet.mp3',
+    '6': 'c2-trumpet.mp3', // Note: Using 'c2' as requested, ensure file name matches
+    '7': 'd-trumpet.mp3',
+    '8': 'e-trumpet.mp3',
+    '9': 'f-trumpet.mp3',
+    '0': 'g-trumpet.mp3'
+};
+
+document.addEventListener('keydown', (event) => {
+    const key = event.key;
+    const soundFile = keyTrumpetMap[key];
+
+    // Check if the pressed key is one of the mapped trumpet keys
+    if (soundFile) {
+        // Prevent default actions (like scrolling if a number key is also a shortcut)
+        // event.preventDefault(); 
+        playTrumpetSound(soundFile);
+    }
+    
+    // Optional: Add media controls for spacebar and arrow keys (common practice)
+    if (key === ' ') {
+        event.preventDefault(); // Stop spacebar from scrolling
+        playpauseTrack();
+    } else if (key === 'ArrowRight') {
+        nextTrack();
+    } else if (key === 'ArrowLeft') {
+        prevTrack();
+    }
+});
 
 
 // --- EVENT LISTENERS ---
@@ -407,6 +444,7 @@ next_btn.addEventListener('click', nextTrack);
 prev_btn.addEventListener('click', prevTrack);
 
 seek_slider.addEventListener('input', seekTo);
+volume_slider.addEventListener('input', setVolume);
 curr_track.volume = volume_slider.value / 100; // Set initial volume
 
 /* Init */
