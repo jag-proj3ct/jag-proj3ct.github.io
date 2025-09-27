@@ -464,6 +464,7 @@ hr { margin: 40px 0; border: 0; border-top: 1px solid #FFD700; opacity: 0.5; wid
     bottom: 150px;
     left: 130px;
 }
+
 /* =================================== */
 /* === MOBILE OPTIMIZATION (CSS) === */
 /* =================================== */
@@ -473,16 +474,19 @@ hr { margin: 40px 0; border: 0; border-top: 1px solid #FFD700; opacity: 0.5; wid
     
     /* Global Adjustments */
     body {
+        /* FIX: Set a solid background color that matches the image's dominant tone for mobile */
+        background-color: #222; 
+        
+        /* Ensure the background image still covers the area */
+        background-size: cover; 
+        
         /* Reduce padding around the entire content */
         padding: 20px 10px; 
-        background-color: #222; /* Ensure background looks grey on mobile */
-        background-size: cover; /* Ensure background looks good on mobile */
     }
 
     /* Card/Container Adjustments */
     .container-first,
     .container {
-        /* Remove max-width constraints if needed, or simply let the default 900px apply */
         max-width: 100%;
     }
 
