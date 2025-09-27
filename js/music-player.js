@@ -387,7 +387,7 @@ const keyTrumpetMap = {
     '3': 'a-trumpet.mp3',
     '4': 'b-trumpet.mp3',
     '5': 'c-trumpet.mp3',
-    '6': 'c2-trumpet.mp3', // Note: Using 'c2' as requested, ensure file name matches
+    '6': 'c2-trumpet.mp3',
     '7': 'd-trumpet.mp3',
     '8': 'e-trumpet.mp3',
     '9': 'f-trumpet.mp3',
