@@ -254,7 +254,7 @@ function prevTrack() {
                 prevIndex = 20; 
             } else {
                 // Should not happen, but as a fallback, wrap to the actual last item
-                prevIndex = flat_music_list.length - 1; 
+                prevIndex = flat_music_list.length - 2; 
             }
         }
         
