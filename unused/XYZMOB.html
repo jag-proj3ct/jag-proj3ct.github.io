@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>custok calc boii</title>
+</head>
+<body>
+  <h1>Find Var Calculator</h1>
+
+  <!-- Equation setup -->
+  <p>Equation: <b>x + x/2 - 4 = x/4</b></p>
+
+  <!-- Inputs for range -->
+  <label>Min: <input type="number" id="min" value="-100"></label>
+  <label>Max: <input type="number" id="max" value="100"></label>
+  <label>Step: <input type="number" id="step" value="0.1"></label>
+  <button onclick="solve()">Solve for X</button>
+
+  <h2 id="result">Result will show here</h2>
+
+  <script>
+    function solve() {
+      let min = parseFloat(document.getElementById("min").value);
+      let max = parseFloat(document.getElementById("max").value);
+      let step = parseFloat(document.getElementById("step").value);
+
+      let solution = null;
+
+      for (let x = min; x <= max; x += step) {
+        // Left side of equation
+        let left = x + (x / 2) - 4;
+        // Right side of equation
+        let right = x / 4;
+
+        // Check if they're equal (within small margin)
+        if (Math.abs(left - right) < 0.001) {
+          solution = x.toFixed(2); // round to 2 decimals
+          break;
+        }
+      }
+
+      document.getElementById("result").innerText = solution 
+        ? "x = " + solution 
+        : "No solution found in this range.";
+    }
+  </script>
+</body>
+</html>
