@@ -5,11 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="theme-color" content="#222"/>
   <title>Video & Credits</title>
-    <link rel="icon" href="https://d1yjjnpx0p53s8.cloudfront.net/pp840x830-pad1000x1000f8f8f8.jpg?9oPTJs..erd0K9tiddIL4J9OjiCfetIN" />
+  <link rel="icon" href="https://d1yjjnpx0p53s8.cloudfront.net/pp840x830-pad1000x1000f8f8f8.jpg?9oPTJs..erd0K9tiddIL4J9OjiCfetIN" />
   <link rel="stylesheet" href="index.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
 </head>
 <body>
+  
+  <!-- Heading -->
+  <div class="container">
+  <h1 style="text-align:center; margin-top:20px;">Promotional Video</h1>
+  </div>
   <!-- Directly on page (no container box) -->
   <div class="video-player">
     <video id="myVideo" width="800" preload="metadata">
@@ -26,6 +31,11 @@
       <input type="range" id="volumeBar" min="0" max="1" step="0.1" value="1">
       <button id="fullscreenBtn"><i class="fa fa-expand"></i></button>
     </div>
+  </div>
+
+  <!-- Return button inside container -->
+  <div class="container" style="text-align:center; margin-top:25px;">
+    <a href="index.html" class="return-btn">Return to Main Page</a>
   </div>
 
   <script src="js/video-player.js"></script>
