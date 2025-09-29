@@ -1,4 +1,4 @@
-/* === GENERAL STYLES === */
+/* === GENERAL CENTERING FIXES === */
 body {
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
@@ -7,21 +7,25 @@ body {
   background-repeat: no-repeat;
   background-position: center center;
   background-attachment: fixed;
-  width: 100%; 
+  background-size: cover;        /* ensures proper coverage */
+  width: 100%;
   min-height: 100vh;
   margin: 0;
-  padding: 60px 80px;
+  padding: 60px 20px;            /* balanced padding */
   overflow-x: hidden;
-  overflow-y: auto; 
+  overflow-y: auto;
   position: relative;
   color: #fff;
+
+  display: flex;                 /* center the main container */
+  flex-direction: column;
+  align-items: center;
 }
 
 *, *::before, *::after {
   box-sizing: border-box;
 }
 
-/* === CONTAINERS === */
 .container,
 .container-first {
   display: flex;
@@ -30,8 +34,7 @@ body {
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
-  /* MODIFICATION: position: relative is added here and is the correct change */
-  position: relative; 
+  position: relative;
 }
 
 .card {
@@ -697,4 +700,47 @@ video:fullscreen,
   height: 100% !important;
   object-fit: contain;   /* or 'cover' if you want edge-to-edge crop */
   border-radius: 0 !important;
+}
+/* === PRELOADER (CENTER FIX) === */
+.preloader {
+  position: fixed;
+  top: 0; left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;   /* vertical center */
+  align-items: center;       /* horizontal center */
+  width: 100%;
+  height: 100vh;
+  background: #000 url('loading.png') center/cover no-repeat;
+  z-index: 100000000;
+  transition: opacity 2s ease;
+  text-align: center;        /* centers text as well */
+}
+
+.loader-gif {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader-gif img {
+  width: 300px;
+  height: auto;
+  image-rendering: pixelated;
+}
+
+/* Counter + hidden loading text */
+.counter,
+.loading-text {
+  color: #000;
+  font-size: 0.1em;
+  font-weight: 700;
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* Fade-out state */
+.fade {
+  opacity: 0;
+  pointer-events: none;
 }
