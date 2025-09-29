@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#222"/>
+  <title>Video & Credits</title>
+
+  <link rel="stylesheet" href="index.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
+</head>
+<body>
+  <!-- 🔹 Directly on page (no container box) -->
+  <div class="video-player">
+    <video id="myVideo" width="800" preload="metadata">
+      <source src="videos/sample.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <!-- 🔹 Custom Controls -->
+    <div class="video-controls">
+      <button id="playPauseBtn"><i class="fa fa-play"></i></button>
+      <button id="muteBtn"><i class="fa fa-volume-up"></i></button>
+      <input type="range" id="seekBar" min="0" max="100" value="0">
+      <span id="currentTime">00:00</span> / <span id="totalTime">00:00</span>
+      <input type="range" id="volumeBar" min="0" max="1" step="0.1" value="1">
+      <button id="fullscreenBtn"><i class="fa fa-expand"></i></button>
+    </div>
+  </div>
+
+  <script src="js/video-player.js"></script>
+</body>
+</html>
