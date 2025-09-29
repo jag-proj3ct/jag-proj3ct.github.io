@@ -576,40 +576,75 @@ hr { margin: 40px 0; border: 0; border-top: 1px solid #FFD700; opacity: 0.5; wid
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 40px auto;
-  gap: 10px;
+  justify-content: center;   /* center vertically */
+  margin: 0 auto;            /* center horizontally */
+  min-height: 80vh;          /* push toward middle of screen */
+  gap: 15px;
 }
 
 .video-player video {
   width: 100%;
-  max-width: 800px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+  max-width: 900px;
+  aspect-ratio: 16/9;        /* always keep widescreen */
+  border-radius: 15%;        /* rounded corners */
+  box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+  background: #000;          /* solid black background while loading */
 }
 
+/* Controls styled like music player thumbs */
 .video-controls {
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 10px;
-  background: rgba(255,255,255,0.1);
-  padding: 10px 15px;
-  border-radius: 8px;
+  gap: 25px;
+  background: none;            /* no solid bar, keep floating look */
+  padding: 15px 20px;
 }
 
 .video-controls button {
-  background: none;
+  background: rgba(0, 0, 0, 0.5);
   border: none;
+  border-radius: 50%;
   color: #FFA500;
-  font-size: 20px;
+  font-size: 1.6rem;
+  width: 50px;
+  height: 50px;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 12px rgba(255, 165, 0, 0.4);
 }
 
 .video-controls button:hover {
-  transform: scale(1.2);
+  transform: scale(1.15);
   color: #FFD700;
+  box-shadow: 0 0 16px rgba(255, 215, 0, 0.6);
 }
 
+/* Seek + volume sliders */
 .video-controls input[type="range"] {
   cursor: pointer;
+  -webkit-appearance: none;
+  background: linear-gradient(to right, #FF8C00, #FFA500);
+  height: 6px;
+  border-radius: 5px;
 }
+
+.video-controls input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px; height: 14px;
+  background: white;
+  border: 3px solid #FFD700;
+  border-radius: 50%;
+  cursor: grab;
+}
+.video-controls input[type="range"]::-moz-range-thumb {
+  width: 14px; height: 14px;
+  background: white;
+  border: 3px solid #FFD700;
+  border-radius: 50%;
+  cursor: grab;
+}
+
