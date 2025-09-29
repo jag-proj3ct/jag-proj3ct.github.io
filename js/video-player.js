@@ -9,14 +9,14 @@ const totalTimeEl = document.getElementById("totalTime");
 const fullscreenBtn = document.getElementById("fullscreenBtn");
 const videoPlayer = document.querySelector(".video-player"); // wrapper
 
-// Format time helper
+// Helper: format seconds → MM:SS
 function formatTime(sec) {
   const min = Math.floor(sec / 60);
   const s = Math.floor(sec % 60);
   return `${min.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
 }
 
-// Play / Pause toggle
+// === Play / Pause toggle ===
 playPauseBtn.addEventListener("click", () => {
   if (video.paused || video.ended) {
     video.play();
@@ -27,7 +27,7 @@ playPauseBtn.addEventListener("click", () => {
   }
 });
 
-// Update seek bar + current time
+// === Update seek bar + current time ===
 video.addEventListener("timeupdate", () => {
   if (!isNaN(video.duration)) {
     seekBar.value = (video.currentTime / video.duration) * 100;
@@ -35,19 +35,19 @@ video.addEventListener("timeupdate", () => {
   }
 });
 
-// Seek bar → jump to position
+// === Seek bar → jump to position ===
 seekBar.addEventListener("input", () => {
   if (!isNaN(video.duration)) {
     video.currentTime = (seekBar.value / 100) * video.duration;
   }
 });
 
-// Volume control (HTML range is already 0–1)
+// === Volume control ===
 volumeBar.addEventListener("input", () => {
   video.volume = volumeBar.value;
 });
 
-// Mute toggle
+// === Mute toggle ===
 muteBtn.addEventListener("click", () => {
   video.muted = !video.muted;
   muteBtn.innerHTML = video.muted
@@ -55,15 +55,21 @@ muteBtn.addEventListener("click", () => {
     : '<i class="fa fa-volume-up"></i>';
 });
 
-// Set total duration on load
+// === Set total duration on load ===
 video.addEventListener("loadedmetadata", () => {
   totalTimeEl.textContent = formatTime(video.duration);
 });
 
-// Fullscreen toggle
+// === Fullscreen toggle (desktop + mobile cross-platform) ===
 fullscreenBtn.addEventListener("click", () => {
-  if (document.fullscreenElement) {
-    // exit fullscreen
+  const isFullscreen =
+    document.fullscreenElement ||
+    document.webkitFullscreenElement ||
+    document.mozFullScreenElement ||
+    document.msFullscreenElement;
+
+  if (isFullscreen) {
+    // Exit fullscreen
     if (document.exitFullscreen) {
       document.exitFullscreen();
     } else if (document.webkitExitFullscreen) {
@@ -74,8 +80,12 @@ fullscreenBtn.addEventListener("click", () => {
       document.msExitFullscreen();
     }
   } else {
-    // request fullscreen on wrapper so controls go full too
-    if (videoPlayer.requestFullscreen) {
+    // iOS Safari → only video element supports fullscreen
+    if (video.webkitEnterFullscreen) {
+      video.webkitEnterFullscreen();
+    }
+    // Other browsers → fullscreen the wrapper
+    else if (videoPlayer.requestFullscreen) {
       videoPlayer.requestFullscreen();
     } else if (videoPlayer.webkitRequestFullscreen) {
       videoPlayer.webkitRequestFullscreen();
