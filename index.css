@@ -582,20 +582,28 @@ hr { margin: 40px 0; border: 0; border-top: 1px solid #FFD700; opacity: 0.5; wid
   gap: 15px;
 }
 
+/* Default video styling (in page view) */
 .video-player video {
   width: 100%;
   max-width: 900px;
-  aspect-ratio: 16/9;        /* always keep widescreen */
-  border-radius: 15px;       /* fixed pixel rounding (consistent) */
+  aspect-ratio: 16/9;
+  border-radius: 15px;
   box-shadow: 0 6px 20px rgba(0,0,0,0.6);
-  background: #000;          /* solid black background while loading */
+  background: #000;
   transition: border-radius 0.3s ease;
+  object-fit: cover;  /* makes sure video covers its box fully */
 }
 
-/* Fullscreen: override border radius */
-:fullscreen video,
-video:fullscreen {
+/* Fullscreen overrides */
+video:fullscreen,
+:-webkit-full-screen video,
+:-moz-full-screen video,
+:-ms-fullscreen video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;  /* makes video stretch edge-to-edge */
   border-radius: 0 !important;
+  background: #000;
 }
 
 .video-controls {
