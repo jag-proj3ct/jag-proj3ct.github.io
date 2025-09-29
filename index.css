@@ -550,7 +550,7 @@ hr { margin: 40px 0; border: 0; border-top: 1px solid #FFD700; opacity: 0.5; wid
 }
 
 /* =================================== */
-/* === TOUCH-SPECIFIC STYLING (Optional) === */
+/* === TOUCH-SPECIFIC STYLING === */
 /* =================================== */
 
 /* Use the class added by the JS to adjust things only when touch is detected */
@@ -586,7 +586,7 @@ hr { margin: 40px 0; border: 0; border-top: 1px solid #FFD700; opacity: 0.5; wid
   width: 100%;
   max-width: 900px;
   aspect-ratio: 16/9;        /* always keep widescreen */
-  border-radius: 15%;        /* rounded corners */
+  border-radius: 15px;       /* fixed pixel rounding (consistent) */
   box-shadow: 0 6px 20px rgba(0,0,0,0.6);
   background: #000;          /* solid black background while loading */
   transition: border-radius 0.3s ease;
@@ -614,8 +614,9 @@ video:fullscreen {
   border-radius: 50%;
   color: #FFA500;                /* orange base */
   font-size: 1.6rem;
-  width: 55px;
-  height: 55px;
+  aspect-ratio: 1 / 1;           /* ensures perfect circles */
+  min-width: 55px;               /* size floor */
+  min-height: 55px;              /* size floor */
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
@@ -644,6 +645,7 @@ video:fullscreen {
   transition: opacity .2s;
   cursor: pointer;
   border-radius: 5px;
+  vertical-align: middle;        /* aligns cleaner with buttons */
 }
 
 /* seek = orange gradient like music player */
