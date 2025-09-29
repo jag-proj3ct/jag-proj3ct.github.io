@@ -7,10 +7,9 @@
   <title>Domingo Gutierrez Ramos JAG 9th 2025</title>
 
   <link rel="stylesheet" href="index.css" />
-  <link rel="stylesheet" href="css/loading.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
   <link rel="icon" href="https://d1yjjnpx0p53s8.cloudfront.net/pp840x830-pad1000x1000f8f8f8.jpg?9oPTJs..erd0K9tiddIL4J9OjiCfetIN" />
-  
+
   <!-- Preload important images -->
   <link rel="preload" as="image" href="images/background.png" />
   <link rel="preload" as="image" href="images/vinyl.png" />
@@ -22,7 +21,7 @@
   <script src="js/device-type.js" defer></script> 
 </head>
 <body>
-    <!-- Preloader -->
+  <!-- Preloader -->
   <div class="preloader" id="preloader">
     <div class="loader-gif">
       <img src="ye-load.gif" alt="Loading..." id="loaderImage"/>
@@ -30,7 +29,8 @@
     <div class="counter" id="counter">0%</div>
     <div class="loading-text">Loading...</div>
   </div>
-  <div class="container-first">
+
+  <div class="container-first" style="display:none;" id="pageContent">
     <div class="card profile-card">
       <div class="profile-pic-wrapper">
         <img src="images/meee.png" alt="Profile" class="profile" loading="eager" decoding="async" width="300" height="300">
@@ -52,7 +52,7 @@
     <img src="images/flipped-cupid.png" alt="Cupid" class="cupid cupid-first-container" loading="lazy" decoding="async" width="200" height="200">
   </div>
 
-  <div class="container">
+  <div class="container" style="display:none;" id="musicPlayer">
     <div class="player card">
       <div class="wrapper">
         <div class="details">
@@ -109,7 +109,7 @@
     <img src="images/normal-cupid.png" alt="Flipped Cupid" class="cupid cupid-music-player" loading="lazy" decoding="async" width="200" height="200">
   </div>
 
-  <div class="footer">
+  <div class="footer" style="display:none;" id="footer">
     <a href="https://github.com/jag-proj3ct/jag-proj3ct.github.io/tree/main">Source</a>
     <a href="#">Actual Teacher Voting</a> 
     <a href="license.html">License and Copyright</a>
@@ -119,5 +119,27 @@
 
   <script src="js/music-player.js" defer></script>
   <script src="js/404.js" defer></script> 
+
+  <!-- Preloader Script -->
+  <script>
+    window.addEventListener("load", () => {
+      const preloader = document.getElementById("preloader");
+      const counter = document.getElementById("counter");
+      let progress = 0;
+
+      // Fake loading counter effect
+      const interval = setInterval(() => {
+        progress += 5;
+        counter.textContent = progress + "%";
+        if (progress >= 100) {
+          clearInterval(interval);
+          preloader.style.display = "none";
+          document.getElementById("pageContent").style.display = "block";
+          document.getElementById("musicPlayer").style.display = "block";
+          document.getElementById("footer").style.display = "block";
+        }
+      }, 50);
+    });
+  </script>
 </body>
 </html>
