@@ -7,7 +7,8 @@ const volumeBar = document.getElementById("volumeBar");
 const currentTimeEl = document.getElementById("currentTime");
 const totalTimeEl = document.getElementById("totalTime");
 const fullscreenBtn = document.getElementById("fullscreenBtn");
-const videoPlayer = document.querySelector(".video-player"); // wrapper
+const videoPlayer = document.querySelector(".video-player"); 
+const videoControls = document.querySelector(".video-controls"); 
 
 // Helper: format seconds → MM:SS
 function formatTime(sec) {
@@ -60,7 +61,7 @@ video.addEventListener("loadedmetadata", () => {
   totalTimeEl.textContent = formatTime(video.duration);
 });
 
-// === Fullscreen toggle (desktop + mobile cross-platform) ===
+// === Fullscreen toggle ===
 fullscreenBtn.addEventListener("click", () => {
   const isFullscreen =
     document.fullscreenElement ||
@@ -80,19 +81,28 @@ fullscreenBtn.addEventListener("click", () => {
       document.msExitFullscreen();
     }
   } else {
-    // iOS Safari → only video element supports fullscreen
-    if (video.webkitEnterFullscreen) {
-      video.webkitEnterFullscreen();
+    // Enter fullscreen
+    if (video.requestFullscreen) {
+      video.requestFullscreen();
+    } else if (video.webkitRequestFullscreen) {
+      video.webkitRequestFullscreen();
+    } else if (video.mozRequestFullScreen) {
+      video.mozRequestFullScreen();
+    } else if (video.msRequestFullscreen) {
+      video.msRequestFullscreen();
     }
-    // Other browsers → fullscreen the wrapper
-    else if (videoPlayer.requestFullscreen) {
-      videoPlayer.requestFullscreen();
-    } else if (videoPlayer.webkitRequestFullscreen) {
-      videoPlayer.webkitRequestFullscreen();
-    } else if (videoPlayer.mozRequestFullScreen) {
-      videoPlayer.mozRequestFullScreen();
-    } else if (videoPlayer.msRequestFullscreen) {
-      videoPlayer.msRequestFullscreen();
-    }
+  }
+});
+
+// === Detect fullscreen change → hide/show custom controls ===
+document.addEventListener("fullscreenchange", () => {
+  if (document.fullscreenElement === video) {
+    // In fullscreen → hide custom controls, enable native
+    videoControls.style.display = "none";
+    video.setAttribute("controls", "true");
+  } else {
+    // Exit fullscreen → show custom controls, remove native
+    videoControls.style.display = "flex";
+    video.removeAttribute("controls");
   }
 });
