@@ -570,3 +570,46 @@ hr { margin: 40px 0; border: 0; border-top: 1px solid #FFD700; opacity: 0.5; wid
     /* Keep button press feedback */
     transform: scale(1.05);
 }
+
+/* === VIDEO PLAYER === */
+.video-player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 40px auto;
+  gap: 10px;
+}
+
+.video-player video {
+  width: 100%;
+  max-width: 800px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+}
+
+.video-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,255,255,0.1);
+  padding: 10px 15px;
+  border-radius: 8px;
+}
+
+.video-controls button {
+  background: none;
+  border: none;
+  color: #FFA500;
+  font-size: 20px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.video-controls button:hover {
+  transform: scale(1.2);
+  color: #FFD700;
+}
+
+.video-controls input[type="range"] {
+  cursor: pointer;
+}
