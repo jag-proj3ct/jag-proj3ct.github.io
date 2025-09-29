@@ -7,17 +7,75 @@ const volumeBar = document.getElementById("volumeBar");
 const currentTimeEl = document.getElementById("currentTime");
 const totalTimeEl = document.getElementById("totalTime");
 const fullscreenBtn = document.getElementById("fullscreenBtn");
-const videoPlayer = document.querySelector(".video-player"); 
-const videoControls = document.querySelector(".video-controls"); 
+const videoControls = document.querySelector(".video-controls");
 
-// Helper: format seconds → MM:SS
+// ========================================
+// 🎬 VIDEO LIST (Supports Multi-Part)
+// ========================================
+const basePath = "../videos/";
+
+const original_video_list = [
+  { name: "opening-creds", file: "creds-in.mp4" },
+  {
+    name: "main-video",
+    file: ["vidpt1.mp4", "vidpt2.mp4", "vidpt4.mp4", "vidpt5.mp4", "vidpt6.mp4", "vidpt7.mp4"]
+  },
+  { name: "outro", file: "outro.mp4" },
+  {
+    name: "bloopers",
+    file: ["bloop1.mp4", "bloop2.mp4", "bloop3.mp4", "bloop4.mp4", "bloop5.mp4", "bloop6.mp4"]
+  },
+  { name: "closing-creds", file: "creds-out.mp4" }
+];
+
+// Flatten videos so each *entry* is one track, not each part
+let flat_video_list = [];
+original_video_list.forEach((vid, originalIndex) => {
+  const videoFiles = Array.isArray(vid.file) ? vid.file : [vid.file];
+  flat_video_list.push({
+    name: vid.name,
+    files: videoFiles.map(file => basePath + file),
+    currentPart: 0,
+    originalIndex
+  });
+});
+
+// Current state
+let video_index = 0;
+
+// ========================================
+// Helper: Format time (MM:SS)
+// ========================================
 function formatTime(sec) {
   const min = Math.floor(sec / 60);
   const s = Math.floor(sec % 60);
   return `${min.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
 }
 
-// === Play / Pause toggle ===
+// ========================================
+// Load Video
+// ========================================
+function loadVideo(index, part = 0) {
+  if (index < 0) index = flat_video_list.length - 1;
+  else if (index >= flat_video_list.length) index = 0;
+
+  video_index = index;
+  const track = flat_video_list[video_index];
+
+  track.currentPart = part;
+  video.src = track.files[track.currentPart];
+  video.load();
+
+  video.addEventListener("loadedmetadata", () => {
+    totalTimeEl.textContent = formatTime(video.duration);
+  });
+}
+
+// ========================================
+// Controls
+// ========================================
+
+// Play / Pause
 playPauseBtn.addEventListener("click", () => {
   if (video.paused || video.ended) {
     video.play();
@@ -28,7 +86,7 @@ playPauseBtn.addEventListener("click", () => {
   }
 });
 
-// === Update seek bar + current time ===
+// Update seek bar + current time
 video.addEventListener("timeupdate", () => {
   if (!isNaN(video.duration)) {
     seekBar.value = (video.currentTime / video.duration) * 100;
@@ -36,19 +94,19 @@ video.addEventListener("timeupdate", () => {
   }
 });
 
-// === Seek bar → jump to position ===
+// Seek
 seekBar.addEventListener("input", () => {
   if (!isNaN(video.duration)) {
     video.currentTime = (seekBar.value / 100) * video.duration;
   }
 });
 
-// === Volume control ===
+// Volume
 volumeBar.addEventListener("input", () => {
   video.volume = volumeBar.value;
 });
 
-// === Mute toggle ===
+// Mute
 muteBtn.addEventListener("click", () => {
   video.muted = !video.muted;
   muteBtn.innerHTML = video.muted
@@ -56,53 +114,44 @@ muteBtn.addEventListener("click", () => {
     : '<i class="fa fa-volume-up"></i>';
 });
 
-// === Set total duration on load ===
-video.addEventListener("loadedmetadata", () => {
-  totalTimeEl.textContent = formatTime(video.duration);
-});
-
-// === Fullscreen toggle ===
+// Fullscreen
 fullscreenBtn.addEventListener("click", () => {
-  const isFullscreen =
-    document.fullscreenElement ||
-    document.webkitFullscreenElement ||
-    document.mozFullScreenElement ||
-    document.msFullscreenElement;
-
-  if (isFullscreen) {
-    // Exit fullscreen
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (document.webkitExitFullscreen) {
-      document.webkitExitFullscreen();
-    } else if (document.mozCancelFullScreen) {
-      document.mozCancelFullScreen();
-    } else if (document.msExitFullscreen) {
-      document.msExitFullscreen();
-    }
+  if (document.fullscreenElement) {
+    document.exitFullscreen();
   } else {
-    // Enter fullscreen
-    if (video.requestFullscreen) {
-      video.requestFullscreen();
-    } else if (video.webkitRequestFullscreen) {
-      video.webkitRequestFullscreen();
-    } else if (video.mozRequestFullScreen) {
-      video.mozRequestFullScreen();
-    } else if (video.msRequestFullscreen) {
-      video.msRequestFullscreen();
-    }
+    video.requestFullscreen();
   }
 });
 
-// === Detect fullscreen change → hide/show custom controls ===
+// Toggle controls in fullscreen
 document.addEventListener("fullscreenchange", () => {
   if (document.fullscreenElement === video) {
-    // In fullscreen → hide custom controls, enable native
     videoControls.style.display = "none";
     video.setAttribute("controls", "true");
   } else {
-    // Exit fullscreen → show custom controls, remove native
     videoControls.style.display = "flex";
     video.removeAttribute("controls");
   }
 });
+
+// ========================================
+// Handle Ended (auto next part / video)
+// ========================================
+video.addEventListener("ended", () => {
+  const track = flat_video_list[video_index];
+
+  if (track.currentPart < track.files.length - 1) {
+    // Still inside this entry → load next part
+    loadVideo(video_index, track.currentPart + 1);
+    video.play();
+  } else {
+    // Finished this entry → move to next entry
+    loadVideo(video_index + 1, 0);
+    video.play();
+  }
+});
+
+// ========================================
+// Init
+// ========================================
+loadVideo(0);
