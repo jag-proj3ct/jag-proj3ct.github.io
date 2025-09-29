@@ -1,4 +1,3 @@
-# https://open.spotify.com/artist/5K4W6rqBFWDnAN6FQUkS6x
 
 <!-- latest deployment url:https://script.google.com/macros/s/AKfycbyOvr3pR8hmLeLiAZDPQeklwJLKU3mUDFyjT08Q2RIpphzN_1KqurI1HTOzZyczPo56pw/exec
 id:AKfycbyOvr3pR8hmLeLiAZDPQeklwJLKU3mUDFyjT08Q2RIpphzN_1KqurI1HTOzZyczPo56pw
