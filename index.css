@@ -570,7 +570,6 @@ hr { margin: 40px 0; border: 0; border-top: 1px solid #FFD700; opacity: 0.5; wid
     /* Keep button press feedback */
     transform: scale(1.05);
 }
-
 /* === VIDEO PLAYER === */
 .video-player {
   display: flex;
@@ -591,16 +590,16 @@ hr { margin: 40px 0; border: 0; border-top: 1px solid #FFD700; opacity: 0.5; wid
   background: #000;          /* solid black background while loading */
 }
 
-/* Controls styled like music player thumbs */
 .video-controls {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 25px;
-  background: none;            /* no solid bar, keep floating look */
+  background: none;          
   padding: 15px 20px;
 }
 
+/* Video buttons styled like music buttons */
 .video-controls button {
   background: rgba(0, 0, 0, 0.5);
   border: none;
@@ -623,28 +622,48 @@ hr { margin: 40px 0; border: 0; border-top: 1px solid #FFD700; opacity: 0.5; wid
   box-shadow: 0 0 16px rgba(255, 215, 0, 0.6);
 }
 
-/* Seek + volume sliders */
-.video-controls input[type="range"] {
-  cursor: pointer;
+/* === VIDEO SLIDERS (MATCH MUSIC PLAYER) === */
+.video-seek,
+.video-volume {
   -webkit-appearance: none;
-  background: linear-gradient(to right, #FF8C00, #FFA500);
-  height: 6px;
+  -moz-appearance: none;
+  appearance: none;
+  height: 5px;
+  transition: opacity .2s;
+  cursor: pointer;
   border-radius: 5px;
 }
 
-.video-controls input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 14px; height: 14px;
-  background: white;
-  border: 3px solid #FFD700;
-  border-radius: 50%;
-  cursor: grab;
+/* seek = orange gradient like music player */
+.video-seek {
+  width: 60%;
+  background: linear-gradient(to right, #FF8C00, #FFA500);
 }
-.video-controls input[type="range"]::-moz-range-thumb {
-  width: 14px; height: 14px;
+
+/* volume = gold/yellow gradient like music player */
+.video-volume {
+  width: 30%;
+  background: linear-gradient(to right, #FFD700, #FFFF66);
+}
+
+/* Thumbs (same as music player) */
+.video-seek::-webkit-slider-thumb,
+.video-volume::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
   background: white;
   border: 3px solid #FFD700;
-  border-radius: 50%;
+  border-radius: 100%;
   cursor: grab;
 }
 
+.video-seek::-moz-range-thumb,
+.video-volume::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  background: white;
+  border: 3px solid #FFD700;
+  border-radius: 100%;
+  cursor: grab;
+}
