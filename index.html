@@ -10,9 +10,12 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
   <link rel="icon" href="https://d1yjjnpx0p53s8.cloudfront.net/pp840x830-pad1000x1000f8f8f8.jpg?9oPTJs..erd0K9tiddIL4J9OjiCfetIN" />
 
+  <!-- Preload important images -->
   <link rel="preload" as="image" href="images/background.png" />
   <link rel="preload" as="image" href="images/vinyl.png" />
   <link rel="preload" as="image" href="images/college-dropout-cover.jpg" />
+  <link rel="preload" as="image" href="images/meee.png" />
+  <link rel="preload" as="image" href="images/frame.png" />
 
   <script src="js/voting-system.js" defer></script>
   <script src="js/device-type.js" defer></script> 
@@ -21,8 +24,8 @@
   <div class="container-first">
     <div class="card profile-card">
       <div class="profile-pic-wrapper">
-        <img src="images/meee.png" alt="Profile" class="profile">
-        <img src="images/frame.png" alt="Kanye Frame" class="frame">
+        <img src="images/meee.png" alt="Profile" class="profile" loading="eager" decoding="async" width="300" height="300">
+        <img src="images/frame.png" alt="Kanye Frame" class="frame" loading="eager" decoding="async" width="320" height="320">
       </div>
       <a href="mailto:2029.Domingo.Gutierrez-Ramos@fps.org?subject=Website%20Inquiry%20from%20Profile">Domingo Gutierrez Ramos</a>
       <p>JAG 9th · 15 years old</p>
@@ -37,7 +40,7 @@
       <p id="voteMessage" style="color: #FFD700; margin-top: 10px; display: none;">Thank you for voting!</p>
       <a href="html/video.html">LINK TO PROMOTIONAL VIDEO</a>
     </div>
-    <img src="images/flipped-cupid.png" alt="Cupid" class="cupid cupid-first-container">
+    <img src="images/flipped-cupid.png" alt="Cupid" class="cupid cupid-first-container" loading="lazy" decoding="async" width="200" height="200">
   </div>
 
   <div class="container">
@@ -46,7 +49,7 @@
         <div class="details">
           <div class="track-art">
             <div class="cover"></div>
-            </div>
+          </div>
           <a class="track-name" href="#" target="_blank">Track Name</a>
           <a class="track-artist" href="#" target="_blank">Track Artist</a>
         </div>
@@ -94,7 +97,7 @@
         <span class="stroke"></span>
       </div>
     </div>
-    <img src="images/normal-cupid.png" alt="Flipped Cupid" class="cupid cupid-music-player">
+    <img src="images/normal-cupid.png" alt="Flipped Cupid" class="cupid cupid-music-player" loading="lazy" decoding="async" width="200" height="200">
   </div>
 
   <div class="footer">
@@ -102,7 +105,7 @@
     <a href="#">Actual Teacher Voting</a> 
     <a href="license.html">License and Copyright</a>
     <a href="./html/blooper.html">Bloopers</a>
-    <a href="#">Version:0.9.7</a>
+    <a href="#">Version:0.9.8</a>
   </div>
 
   <script src="js/music-player.js" defer></script>
