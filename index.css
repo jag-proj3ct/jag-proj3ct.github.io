@@ -681,3 +681,12 @@ video:fullscreen {
   border-radius: 100%;
   cursor: grab;
 }
+
+/* Mobile fullscreen tweaks */
+video:fullscreen,
+:-webkit-full-screen video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;   /* or 'cover' if you want edge-to-edge crop */
+  border-radius: 0 !important;
+}
