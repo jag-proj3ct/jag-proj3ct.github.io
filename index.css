@@ -526,6 +526,17 @@ hr { margin: 40px 0; border: 0; border-top: 1px solid #FFD700; opacity: 0.5; wid
   display: block;
 }
 
+.video-fullscreen {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  object-fit: cover !important;
+  z-index: 9999 !important;
+  background: black;
+}
+
 /* Hide native controls across browsers */
 video::-webkit-media-controls,
 video::-moz-media-controls,
