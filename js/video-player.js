@@ -12,7 +12,7 @@ const fullscreenBtn = document.getElementById("fullscreenBtn");
 const videoControls = document.querySelector(".video-controls");
 
 // ========================================
-// 🎬 VIDEO LIST (Supports Multi-Part, MOV + MP4)
+// 🎬 VIDEO LIST (Supports Multi-Part, mov + MP4)
 // ========================================
 const basePath = "../videos/";
 
@@ -49,7 +49,7 @@ function formatTime(sec) {
 }
 
 // ========================================
-// Load Video (with MP4 + MOV sources)
+// Load Video (with MP4 + mov sources)
 // ========================================
 function loadVideo(index, part = 0) {
   if (index < 0) index = flat_video_list.length - 1;
@@ -70,11 +70,11 @@ function loadVideo(index, part = 0) {
   sourceMP4.type = "video/mp4";
   video.appendChild(sourceMP4);
 
-  // Add MOV fallback
-  const sourceMOV = document.createElement("source");
-  sourceMOV.src = baseFile + ".MOV";
-  sourceMOV.type = "video/quicktime";
-  video.appendChild(sourceMOV);
+  // Add mov fallback
+  const sourcemov = document.createElement("source");
+  sourcemov.src = baseFile + ".mov";
+  sourcemov.type = "video/quicktime";
+  video.appendChild(sourcemov);
 
   video.load();
 }
