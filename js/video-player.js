@@ -12,17 +12,16 @@ const fullscreenBtn = document.getElementById("fullscreenBtn");
 const videoControls = document.querySelector(".video-controls");
 
 // ========================================
-//  VIDEO LIST
+// VIDEO LIST (MP4 first, MOV fallback)
 // ========================================
-// ✅ fixed path to absolute /videos/ (root)
 const basePath = "/videos/";
 
 const original_video_list = [
   {
     name: "main-video",
-    file: ["vidpt1.mov", "vidpt2.mov", "vidpt3.mov", "vidpt4.mov", "vidpt5.mov"]
+    file: ["vidpt1", "vidpt2", "vidpt3", "vidpt4", "vidpt5"]
   },
-  { name: "outro", file: "copy_F5148D8D-9398-481A-A9B8-0306E0C5DDA6.mov" }
+  { name: "outro", file: "copy_F5148D8D-9398-481A-A9B8-0306E0C5DDA6" }
 ];
 
 let flat_video_list = [];
@@ -30,7 +29,7 @@ original_video_list.forEach((vid, originalIndex) => {
   const videoFiles = Array.isArray(vid.file) ? vid.file : [vid.file];
   flat_video_list.push({
     name: vid.name,
-    files: videoFiles.map(file => basePath + file), // keep exact filename
+    files: videoFiles.map(file => basePath + file), // no extension
     currentPart: 0,
     originalIndex
   });
@@ -49,7 +48,7 @@ function formatTime(sec) {
 }
 
 // ========================================
-// Load Video
+// Load Video (append MP4 + MOV)
 // ========================================
 function loadVideo(index, part = 0) {
   if (index < 0) index = flat_video_list.length - 1;
@@ -62,12 +61,19 @@ function loadVideo(index, part = 0) {
   // Clear old sources
   video.innerHTML = "";
 
-  const url = track.files[track.currentPart];
+  const baseFile = track.files[track.currentPart];
 
-  const source = document.createElement("source");
-  source.src = url;
-  source.type = url.endsWith(".mp4") ? "video/mp4" : "video/quicktime";
-  video.appendChild(source);
+  // Try MP4 first
+  const sourceMP4 = document.createElement("source");
+  sourceMP4.src = baseFile + ".mp4";
+  sourceMP4.type = "video/mp4";
+  video.appendChild(sourceMP4);
+
+  // MOV fallback
+  const sourceMOV = document.createElement("source");
+  sourceMOV.src = baseFile + ".mov";
+  sourceMOV.type = "video/quicktime";
+  video.appendChild(sourceMOV);
 
   video.load();
 }
@@ -137,14 +143,19 @@ muteBtn.addEventListener("click", () => {
     : '<i class="fa fa-volume-up"></i>';
 });
 
-// ✅ Fullscreen now works properly
+// ✅ Fullscreen (Desktop + iOS Safari)
 fullscreenBtn.addEventListener("click", () => {
-  if (document.fullscreenElement) {
+  if (video.webkitEnterFullscreen) {
+    // iOS Safari native fullscreen
+    video.webkitEnterFullscreen();
+  } else if (document.fullscreenElement) {
     document.exitFullscreen();
-  } else {
-    if (video.parentElement.requestFullscreen) video.parentElement.requestFullscreen();
-    else if (video.parentElement.webkitRequestFullscreen) video.parentElement.webkitRequestFullscreen();
-    else if (video.parentElement.msRequestFullscreen) video.parentElement.msRequestFullscreen();
+  } else if (video.parentElement.requestFullscreen) {
+    video.parentElement.requestFullscreen();
+  } else if (video.parentElement.webkitRequestFullscreen) {
+    video.parentElement.webkitRequestFullscreen();
+  } else if (video.parentElement.msRequestFullscreen) {
+    video.parentElement.msRequestFullscreen();
   }
 });
 
