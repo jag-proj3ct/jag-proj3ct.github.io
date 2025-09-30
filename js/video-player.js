@@ -24,13 +24,12 @@ const original_video_list = [
   { name: "outro", file: "copy_F5148D8D-9398-481A-A9B8-0306E0C5DDA6" }
 ];
 
-// Flatten videos so each *entry* is one track
 let flat_video_list = [];
 original_video_list.forEach((vid, originalIndex) => {
   const videoFiles = Array.isArray(vid.file) ? vid.file : [vid.file];
   flat_video_list.push({
     name: vid.name,
-    files: videoFiles.map(file => basePath + file), // just base path + filename
+    files: videoFiles.map(file => basePath + file),
     currentPart: 0,
     originalIndex
   });
@@ -64,20 +63,38 @@ function loadVideo(index, part = 0) {
 
   const baseFile = track.files[track.currentPart];
 
-  // Add MP4 first (most supported)
+  // Try MP4 first
   const sourceMP4 = document.createElement("source");
   sourceMP4.src = baseFile + ".mp4";
   sourceMP4.type = "video/mp4";
   video.appendChild(sourceMP4);
 
-  // Add mov fallback
-  const sourcemov = document.createElement("source");
-  sourcemov.src = baseFile + ".mov";
-  sourcemov.type = "video/quicktime";
-  video.appendChild(sourcemov);
+  // Try MOV second
+  const sourceMOV = document.createElement("source");
+  sourceMOV.src = baseFile + ".mov";
+  sourceMOV.type = "video/quicktime";
+  video.appendChild(sourceMOV);
 
   video.load();
 }
+
+// ========================================
+// Handle Errors (skip if file missing)
+// ========================================
+video.addEventListener("error", () => {
+  console.warn("⚠️ Video failed to load, skipping...");
+  const track = flat_video_list[video_index];
+
+  if (track.currentPart < track.files.length - 1) {
+    // Try next part of same video
+    loadVideo(video_index, track.currentPart + 1);
+    video.play().catch(() => {});
+  } else {
+    // Skip to next video
+    loadVideo(video_index + 1, 0);
+    video.play().catch(() => {});
+  }
+});
 
 // When metadata is ready, update duration
 video.addEventListener("loadedmetadata", () => {
