@@ -1,4 +1,6 @@
+// ========================================
 // DOM references
+// ========================================
 const video = document.getElementById("myVideo");
 const playPauseBtn = document.getElementById("playPauseBtn");
 const muteBtn = document.getElementById("muteBtn");
@@ -15,15 +17,8 @@ const videoControls = document.querySelector(".video-controls");
 const basePath = "../videos/";
 
 const original_video_list = [
-  //{
-  //  name: "main-video",
-  //  file: ["vidpt1.MOV", "vidpt2.mov", "vidpt4.mov", "vidpt5.mov",]
-  //},
   { name: "outro", file: "videos/copy_F5148D8D-9398-481A-A9B8-0306E0C5DDA6.mov" },
   { name: "outrotez", file: "videos/copy_F5148D8D-9398-481A-A9B8-0306E0C5DDA6.mov" }
-  //{ name: "bloopers soon", file: "bloop2.mov" }
-  //{ name: "bloopers soon", file: "bloop3.mov" }
-  //{ name: "bloopers soon", file: "bloop4.mov" }
 ];
 
 // Flatten videos so each *entry* is one track, not each part
@@ -38,13 +33,13 @@ original_video_list.forEach((vid, originalIndex) => {
   });
 });
 
-// Current state
 let video_index = 0;
 
 // ========================================
 // Helper: Format time (MM:SS)
 // ========================================
 function formatTime(sec) {
+  if (isNaN(sec)) return "00:00";
   const min = Math.floor(sec / 60);
   const s = Math.floor(sec % 60);
   return `${min.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
@@ -59,22 +54,23 @@ function loadVideo(index, part = 0) {
 
   video_index = index;
   const track = flat_video_list[video_index];
-
   track.currentPart = part;
+
   video.src = track.files[track.currentPart];
   video.load();
-
-  video.addEventListener("loadedmetadata", () => {
-    totalTimeEl.textContent = formatTime(video.duration);
-  });
 }
+
+// Once metadata is loaded, set duration text
+video.addEventListener("loadedmetadata", () => {
+  totalTimeEl.textContent = formatTime(video.duration);
+});
 
 // ========================================
 // Controls
 // ========================================
 
 // Play / Pause
-playPauseBtn.addEventListener("click", () => {
+function togglePlay() {
   if (video.paused || video.ended) {
     video.play();
     playPauseBtn.innerHTML = '<i class="fa fa-pause"></i>';
@@ -82,6 +78,15 @@ playPauseBtn.addEventListener("click", () => {
     video.pause();
     playPauseBtn.innerHTML = '<i class="fa fa-play"></i>';
   }
+}
+playPauseBtn.addEventListener("click", togglePlay);
+
+// Sync play/pause button when playback changes (keyboard/autoplay etc.)
+video.addEventListener("play", () => {
+  playPauseBtn.innerHTML = '<i class="fa fa-pause"></i>';
+});
+video.addEventListener("pause", () => {
+  playPauseBtn.innerHTML = '<i class="fa fa-play"></i>';
 });
 
 // Update seek bar + current time
@@ -101,7 +106,7 @@ seekBar.addEventListener("input", () => {
 
 // Volume
 volumeBar.addEventListener("input", () => {
-  video.volume = volumeBar.value;
+  video.volume = volumeBar.value / 100; // normalize 0–100 to 0–1
 });
 
 // Mute
@@ -117,18 +122,18 @@ fullscreenBtn.addEventListener("click", () => {
   if (document.fullscreenElement) {
     document.exitFullscreen();
   } else {
-    video.requestFullscreen();
+    if (video.requestFullscreen) video.requestFullscreen();
+    else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen(); // Safari
+    else if (video.msRequestFullscreen) video.msRequestFullscreen(); // IE/Edge
   }
 });
 
-// Toggle controls in fullscreen
+// Don’t hide controls entirely in fullscreen, just keep them usable
 document.addEventListener("fullscreenchange", () => {
-  if (document.fullscreenElement === video) {
-    videoControls.style.display = "none";
-    video.setAttribute("controls", "true");
+  if (document.fullscreenElement) {
+    videoControls.classList.add("fullscreen-active");
   } else {
-    videoControls.style.display = "flex";
-    video.removeAttribute("controls");
+    videoControls.classList.remove("fullscreen-active");
   }
 });
 
@@ -137,13 +142,10 @@ document.addEventListener("fullscreenchange", () => {
 // ========================================
 video.addEventListener("ended", () => {
   const track = flat_video_list[video_index];
-
   if (track.currentPart < track.files.length - 1) {
-    // Still inside this entry → load next part
     loadVideo(video_index, track.currentPart + 1);
     video.play();
   } else {
-    // Finished this entry → move to next entry
     loadVideo(video_index + 1, 0);
     video.play();
   }
@@ -153,3 +155,6 @@ video.addEventListener("ended", () => {
 // Init
 // ========================================
 loadVideo(0);
+video.volume = volumeBar.value / 100; // sync slider to video
+currentTimeEl.textContent = "00:00";
+totalTimeEl.textContent = "00:00";
