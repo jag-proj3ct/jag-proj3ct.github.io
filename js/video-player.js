@@ -12,14 +12,14 @@ const fullscreenBtn = document.getElementById("fullscreenBtn");
 const videoControls = document.querySelector(".video-controls");
 
 // ========================================
-// 🎬 VIDEO LIST
+//  VIDEO LIST
 // ========================================
 const basePath = "../videos/";
 
 const original_video_list = [
   {
     name: "main-video",
-    file: ["vidpt1.mov", "vidpt2.mov", "vidpt3.mov", "vidpt4.mov", "vidpt5.mov"] // no extension
+    file: ["vidpt1.mov", "vidpt2.mov", "vidpt3.mov", "vidpt4.mov", "vidpt5.mov"]
   },
   { name: "outro", file: "copy_F5148D8D-9398-481A-A9B8-0306E0C5DDA6.mov" }
 ];
@@ -48,7 +48,7 @@ function formatTime(sec) {
 }
 
 // ========================================
-// Load Video (tries mp4 first, then mov)
+// Load Video (just use provided filename)
 // ========================================
 async function loadVideo(index, part = 0) {
   if (index < 0) index = flat_video_list.length - 1;
@@ -61,29 +61,22 @@ async function loadVideo(index, part = 0) {
   // Clear old sources
   video.innerHTML = "";
 
-  const baseFile = track.files[track.currentPart];
+  const url = track.files[track.currentPart];
 
-  // Candidate formats
-  const formats = [
-    { ext: ".mp4", type: "video/mp4" },
-    { ext: ".mov", type: "video/quicktime" }
-  ];
-
-  for (const fmt of formats) {
-    const url = baseFile + fmt.ext;
-    try {
-      // Check if file exists
-      const res = await fetch(url, { method: "HEAD" });
-      if (res.ok) {
-        const source = document.createElement("source");
-        source.src = url;
-        source.type = fmt.type;
-        video.appendChild(source);
-        break;
-      }
-    } catch (err) {
+  try {
+    const res = await fetch(url, { method: "HEAD" });
+    if (res.ok) {
+      const source = document.createElement("source");
+      source.src = url;
+      source.type = url.endsWith(".mp4")
+        ? "video/mp4"
+        : "video/quicktime"; // auto-detect by extension
+      video.appendChild(source);
+    } else {
       console.warn(`❌ Missing: ${url}`);
     }
+  } catch (err) {
+    console.warn(`⚠️ Could not load: ${url}`, err);
   }
 
   video.load();
