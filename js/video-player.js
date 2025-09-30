@@ -2,6 +2,11 @@
 // DOM references
 // ========================================
 const video = document.getElementById("myVideo");
+const bufferVideo = document.createElement("video"); // hidden preloader
+bufferVideo.muted = true;
+bufferVideo.style.display = "none";
+document.body.appendChild(bufferVideo);
+
 const playPauseBtn = document.getElementById("playPauseBtn");
 const muteBtn = document.getElementById("muteBtn");
 const seekBar = document.getElementById("seekBar");
@@ -17,14 +22,8 @@ const videoControls = document.querySelector(".video-controls");
 const basePath = "/videos/";
 
 const original_video_list = [
-  {
-    name: "main-video",
-    file: ["vidpt1", "vidpt2", "vidpt3", "vidpt4", "vidpt5"]
-  },
-  {
-    name: "outro",
-    file: ["outro1", "outro2"]
-  }
+  { name: "main-video", file: ["vidpt1","vidpt2","vidpt3","vidpt4","vidpt5"] },
+  { name: "outro", file: ["outro1","outro2"] }
 ];
 
 let flat_video_list = [];
@@ -32,7 +31,7 @@ original_video_list.forEach((vid, originalIndex) => {
   const videoFiles = Array.isArray(vid.file) ? vid.file : [vid.file];
   flat_video_list.push({
     name: vid.name,
-    files: videoFiles.map(file => basePath + file), // no extension
+    files: videoFiles.map(file => basePath + file),
     currentPart: 0,
     originalIndex
   });
@@ -47,71 +46,90 @@ function formatTime(sec) {
   if (isNaN(sec)) return "00:00";
   const min = Math.floor(sec / 60);
   const s = Math.floor(sec % 60);
-  return `${min.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+  return `${min.toString().padStart(2,"0")}:${s.toString().padStart(2,"0")}`;
 }
 
 // ========================================
-// Load Video (append MP4 + MOV)
+// Load Video into target <video>
 // ========================================
-function loadVideo(index, part = 0) {
-  if (index < 0) index = flat_video_list.length - 1;
-  else if (index >= flat_video_list.length) index = 0;
+function loadVideoElement(target, index, part = 0) {
+  target.innerHTML = "";
+  const track = flat_video_list[index];
+  const baseFile = track.files[part];
 
-  video_index = index;
-  const track = flat_video_list[video_index];
-  track.currentPart = part;
-
-  // Clear old sources
-  video.innerHTML = "";
-
-  const baseFile = track.files[track.currentPart];
-
-  // Try MP4 first
   const sourceMP4 = document.createElement("source");
   sourceMP4.src = baseFile + ".mp4";
   sourceMP4.type = "video/mp4";
-  video.appendChild(sourceMP4);
+  target.appendChild(sourceMP4);
 
-  // MOV fallback
   const sourceMOV = document.createElement("source");
   sourceMOV.src = baseFile + ".mov";
   sourceMOV.type = "video/quicktime";
-  video.appendChild(sourceMOV);
+  target.appendChild(sourceMOV);
 
-  video.load();
+  target.load();
 }
 
 // ========================================
-// Error Handling → Skip to next
+// Main Loader
 // ========================================
-video.addEventListener("error", () => {
-  console.warn("⚠️ Video failed to load, skipping...");
+function loadVideo(index, part = 0) {
+  video_index = index;
+  flat_video_list[index].currentPart = part;
+  loadVideoElement(video, index, part);
+
+  // preload next part
+  preloadNext(index, part);
+}
+
+// Preload helper
+function preloadNext(index, part) {
+  const track = flat_video_list[index];
+  if (part < track.files.length - 1) {
+    loadVideoElement(bufferVideo, index, part + 1);
+  } else if (index < flat_video_list.length - 1) {
+    loadVideoElement(bufferVideo, index + 1, 0);
+  }
+}
+
+// ========================================
+// On video ended → swap instantly
+// ========================================
+video.addEventListener("ended", () => {
   const track = flat_video_list[video_index];
+
   if (track.currentPart < track.files.length - 1) {
-    loadVideo(video_index, track.currentPart + 1);
-    video.play().catch(() => {});
+    track.currentPart++;
+    swapToBuffer(video_index, track.currentPart);
   } else {
-    loadVideo(video_index + 1, 0);
-    video.play().catch(() => {});
+    video_index++;
+    if (video_index >= flat_video_list.length) video_index = 0;
+    flat_video_list[video_index].currentPart = 0;
+    swapToBuffer(video_index, 0);
   }
 });
 
-// ========================================
-// Metadata → update duration
-// ========================================
-video.addEventListener("loadedmetadata", () => {
-  totalTimeEl.textContent = formatTime(video.duration);
-});
+function swapToBuffer(index, part) {
+  // swap current <video> with preloaded one
+  const wasMuted = video.muted;
+  const vol = video.volume;
+
+  const newSrc = bufferVideo.querySelector("source").src;
+  loadVideoElement(video, index, part);
+  video.volume = vol;
+  video.muted = wasMuted;
+
+  // autoplay
+  video.play();
+  preloadNext(index, part);
+}
 
 // ========================================
-// Controls
+// Controls (same as your version)
 // ========================================
 function togglePlay() {
-  if (video.paused || video.ended) {
-    video.play();
-  } else {
-    video.pause();
-  }
+  if (video.paused || video.ended) video.play();
+  else video.pause();
 }
 playPauseBtn.addEventListener("click", togglePlay);
 
@@ -128,17 +146,15 @@ video.addEventListener("timeupdate", () => {
     currentTimeEl.textContent = formatTime(video.currentTime);
   }
 });
-
 seekBar.addEventListener("input", () => {
   if (!isNaN(video.duration)) {
-    video.currentTime = (seekBar.value / 100) * video.duration;
+    video.currentTime = (seekBar.value/100)*video.duration;
   }
 });
 
 volumeBar.addEventListener("input", () => {
   video.volume = volumeBar.value;
 });
-
 muteBtn.addEventListener("click", () => {
   video.muted = !video.muted;
   muteBtn.innerHTML = video.muted
@@ -146,23 +162,16 @@ muteBtn.addEventListener("click", () => {
     : '<i class="fa fa-volume-up"></i>';
 });
 
-// ✅ Fullscreen (Desktop + iOS Safari)
 fullscreenBtn.addEventListener("click", () => {
   if (video.webkitEnterFullscreen) {
-    // iOS Safari native fullscreen
     video.webkitEnterFullscreen();
   } else if (document.fullscreenElement) {
     document.exitFullscreen();
   } else if (video.requestFullscreen) {
     video.requestFullscreen();
-  } else if (video.webkitRequestFullscreen) {
-    video.webkitRequestFullscreen();
-  } else if (video.msRequestFullscreen) {
-    video.msRequestFullscreen();
   }
 });
 
-// Track fullscreen state for styling
 document.addEventListener("fullscreenchange", () => {
   if (document.fullscreenElement === video) {
     video.classList.add("video-fullscreen");
@@ -174,23 +183,9 @@ document.addEventListener("fullscreenchange", () => {
 });
 
 // ========================================
-// Ended → auto next part / video
-// ========================================
-video.addEventListener("ended", () => {
-  const track = flat_video_list[video_index];
-  if (track.currentPart < track.files.length - 1) {
-    loadVideo(video_index, track.currentPart + 1);
-    video.play();
-  } else {
-    loadVideo(video_index + 1, 0);
-    video.play();
-  }
-});
-
-// ========================================
 // Init
 // ========================================
-loadVideo(0);
+loadVideo(0, 0);
 video.volume = volumeBar.value;
 currentTimeEl.textContent = "00:00";
 totalTimeEl.textContent = "00:00";
