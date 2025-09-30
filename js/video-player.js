@@ -17,11 +17,15 @@ const videoControls = document.querySelector(".video-controls");
 const basePath = "../videos/";
 
 const original_video_list = [
-  { name: "outro", file: "videos/copy_F5148D8D-9398-481A-A9B8-0306E0C5DDA6.mov" },
-  { name: "outrotez", file: "videos/copy_F5148D8D-9398-481A-A9B8-0306E0C5DDA6.mov" }
+  {
+    name: "main-video",
+    file: ["vidpt1.MOV", "vidpt2.MOV", "vidpt3.MOV", "vidpt4.MOV", "vidpt5.MOV"]
+  },
+  { name: "outro", file: "copy_F5148D8D-9398-481A-A9B8-0306E0C5DDA6.mov" }
+  // { name: "bloopers soon", file: "bloop2.mov" }
 ];
 
-// Flatten videos so each *entry* is one track, not each part
+// Flatten videos so each *entry* is one track
 let flat_video_list = [];
 original_video_list.forEach((vid, originalIndex) => {
   const videoFiles = Array.isArray(vid.file) ? vid.file : [vid.file];
@@ -60,7 +64,7 @@ function loadVideo(index, part = 0) {
   video.load();
 }
 
-// Once metadata is loaded, set duration text
+// When metadata is ready, update duration
 video.addEventListener("loadedmetadata", () => {
   totalTimeEl.textContent = formatTime(video.duration);
 });
@@ -73,15 +77,13 @@ video.addEventListener("loadedmetadata", () => {
 function togglePlay() {
   if (video.paused || video.ended) {
     video.play();
-    playPauseBtn.innerHTML = '<i class="fa fa-pause"></i>';
   } else {
     video.pause();
-    playPauseBtn.innerHTML = '<i class="fa fa-play"></i>';
   }
 }
 playPauseBtn.addEventListener("click", togglePlay);
 
-// Sync play/pause button when playback changes (keyboard/autoplay etc.)
+// Sync play/pause button
 video.addEventListener("play", () => {
   playPauseBtn.innerHTML = '<i class="fa fa-pause"></i>';
 });
@@ -104,9 +106,9 @@ seekBar.addEventListener("input", () => {
   }
 });
 
-// Volume
+// Volume (HTML is already 0–1 range)
 volumeBar.addEventListener("input", () => {
-  video.volume = volumeBar.value / 100; // normalize 0–100 to 0–1
+  video.volume = volumeBar.value;
 });
 
 // Mute
@@ -123,12 +125,12 @@ fullscreenBtn.addEventListener("click", () => {
     document.exitFullscreen();
   } else {
     if (video.requestFullscreen) video.requestFullscreen();
-    else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen(); // Safari
-    else if (video.msRequestFullscreen) video.msRequestFullscreen(); // IE/Edge
+    else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
+    else if (video.msRequestFullscreen) video.msRequestFullscreen();
   }
 });
 
-// Don’t hide controls entirely in fullscreen, just keep them usable
+// Keep controls visible in fullscreen
 document.addEventListener("fullscreenchange", () => {
   if (document.fullscreenElement) {
     videoControls.classList.add("fullscreen-active");
@@ -155,6 +157,6 @@ video.addEventListener("ended", () => {
 // Init
 // ========================================
 loadVideo(0);
-video.volume = volumeBar.value / 100; // sync slider to video
+video.volume = volumeBar.value; // sync volume with slider
 currentTimeEl.textContent = "00:00";
 totalTimeEl.textContent = "00:00";
