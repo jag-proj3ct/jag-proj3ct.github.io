@@ -6,70 +6,58 @@
   <meta name="theme-color" content="#222"/>
   <title>Video & Credits</title>
   <link rel="icon" href="https://d1yjjnpx0p53s8.cloudfront.net/pp840x830-pad1000x1000f8f8f8.jpg?9oPTJs..erd0K9tiddIL4J9OjiCfetIN" />
-  
-  <!-- CSS -->
+
+  <!-- Main CSS -->
   <link rel="stylesheet" href="../index.css" />
+
+  <!-- Extra fullscreen overrides -->
   <style>
-    /* === FULLSCREEN FIX === */
-video {
-  display: block;
-  width: 100%;
-  height: auto;
-  background: black; /* ensures no white background shows */
-}
+    /* Base video styling */
+    video {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: black;
+    }
 
-/* Make the video fill the entire screen in fullscreen */
-video:fullscreen {
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
-  background: black;
-}
+    /* Fullscreen behavior */
+    video:fullscreen {
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      background: black;
+    }
+    :-webkit-full-screen video { 
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+    }
 
-video::-webkit-media-controls {
-  display: none !important; /* hides browser's native controls */
-}
+    /* Hide default browser controls */
+    video::-webkit-media-controls,
+    video::-moz-media-controls,
+    video::-ms-media-controls {
+      display: none !important;
+    }
 
-/* Hide default controls in fullscreen (cross-browser) */
-video::-moz-media-controls {
-  display: none !important;
-}
-video::-ms-media-controls {
-  display: none !important;
-}
-
-/* === CUSTOM CONTROLS IN FULLSCREEN === */
-.video-controls.fullscreen-active {
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 90%;
-  z-index: 1000;
-  background: rgba(0,0,0,0.6);
-  padding: 10px;
-  border-radius: 8px;
-}
-
-/* Make sure buttons don't change color */
-.video-controls button {
-  background: transparent;
-  color: #fff;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-}
-
-.video-controls input[type="range"] {
-  accent-color: #fff;
-}
+    /* Custom controls when fullscreen */
+    .video-controls.fullscreen-active {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      z-index: 1000;
+      background: rgba(0,0,0,0.6);
+      padding: 10px;
+      border-radius: 8px;
+    }
   </style>
-  
+
   <!-- Font Awesome (icons for controls) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
 </head>
 <body>
-  
   <!-- Heading -->
   <div class="container">
     <h1 style="text-align:center; margin-top:20px;">Promotional Video</h1>
@@ -77,7 +65,6 @@ video::-ms-media-controls {
 
   <!-- Video Player -->
   <div class="video-player">
-    <!-- No <source> → JS sets video.src -->
     <video id="myVideo" width="800" preload="metadata"></video>
 
     <!-- Custom Controls -->
@@ -98,7 +85,6 @@ video::-ms-media-controls {
 
   <!-- JS -->
   <script>
-    // Make sure DOM is ready before loading JS
     document.addEventListener("DOMContentLoaded", () => {
       const script = document.createElement("script");
       script.src = "../js/video-player.js";
