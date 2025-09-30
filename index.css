@@ -16,6 +16,11 @@ body {
   position: relative;
   color: #fff;
 }
+/*v1 logo :)*/
+.tigers {
+  display: block;
+  margin: 20px auto; /* centers horizontally */
+}
 
 *, *::before, *::after {
   box-sizing: border-box;
