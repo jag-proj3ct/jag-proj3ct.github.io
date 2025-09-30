@@ -15,11 +15,12 @@ const videoControls = document.querySelector(".video-controls");
 const basePath = "../videos/";
 
 const original_video_list = [
-  {
-    name: "main-video",
-    file: ["vidpt1.MOV", "vidpt2.mov", "vidpt4.mov", "vidpt5.mov",]
-  },
-  { name: "outro", file: "videos/copy_F5148D8D-9398-481A-A9B8-0306E0C5DDA6.mov" }
+  //{
+  //  name: "main-video",
+  //  file: ["vidpt1.MOV", "vidpt2.mov", "vidpt4.mov", "vidpt5.mov",]
+  //},
+  { name: "outro", file: "videos/copy_F5148D8D-9398-481A-A9B8-0306E0C5DDA6.mov" },
+  { name: "outrotez", file: "videos/copy_F5148D8D-9398-481A-A9B8-0306E0C5DDA6.mov" }
   //{ name: "bloopers soon", file: "bloop2.mov" }
   //{ name: "bloopers soon", file: "bloop3.mov" }
   //{ name: "bloopers soon", file: "bloop4.mov" }
