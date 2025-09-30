@@ -15,17 +15,18 @@ const videoControls = document.querySelector(".video-controls");
 const basePath = "../videos/";
 
 const original_video_list = [
-  { name: "opening-creds", file: "creds-in.mp4" },
   {
     name: "main-video",
-    file: ["vidpt1.mp4", "vidpt2.mp4", "vidpt4.mp4", "vidpt5.mp4", "vidpt6.mp4", "vidpt7.mp4"]
+    file: ["vidpt1.mp4", "vidpt2.mp4", "vidpt4.mp4", "vidpt5.mp4",]
   },
-  { name: "outro", file: "outro.mp4" },
   {
-    name: "bloopers",
-    file: ["bloop1.mp4", "bloop2.mp4", "bloop3.mp4", "bloop4.mp4", "bloop5.mp4", "bloop6.mp4"]
-  },
-  { name: "closing-creds", file: "creds-out.mp4" }
+    name: "outro",
+    file: ["outro1.mp4", "outro2.mp4"]
+  }
+  //{ name: "bloopers soon", file: "bloop1.mp4" }
+  //{ name: "bloopers soon", file: "bloop2.mp4" }
+  //{ name: "bloopers soon", file: "bloop3.mp4" }
+  //{ name: "bloopers soon", file: "bloop4.mp4" }
 ];
 
 // Flatten videos so each *entry* is one track, not each part
