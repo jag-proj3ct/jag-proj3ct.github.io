@@ -17,16 +17,16 @@ const basePath = "../videos/";
 const original_video_list = [
   {
     name: "main-video",
-    file: ["vidpt1.mp4", "vidpt2.mp4", "vidpt4.mp4", "vidpt5.mp4",]
+    file: ["vidpt1.MOV", "vidpt2.mov", "vidpt4.mov", "vidpt5.mov",]
   },
   {
     name: "outro",
-    file: ["outro1.mp4", "outro2.mp4"]
+    file: ["outro1.mov", "outro2.mov"]
   }
-  //{ name: "bloopers soon", file: "bloop1.mp4" }
-  //{ name: "bloopers soon", file: "bloop2.mp4" }
-  //{ name: "bloopers soon", file: "bloop3.mp4" }
-  //{ name: "bloopers soon", file: "bloop4.mp4" }
+  //{ name: "bloopers soon", file: "bloop1.mov" }
+  //{ name: "bloopers soon", file: "bloop2.mov" }
+  //{ name: "bloopers soon", file: "bloop3.mov" }
+  //{ name: "bloopers soon", file: "bloop4.mov" }
 ];
 
 // Flatten videos so each *entry* is one track, not each part
