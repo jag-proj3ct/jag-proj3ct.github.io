@@ -10,50 +10,6 @@
   <!-- Main CSS -->
   <link rel="stylesheet" href="../index.css" />
 
-  <!-- Extra fullscreen overrides -->
-  <style>
-    /* Base video styling */
-    video {
-      display: block;
-      width: 100%;
-      height: auto;
-      background: black;
-    }
-
-    /* Fullscreen behavior */
-    video:fullscreen {
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
-      background: black;
-    }
-    :-webkit-full-screen video { 
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
-    }
-
-    /* Hide default browser controls */
-    video::-webkit-media-controls,
-    video::-moz-media-controls,
-    video::-ms-media-controls {
-      display: none !important;
-    }
-
-    /* Custom controls when fullscreen */
-    .video-controls.fullscreen-active {
-      position: fixed;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 90%;
-      z-index: 1000;
-      background: rgba(0,0,0,0.6);
-      padding: 10px;
-      border-radius: 8px;
-    }
-  </style>
-
   <!-- Font Awesome (icons for controls) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
 </head>
