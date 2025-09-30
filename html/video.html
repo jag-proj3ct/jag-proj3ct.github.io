@@ -22,7 +22,7 @@
 
   <!-- Video Player -->
   <div class="video-player">
-    <!-- Cleaned: no <source> here, JS will handle video loading -->
+    <!-- No <source> → JS sets video.src -->
     <video id="myVideo" width="800" preload="metadata"></video>
 
     <!-- Custom Controls -->
@@ -42,6 +42,13 @@
   </div>
 
   <!-- JS -->
-  <script src="../js/video-player.js"></script>
+  <script>
+    // Make sure DOM is ready before loading JS
+    document.addEventListener("DOMContentLoaded", () => {
+      const script = document.createElement("script");
+      script.src = "../js/video-player.js";
+      document.body.appendChild(script);
+    });
+  </script>
 </body>
 </html>
