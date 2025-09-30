@@ -12,17 +12,16 @@ const fullscreenBtn = document.getElementById("fullscreenBtn");
 const videoControls = document.querySelector(".video-controls");
 
 // ========================================
-// 🎬 VIDEO LIST (Supports Multi-Part)
+// 🎬 VIDEO LIST (Supports Multi-Part, MOV + MP4)
 // ========================================
 const basePath = "../videos/";
 
 const original_video_list = [
   {
     name: "main-video",
-    file: ["vidpt1.MOV", "vidpt2.MOV", "vidpt3.MOV", "vidpt4.MOV", "vidpt5.MOV"]
+    file: ["vidpt1", "vidpt2", "vidpt3", "vidpt4", "vidpt5"] // no extension
   },
-  { name: "outro", file: "copy_F5148D8D-9398-481A-A9B8-0306E0C5DDA6.mov" }
-  // { name: "bloopers soon", file: "bloop2.mov" }
+  { name: "outro", file: "copy_F5148D8D-9398-481A-A9B8-0306E0C5DDA6" }
 ];
 
 // Flatten videos so each *entry* is one track
@@ -31,7 +30,7 @@ original_video_list.forEach((vid, originalIndex) => {
   const videoFiles = Array.isArray(vid.file) ? vid.file : [vid.file];
   flat_video_list.push({
     name: vid.name,
-    files: videoFiles.map(file => basePath + file),
+    files: videoFiles.map(file => basePath + file), // just base path + filename
     currentPart: 0,
     originalIndex
   });
@@ -50,7 +49,7 @@ function formatTime(sec) {
 }
 
 // ========================================
-// Load Video
+// Load Video (with MP4 + MOV sources)
 // ========================================
 function loadVideo(index, part = 0) {
   if (index < 0) index = flat_video_list.length - 1;
@@ -60,7 +59,23 @@ function loadVideo(index, part = 0) {
   const track = flat_video_list[video_index];
   track.currentPart = part;
 
-  video.src = track.files[track.currentPart];
+  // Clear old sources
+  video.innerHTML = "";
+
+  const baseFile = track.files[track.currentPart];
+
+  // Add MP4 first (most supported)
+  const sourceMP4 = document.createElement("source");
+  sourceMP4.src = baseFile + ".mp4";
+  sourceMP4.type = "video/mp4";
+  video.appendChild(sourceMP4);
+
+  // Add MOV fallback
+  const sourceMOV = document.createElement("source");
+  sourceMOV.src = baseFile + ".MOV";
+  sourceMOV.type = "video/quicktime";
+  video.appendChild(sourceMOV);
+
   video.load();
 }
 
@@ -72,8 +87,6 @@ video.addEventListener("loadedmetadata", () => {
 // ========================================
 // Controls
 // ========================================
-
-// Play / Pause
 function togglePlay() {
   if (video.paused || video.ended) {
     video.play();
@@ -83,7 +96,6 @@ function togglePlay() {
 }
 playPauseBtn.addEventListener("click", togglePlay);
 
-// Sync play/pause button
 video.addEventListener("play", () => {
   playPauseBtn.innerHTML = '<i class="fa fa-pause"></i>';
 });
@@ -91,7 +103,6 @@ video.addEventListener("pause", () => {
   playPauseBtn.innerHTML = '<i class="fa fa-play"></i>';
 });
 
-// Update seek bar + current time
 video.addEventListener("timeupdate", () => {
   if (!isNaN(video.duration)) {
     seekBar.value = (video.currentTime / video.duration) * 100;
@@ -99,19 +110,16 @@ video.addEventListener("timeupdate", () => {
   }
 });
 
-// Seek
 seekBar.addEventListener("input", () => {
   if (!isNaN(video.duration)) {
     video.currentTime = (seekBar.value / 100) * video.duration;
   }
 });
 
-// Volume (HTML is already 0–1 range)
 volumeBar.addEventListener("input", () => {
   video.volume = volumeBar.value;
 });
 
-// Mute
 muteBtn.addEventListener("click", () => {
   video.muted = !video.muted;
   muteBtn.innerHTML = video.muted
@@ -119,7 +127,6 @@ muteBtn.addEventListener("click", () => {
     : '<i class="fa fa-volume-up"></i>';
 });
 
-// Fullscreen
 fullscreenBtn.addEventListener("click", () => {
   if (document.fullscreenElement) {
     document.exitFullscreen();
@@ -130,7 +137,6 @@ fullscreenBtn.addEventListener("click", () => {
   }
 });
 
-// Keep controls visible in fullscreen
 document.addEventListener("fullscreenchange", () => {
   if (document.fullscreenElement) {
     videoControls.classList.add("fullscreen-active");
@@ -157,6 +163,6 @@ video.addEventListener("ended", () => {
 // Init
 // ========================================
 loadVideo(0);
-video.volume = volumeBar.value; // sync volume with slider
+video.volume = volumeBar.value;
 currentTimeEl.textContent = "00:00";
 totalTimeEl.textContent = "00:00";
