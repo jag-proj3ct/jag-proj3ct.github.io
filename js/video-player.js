@@ -14,7 +14,8 @@ const videoControls = document.querySelector(".video-controls");
 // ========================================
 //  VIDEO LIST
 // ========================================
-const basePath = "../videos/";
+// ✅ fixed path to absolute /videos/ (root)
+const basePath = "/videos/";
 
 const original_video_list = [
   {
@@ -29,7 +30,7 @@ original_video_list.forEach((vid, originalIndex) => {
   const videoFiles = Array.isArray(vid.file) ? vid.file : [vid.file];
   flat_video_list.push({
     name: vid.name,
-    files: videoFiles.map(file => basePath + file.toLowerCase()), // normalize lowercase
+    files: videoFiles.map(file => basePath + file), // keep exact filename
     currentPart: 0,
     originalIndex
   });
@@ -48,9 +49,9 @@ function formatTime(sec) {
 }
 
 // ========================================
-// Load Video (just use provided filename)
+// Load Video
 // ========================================
-async function loadVideo(index, part = 0) {
+function loadVideo(index, part = 0) {
   if (index < 0) index = flat_video_list.length - 1;
   else if (index >= flat_video_list.length) index = 0;
 
@@ -63,21 +64,10 @@ async function loadVideo(index, part = 0) {
 
   const url = track.files[track.currentPart];
 
-  try {
-    const res = await fetch(url, { method: "HEAD" });
-    if (res.ok) {
-      const source = document.createElement("source");
-      source.src = url;
-      source.type = url.endsWith(".mp4")
-        ? "video/mp4"
-        : "video/quicktime"; // auto-detect by extension
-      video.appendChild(source);
-    } else {
-      console.warn(`❌ Missing: ${url}`);
-    }
-  } catch (err) {
-    console.warn(`⚠️ Could not load: ${url}`, err);
-  }
+  const source = document.createElement("source");
+  source.src = url;
+  source.type = url.endsWith(".mp4") ? "video/mp4" : "video/quicktime";
+  video.appendChild(source);
 
   video.load();
 }
@@ -147,13 +137,14 @@ muteBtn.addEventListener("click", () => {
     : '<i class="fa fa-volume-up"></i>';
 });
 
+// ✅ Fullscreen now works properly
 fullscreenBtn.addEventListener("click", () => {
   if (document.fullscreenElement) {
     document.exitFullscreen();
   } else {
-    if (video.requestFullscreen) video.requestFullscreen();
-    else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
-    else if (video.msRequestFullscreen) video.msRequestFullscreen();
+    if (video.parentElement.requestFullscreen) video.parentElement.requestFullscreen();
+    else if (video.parentElement.webkitRequestFullscreen) video.parentElement.webkitRequestFullscreen();
+    else if (video.parentElement.msRequestFullscreen) video.parentElement.msRequestFullscreen();
   }
 });
 
