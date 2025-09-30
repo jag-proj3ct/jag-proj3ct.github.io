@@ -9,6 +9,61 @@
   
   <!-- CSS -->
   <link rel="stylesheet" href="../index.css" />
+  <style>
+    /* === FULLSCREEN FIX === */
+video {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: black; /* ensures no white background shows */
+}
+
+/* Make the video fill the entire screen in fullscreen */
+video:fullscreen {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  background: black;
+}
+
+video::-webkit-media-controls {
+  display: none !important; /* hides browser's native controls */
+}
+
+/* Hide default controls in fullscreen (cross-browser) */
+video::-moz-media-controls {
+  display: none !important;
+}
+video::-ms-media-controls {
+  display: none !important;
+}
+
+/* === CUSTOM CONTROLS IN FULLSCREEN === */
+.video-controls.fullscreen-active {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  z-index: 1000;
+  background: rgba(0,0,0,0.6);
+  padding: 10px;
+  border-radius: 8px;
+}
+
+/* Make sure buttons don't change color */
+.video-controls button {
+  background: transparent;
+  color: #fff;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.video-controls input[type="range"] {
+  accent-color: #fff;
+}
+  </style>
   
   <!-- Font Awesome (icons for controls) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
