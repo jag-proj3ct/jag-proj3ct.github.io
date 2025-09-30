@@ -150,19 +150,22 @@ fullscreenBtn.addEventListener("click", () => {
     video.webkitEnterFullscreen();
   } else if (document.fullscreenElement) {
     document.exitFullscreen();
-  } else if (video.parentElement.requestFullscreen) {
-    video.parentElement.requestFullscreen();
-  } else if (video.parentElement.webkitRequestFullscreen) {
-    video.parentElement.webkitRequestFullscreen();
-  } else if (video.parentElement.msRequestFullscreen) {
-    video.parentElement.msRequestFullscreen();
+  } else if (video.requestFullscreen) {
+    video.requestFullscreen();
+  } else if (video.webkitRequestFullscreen) {
+    video.webkitRequestFullscreen();
+  } else if (video.msRequestFullscreen) {
+    video.msRequestFullscreen();
   }
 });
 
+// Track fullscreen state for styling
 document.addEventListener("fullscreenchange", () => {
-  if (document.fullscreenElement) {
+  if (document.fullscreenElement === video) {
+    video.classList.add("video-fullscreen");
     videoControls.classList.add("fullscreen-active");
   } else {
+    video.classList.remove("video-fullscreen");
     videoControls.classList.remove("fullscreen-active");
   }
 });
