@@ -12,7 +12,7 @@ const fullscreenBtn = document.getElementById("fullscreenBtn");
 const videoControls = document.querySelector(".video-controls");
 
 // ========================================
-// 🎬 VIDEO LIST (Supports Multi-Part, mov + MP4)
+// 🎬 VIDEO LIST
 // ========================================
 const basePath = "../videos/";
 
@@ -29,7 +29,7 @@ original_video_list.forEach((vid, originalIndex) => {
   const videoFiles = Array.isArray(vid.file) ? vid.file : [vid.file];
   flat_video_list.push({
     name: vid.name,
-    files: videoFiles.map(file => basePath + file),
+    files: videoFiles.map(file => basePath + file.toLowerCase()), // normalize lowercase
     currentPart: 0,
     originalIndex
   });
@@ -38,7 +38,7 @@ original_video_list.forEach((vid, originalIndex) => {
 let video_index = 0;
 
 // ========================================
-// Helper: Format time (MM:SS)
+// Helper: Format time
 // ========================================
 function formatTime(sec) {
   if (isNaN(sec)) return "00:00";
@@ -48,9 +48,9 @@ function formatTime(sec) {
 }
 
 // ========================================
-// Load Video (with MP4 + mov sources)
+// Load Video (tries mp4 first, then mov)
 // ========================================
-function loadVideo(index, part = 0) {
+async function loadVideo(index, part = 0) {
   if (index < 0) index = flat_video_list.length - 1;
   else if (index >= flat_video_list.length) index = 0;
 
@@ -63,40 +63,50 @@ function loadVideo(index, part = 0) {
 
   const baseFile = track.files[track.currentPart];
 
-  // Try MP4 first
-  const sourceMP4 = document.createElement("source");
-  sourceMP4.src = baseFile + ".mp4";
-  sourceMP4.type = "video/mp4";
-  video.appendChild(sourceMP4);
+  // Candidate formats
+  const formats = [
+    { ext: ".mp4", type: "video/mp4" },
+    { ext: ".mov", type: "video/quicktime" }
+  ];
 
-  // Try MOV second
-  const sourceMOV = document.createElement("source");
-  sourceMOV.src = baseFile + ".mov";
-  sourceMOV.type = "video/quicktime";
-  video.appendChild(sourceMOV);
+  for (const fmt of formats) {
+    const url = baseFile + fmt.ext;
+    try {
+      // Check if file exists
+      const res = await fetch(url, { method: "HEAD" });
+      if (res.ok) {
+        const source = document.createElement("source");
+        source.src = url;
+        source.type = fmt.type;
+        video.appendChild(source);
+        break;
+      }
+    } catch (err) {
+      console.warn(`❌ Missing: ${url}`);
+    }
+  }
 
   video.load();
 }
 
 // ========================================
-// Handle Errors (skip if file missing)
+// Error Handling → Skip to next
 // ========================================
 video.addEventListener("error", () => {
   console.warn("⚠️ Video failed to load, skipping...");
   const track = flat_video_list[video_index];
-
   if (track.currentPart < track.files.length - 1) {
-    // Try next part of same video
     loadVideo(video_index, track.currentPart + 1);
     video.play().catch(() => {});
   } else {
-    // Skip to next video
     loadVideo(video_index + 1, 0);
     video.play().catch(() => {});
   }
 });
 
-// When metadata is ready, update duration
+// ========================================
+// Metadata → update duration
+// ========================================
 video.addEventListener("loadedmetadata", () => {
   totalTimeEl.textContent = formatTime(video.duration);
 });
@@ -163,7 +173,7 @@ document.addEventListener("fullscreenchange", () => {
 });
 
 // ========================================
-// Handle Ended (auto next part / video)
+// Ended → auto next part / video
 // ========================================
 video.addEventListener("ended", () => {
   const track = flat_video_list[video_index];
