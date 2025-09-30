@@ -21,7 +21,10 @@ const original_video_list = [
     name: "main-video",
     file: ["vidpt1", "vidpt2", "vidpt3", "vidpt4", "vidpt5"]
   },
-  { name: "outro", file: "copy_F5148D8D-9398-481A-A9B8-0306E0C5DDA6" }
+  {
+    name: "outro",
+    file: ["outro1", "outro2"]
+  }
 ];
 
 let flat_video_list = [];
