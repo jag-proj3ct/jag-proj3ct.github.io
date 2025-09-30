@@ -19,9 +19,9 @@ const basePath = "../videos/";
 const original_video_list = [
   {
     name: "main-video",
-    file: ["vidpt1", "vidpt2", "vidpt3", "vidpt4", "vidpt5"] // no extension
+    file: ["vidpt1.mov", "vidpt2.mov", "vidpt3.mov", "vidpt4.mov", "vidpt5.mov"] // no extension
   },
-  { name: "outro", file: "copy_F5148D8D-9398-481A-A9B8-0306E0C5DDA6" }
+  { name: "outro", file: "copy_F5148D8D-9398-481A-A9B8-0306E0C5DDA6.mov" }
 ];
 
 let flat_video_list = [];
