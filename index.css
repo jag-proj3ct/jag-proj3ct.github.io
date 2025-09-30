@@ -502,7 +502,6 @@ hr { margin: 40px 0; border: 0; border-top: 1px solid #FFD700; opacity: 0.5; wid
 .touch-device .profile-card button:hover {
     transform: scale(1.05);
 }
-
 /* === VIDEO PLAYER === */
 .video-player {
   display: flex;
@@ -514,6 +513,7 @@ hr { margin: 40px 0; border: 0; border-top: 1px solid #FFD700; opacity: 0.5; wid
   gap: 15px;
 }
 
+/* Base video style */
 .video-player video {
   width: 100%;
   max-width: 900px;
@@ -526,18 +526,14 @@ hr { margin: 40px 0; border: 0; border-top: 1px solid #FFD700; opacity: 0.5; wid
   display: block;
 }
 
-/* Hide default controls */
-video::-webkit-media-controls {
-  display: none !important;
-}
-video::-moz-media-controls {
-  display: none !important;
-}
+/* Hide native controls across browsers */
+video::-webkit-media-controls,
+video::-moz-media-controls,
 video::-ms-media-controls {
   display: none !important;
 }
 
-/* === Fullscreen mode === */
+/* Fullscreen styling */
 video:fullscreen,
 video:-webkit-full-screen,
 video:-moz-full-screen,
@@ -549,7 +545,7 @@ video:-ms-fullscreen {
   background: #000;
 }
 
-/* --- Controls --- */
+/* --- Custom Controls --- */
 .video-controls {
   display: flex;
   justify-content: center;
@@ -589,9 +585,9 @@ video:-ms-fullscreen {
   -webkit-appearance: none;
   appearance: none;
   height: 6px;
-  transition: opacity .2s;
-  cursor: pointer;
   border-radius: 5px;
+  cursor: pointer;
+  transition: opacity .2s;
 }
 
 .video-seek {
