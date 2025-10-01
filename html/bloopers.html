@@ -17,12 +17,19 @@
 <body>
   <!-- Heading -->
   <div class="container">
-  <h1 id="videoTitle" style="text-align:center; margin-top:20px;">...</h1>
+    <h1 id="videoTitle" style="text-align:center; margin-top:20px;">...</h1>
   </div>
 
   <!-- Video Player -->
   <div class="video-player">
-    <video id="myVideo" width="800" preload="metadata"></video>
+    <video 
+      id="myVideo" 
+      width="800" 
+      preload="metadata" 
+      playsinline 
+      webkit-playsinline 
+      controlslist="nodownload"
+    ></video>
 
     <!-- Custom Controls -->
     <div class="video-controls">
