@@ -19,10 +19,14 @@ const videoTitleEl = document.getElementById("videoTitle");
 
 // VIDEO LIST
 const basePath = "/videos/";
+const errorVideoPath = "/videos/404placeholder.mp4"; // your 404 fallback file
 
 const original_video_list = [
-  { name: "main", file: ["main1","main2"] },
-  { name: "outro", file: ["outro1","outro2"] }
+  { name: "at school recording", file: "vidskl" },
+  { name: "home (kod) 1", file: "homerec" },
+  { name: "home (kod) 2", file: "homerec2" },
+  { name: "reading script counter", file: "scriptcount" },
+  { name: "mess ups", file: "vidoops" }
 ];
 
 let flat_video_list = [];
@@ -46,7 +50,7 @@ function formatTime(sec) {
   return `${min.toString().padStart(2,"0")}:${s.toString().padStart(2,"0")}`;
 }
 
-// Load Video into video
+// Load Video into element
 function loadVideoElement(target, index, part = 0) {
   target.innerHTML = "";
   const track = flat_video_list[index];
@@ -65,17 +69,48 @@ function loadVideoElement(target, index, part = 0) {
   target.load();
 }
 
+// Fallback loader (404 video)
+function loadErrorVideo(target, loop = true) {
+  target.innerHTML = "";
+
+  const source404 = document.createElement("source");
+  source404.src = errorVideoPath;
+  source404.type = "video/mp4";
+  target.appendChild(source404);
+
+  target.loop = loop;
+  target.load();
+  videoTitleEl.textContent = "404 File Not Found";
+
+  target.play().catch(() => {}); // try autoplay
+}
+
 // Main Loader
 function loadVideo(index, part = 0) {
   video_index = index;
   flat_video_list[index].currentPart = part;
   loadVideoElement(video, index, part);
 
-  // NEW: update the <h1> with current video name
+  // NEW: error fallback if loading fails
+  video.onerror = () => {
+    const track = flat_video_list[index];
+    console.warn("Video not found:", track.files[part]);
+
+    // If multiple parts → skip to next
+    if (track.files.length > 1 && part < track.files.length - 1) {
+      console.log("Skipping to next part...");
+      track.currentPart++;
+      swapToBuffer(index, track.currentPart);
+    } else {
+      console.log("No more parts, showing 404 loop.");
+      loadErrorVideo(video, true);
+    }
+  };
+
+  // update the <h1> with current video name
   const trackName = flat_video_list[index].name;
   videoTitleEl.textContent = trackName.charAt(0).toUpperCase() + trackName.slice(1);
 
-  // preload next part
   preloadNext(index, part);
 }
 
@@ -87,6 +122,10 @@ function preloadNext(index, part) {
   } else if (index < flat_video_list.length - 1) {
     loadVideoElement(bufferVideo, index + 1, 0);
   }
+
+  bufferVideo.onerror = () => {
+    console.warn("Preload failed, skipping preload...");
+  };
 }
 
 // On video ended → swap instantly
@@ -105,20 +144,31 @@ video.addEventListener("ended", () => {
 });
 
 function swapToBuffer(index, part) {
-  // swap current <video> with preloaded one
   const wasMuted = video.muted;
   const vol = video.volume;
 
-  const newSrc = bufferVideo.querySelector("source").src;
   loadVideoElement(video, index, part);
+
+  video.onerror = () => {
+    const track = flat_video_list[index];
+    console.warn("Swap failed:", track.files[part]);
+
+    if (track.files.length > 1 && part < track.files.length - 1) {
+      console.log("Skipping broken part...");
+      track.currentPart++;
+      swapToBuffer(index, track.currentPart);
+    } else {
+      console.log("No parts left, showing 404 loop.");
+      loadErrorVideo(video, true);
+    }
+  };
+
   video.volume = vol;
   video.muted = wasMuted;
+  video.play().catch(() => {});
 
-  // autoplay
-  video.play();
   preloadNext(index, part);
 
-  // NEW: update title when swapping
   const trackName = flat_video_list[index].name;
   videoTitleEl.textContent = trackName.charAt(0).toUpperCase() + trackName.slice(1);
 }
