@@ -80,7 +80,6 @@
 
 .return-btn:hover,
 .return-btn:active { /* active for touchscreen feedback */
-    background: #c87f00;
     transform: scale(1.05);
     color: #fff;
     cursor: pointer;
@@ -107,8 +106,6 @@
     }
 
     .return-btn {
-        width: 100%;
         max-width: none;
-        font-size: 1rem;
     }
 }
