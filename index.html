@@ -9,15 +9,12 @@
   <link rel="stylesheet" href="index.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
   <link rel="icon" href="https://d1yjjnpx0p53s8.cloudfront.net/pp840x830-pad1000x1000f8f8f8.jpg?9oPTJs..erd0K9tiddIL4J9OjiCfetIN" />
-
-  <!-- voting api + mobile/pc detector -->
-  <script src="js/voting-system.js" defer></script>
-  <script src="js/device-type.js" defer></script> 
 </head>
 <body>
   
-<img src="images/tigers.png" alt="main" class="tigers" decoding="async" width="160" height="90" style="image-rendering: pixelated; ">
-  <!-- Page Content (now visible immediately) -->
+  <img src="images/tigers.png" alt="main" class="tigers" decoding="async" width="160" height="90" style="image-rendering: pixelated; ">
+
+  <!-- Page Content -->
   <div class="container-first" id="pageContent">
     <div class="card profile-card">
       <div class="profile-pic-wrapper">
@@ -30,14 +27,18 @@
       <h1>THE VOTE COUNT</h1>
       
       <div class="stats">
-        <p>Current Votes: <span id="currentVotes">...Loading...</span></p>
+        <p>Final Votes: <span id="currentVotes">Closed</span></p>
       </div>
 
-      <button id="voteBtn">Vote Domingo!</button>
-      <p id="voteMessage" style="color: #FFD700; margin-top: 10px; display: none;">Thank you for voting!</p>
+      <!-- Disabled button -->
+      <button id="voteBtn" disabled style="background: #888; color: #fff; cursor: not-allowed; border: none; padding: 10px 20px; border-radius: 6px;">
+        All votes are in! Thank you for your support :)
+      </button>
+
       <a href="html/video.html">LINK TO PROMOTIONAL VIDEO</a>
       <a href="./html/info.html"><p>More INFORMATION</p></a>
     </div>
+
     <img src="images/flipped-cupid.png" alt="Cupid" class="cupid cupid-first-container" loading="lazy" decoding="async" width="200" height="200">
   </div>
 
@@ -45,9 +46,6 @@
     <div class="player card">
       <div class="wrapper">
         <div class="details">
-          <div class="track-art">
-            <div class="cover"></div>
-          </div>
           <a class="track-name" href="#" target="_blank">Track Name</a>
           <a class="track-artist" href="#" target="_blank">Track Artist</a>
         </div>
@@ -95,6 +93,7 @@
         <span class="stroke"></span>
       </div>
     </div>
+
     <img src="images/normal-cupid.png" alt="Flipped Cupid" class="cupid cupid-music-player" loading="lazy" decoding="async" width="200" height="200">
   </div>
 
