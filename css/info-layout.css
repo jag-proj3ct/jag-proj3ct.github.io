@@ -27,7 +27,7 @@
 /* Styling for the Image */
 .content-right img {
     width: 60%; /* Image fills its container */
-    max-width: 200px; /* Control max size of the image */
+    max-width: 100px; /* Control max size of the image */
     height: auto;
     border-radius: 8px; /* Optional: adds a nice soft edge */
     box-shadow: 0 4px 10px rgba(0,0,0,0.5); /* Optional: adds depth */
