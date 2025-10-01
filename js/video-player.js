@@ -22,6 +22,7 @@ const videoControls = document.querySelector(".video-controls");
 const basePath = "/videos/";
 
 const original_video_list = [
+  { name: "main", file: ["main1","main2"] },
   { name: "outro", file: ["outro1","outro2"] }
 ];
 
