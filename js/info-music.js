@@ -5,11 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const strokes = document.querySelectorAll("#wave .stroke");
 
-  // Remove any CSS animation so JS can take over
-  strokes.forEach(stroke => {
-    stroke.style.animation = "none";
-  });
-
   // Web Audio API setup
   const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   const analyser = audioCtx.createAnalyser();
@@ -26,25 +21,27 @@ document.addEventListener("DOMContentLoaded", () => {
     analyser.getByteFrequencyData(dataArray);
 
     strokes.forEach((stroke, i) => {
-      const scale = (dataArray[i] / 255) * 2 + 0.2; 
+      const scale = (dataArray[i] / 255) * 1.5 + 0.3;
       stroke.style.transform = `scaleY(${scale})`;
     });
   }
 
-  // Try autoplay, otherwise wait for click
-  bgMusic.play().then(() => {
-    if (audioCtx.state === "suspended") {
-      audioCtx.resume();
+  // Function to start music & visualizer
+  function startMusic() {
+    if (bgMusic.paused) {
+      bgMusic.play().then(() => {
+        if (audioCtx.state === "suspended") {
+          audioCtx.resume();
+        }
+        animate();
+      }).catch(err => {
+        console.warn("Play blocked:", err);
+      });
     }
-    animate();
-  }).catch(() => {
-    console.warn("Autoplay blocked. Waiting for click...");
-    document.addEventListener("click", () => {
-      bgMusic.play();
-      if (audioCtx.state === "suspended") {
-        audioCtx.resume();
-      }
-      animate();
-    }, { once: true });
+  }
+
+  // Attach hover listener to all headings and paragraphs
+  document.querySelectorAll("h1, h2, p").forEach(el => {
+    el.addEventListener("mouseenter", startMusic, { once: true });
   });
 });
