@@ -26,7 +26,7 @@
 
 /* Styling for the Image */
 .content-right img {
-    width: 100%; /* Image fills its container */
+    width: 60%; /* Image fills its container */
     max-width: 200px; /* Control max size of the image */
     height: auto;
     border-radius: 8px; /* Optional: adds a nice soft edge */
