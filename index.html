@@ -27,7 +27,7 @@
       <h1>THE VOTE COUNT</h1>
       
       <div class="stats">
-        <p>Final Votes: <span id="currentVotes">Closed</span></p>
+        <p>Final Vote Amount: <span id="currentVotes">...Loading...</span></p>
       </div>
 
       <!-- Disabled button -->
@@ -105,7 +105,27 @@
     <a href="#">Version:0.9.9.3</a>
   </div>
 
-  <!-- Keep only music player + misc scripts -->
+  <!-- Scripts -->
+  <script>
+    // Only fetch votes, no voting
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyx1pB3AbeDIaWFxDANrrEWY2NkgNmRYB3k_aNR109pR5aEVExaWniEc5-oZ0D2xy6FXw/exec";
+    const votesDisplay = document.getElementById("currentVotes");
+
+    async function fetchVotes() {
+      try {
+        const response = await fetch(SCRIPT_URL + "?cb=" + Date.now());
+        const count = await response.text();
+        votesDisplay.textContent = isNaN(parseInt(count)) ? "error" : count;
+      } catch (err) {
+        votesDisplay.textContent = "error";
+      }
+    }
+
+    // Load once + refresh every 5s just in case
+    fetchVotes();
+    setInterval(fetchVotes, 5000);
+  </script>
+  
   <script src="js/music-player.js" defer></script>
   <script src="js/404.js" defer></script> 
 </body>
