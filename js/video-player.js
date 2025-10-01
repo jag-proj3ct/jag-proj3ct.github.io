@@ -1,6 +1,4 @@
-// ========================================
 // DOM references
-// ========================================
 const video = document.getElementById("myVideo");
 const bufferVideo = document.createElement("video"); // hidden preloader
 bufferVideo.muted = true;
@@ -16,9 +14,7 @@ const totalTimeEl = document.getElementById("totalTime");
 const fullscreenBtn = document.getElementById("fullscreenBtn");
 const videoControls = document.querySelector(".video-controls");
 
-// ========================================
-// VIDEO LIST (MP4 first, MOV fallback)
-// ========================================
+// VIDEO LIST
 const basePath = "/videos/";
 
 const original_video_list = [
@@ -39,9 +35,7 @@ original_video_list.forEach((vid, originalIndex) => {
 
 let video_index = 0;
 
-// ========================================
 // Helper: Format time
-// ========================================
 function formatTime(sec) {
   if (isNaN(sec)) return "00:00";
   const min = Math.floor(sec / 60);
@@ -49,9 +43,7 @@ function formatTime(sec) {
   return `${min.toString().padStart(2,"0")}:${s.toString().padStart(2,"0")}`;
 }
 
-// ========================================
-// Load Video into target <video>
-// ========================================
+// Load Video into video
 function loadVideoElement(target, index, part = 0) {
   target.innerHTML = "";
   const track = flat_video_list[index];
@@ -70,9 +62,7 @@ function loadVideoElement(target, index, part = 0) {
   target.load();
 }
 
-// ========================================
 // Main Loader
-// ========================================
 function loadVideo(index, part = 0) {
   video_index = index;
   flat_video_list[index].currentPart = part;
@@ -92,9 +82,7 @@ function preloadNext(index, part) {
   }
 }
 
-// ========================================
 // On video ended → swap instantly
-// ========================================
 video.addEventListener("ended", () => {
   const track = flat_video_list[video_index];
 
@@ -124,9 +112,7 @@ function swapToBuffer(index, part) {
   preloadNext(index, part);
 }
 
-// ========================================
-// Controls (same as your version)
-// ========================================
+// Controls 
 function togglePlay() {
   if (video.paused || video.ended) video.play();
   else video.pause();
@@ -182,9 +168,7 @@ document.addEventListener("fullscreenchange", () => {
   }
 });
 
-// ========================================
 // Init
-// ========================================
 loadVideo(0, 0);
 video.volume = volumeBar.value;
 currentTimeEl.textContent = "00:00";
