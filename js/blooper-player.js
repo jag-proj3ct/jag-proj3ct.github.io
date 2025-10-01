@@ -22,11 +22,11 @@ const basePath = "/videos/";
 const errorVideoPath = "/videos/404placeholder.mp4";
 
 const original_video_list = [
-  { name: "at school recording", file: "vidskl" },
-  { name: "home (kod) 1", file: "homerec" },
-  { name: "home (kod) 2", file: "homerec2" },
-  { name: "reading script counter", file: "scriptcount" },
-  { name: "mess ups", file: "vidoops" }
+  { name: "at school recording", file: "404placeholder" },
+  { name: "home (kod) 1", file: "404placeholder" },
+  { name: "home (kod) 2", file: "404placeholder" },
+  { name: "reading script counter", file: "404placeholder" },
+  { name: "mess ups", file: "404placeholder" }
 ];
 
 let flat_video_list = [];
