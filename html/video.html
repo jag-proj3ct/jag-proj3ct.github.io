@@ -10,6 +10,7 @@
   <!-- Main CSS -->
   <link rel="stylesheet" href="../index.css" />
   <script src="js/device-type.js" defer></script> 
+
   <!-- Font Awesome (icons for controls) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
 </head>
@@ -21,7 +22,13 @@
 
   <!-- Video Player -->
   <div class="video-player">
-    <video id="myVideo" width="800" preload="metadata"></video>
+    <video 
+      id="myVideo" 
+      preload="metadata" 
+      playsinline 
+      webkit-playsinline 
+      controlslist="nodownload"
+    ></video>
 
     <!-- Custom Controls -->
     <div class="video-controls">
