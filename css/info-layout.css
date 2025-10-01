@@ -65,10 +65,8 @@
 .return-btn {
     text-align: center;
     padding: 18px 30px; /* larger tap target */
-    background: #EDA20C;
     color: #111;
     border-radius: 8px;
-    text-transform: uppercase;
     font-weight: bold;
     letter-spacing: 1px;
     display: block;
