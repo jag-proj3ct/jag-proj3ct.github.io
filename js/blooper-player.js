@@ -14,12 +14,12 @@ const totalTimeEl = document.getElementById("totalTime");
 const fullscreenBtn = document.getElementById("fullscreenBtn");
 const videoControls = document.querySelector(".video-controls");
 
-// New: Title element
+// Title element
 const videoTitleEl = document.getElementById("videoTitle");
 
 // VIDEO LIST
 const basePath = "/videos/";
-const errorVideoPath = "/videos/404placeholder.mp4"; // your 404 fallback file
+const errorVideoPath = "/videos/404placeholder.mp4";
 
 const original_video_list = [
   { name: "at school recording", file: "vidskl" },
@@ -50,7 +50,7 @@ function formatTime(sec) {
   return `${min.toString().padStart(2,"0")}:${s.toString().padStart(2,"0")}`;
 }
 
-// Load Video into element
+// Load video sources into a <video> element
 function loadVideoElement(target, index, part = 0) {
   target.innerHTML = "";
   const track = flat_video_list[index];
@@ -69,8 +69,8 @@ function loadVideoElement(target, index, part = 0) {
   target.load();
 }
 
-// Fallback loader (404 video)
-function loadErrorVideo(target, loop = true) {
+// Show 404 video
+function loadErrorVideo(target, loop = true, nextAction = null) {
   target.innerHTML = "";
 
   const source404 = document.createElement("source");
@@ -82,7 +82,12 @@ function loadErrorVideo(target, loop = true) {
   target.load();
   videoTitleEl.textContent = "404 File Not Found";
 
-  target.play().catch(() => {}); // try autoplay
+  // if one-off (not loop), trigger next action on ended
+  if (!loop && typeof nextAction === "function") {
+    target.onended = nextAction;
+  }
+
+  target.play().catch(() => {});
 }
 
 // Main Loader
@@ -91,30 +96,37 @@ function loadVideo(index, part = 0) {
   flat_video_list[index].currentPart = part;
   loadVideoElement(video, index, part);
 
-  // NEW: error fallback if loading fails
   video.onerror = () => {
     const track = flat_video_list[index];
     console.warn("Video not found:", track.files[part]);
 
-    // If multiple parts → skip to next
-    if (track.files.length > 1 && part < track.files.length - 1) {
-      console.log("Skipping to next part...");
-      track.currentPart++;
-      swapToBuffer(index, track.currentPart);
-    } else {
-      console.log("No more parts, showing 404 loop.");
+    if (track.files.length === 1) {
+      // Single file → loop 404
       loadErrorVideo(video, true);
+    } else {
+      // Multi-part → play 404 once, then skip to next
+      loadErrorVideo(video, false, () => {
+        track.currentPart++;
+        if (track.currentPart < track.files.length) {
+          swapToBuffer(index, track.currentPart);
+        } else {
+          video_index++;
+          if (video_index >= flat_video_list.length) video_index = 0;
+          flat_video_list[video_index].currentPart = 0;
+          swapToBuffer(video_index, 0);
+        }
+      });
     }
   };
 
-  // update the <h1> with current video name
+  // update <h1>
   const trackName = flat_video_list[index].name;
   videoTitleEl.textContent = trackName.charAt(0).toUpperCase() + trackName.slice(1);
 
   preloadNext(index, part);
 }
 
-// Preload helper
+// Preload next video/part
 function preloadNext(index, part) {
   const track = flat_video_list[index];
   if (part < track.files.length - 1) {
@@ -126,6 +138,44 @@ function preloadNext(index, part) {
   bufferVideo.onerror = () => {
     console.warn("Preload failed, skipping preload...");
   };
+}
+
+// Swap to buffer
+function swapToBuffer(index, part) {
+  const wasMuted = video.muted;
+  const vol = video.volume;
+
+  loadVideoElement(video, index, part);
+
+  video.onerror = () => {
+    const track = flat_video_list[index];
+    console.warn("Swap failed:", track.files[part]);
+
+    if (track.files.length === 1) {
+      loadErrorVideo(video, true);
+    } else {
+      loadErrorVideo(video, false, () => {
+        track.currentPart++;
+        if (track.currentPart < track.files.length) {
+          swapToBuffer(index, track.currentPart);
+        } else {
+          video_index++;
+          if (video_index >= flat_video_list.length) video_index = 0;
+          flat_video_list[video_index].currentPart = 0;
+          swapToBuffer(video_index, 0);
+        }
+      });
+    }
+  };
+
+  video.volume = vol;
+  video.muted = wasMuted;
+  video.play().catch(() => {});
+
+  preloadNext(index, part);
+
+  const trackName = flat_video_list[index].name;
+  videoTitleEl.textContent = trackName.charAt(0).toUpperCase() + trackName.slice(1);
 }
 
 // On video ended → swap instantly
@@ -143,37 +193,7 @@ video.addEventListener("ended", () => {
   }
 });
 
-function swapToBuffer(index, part) {
-  const wasMuted = video.muted;
-  const vol = video.volume;
-
-  loadVideoElement(video, index, part);
-
-  video.onerror = () => {
-    const track = flat_video_list[index];
-    console.warn("Swap failed:", track.files[part]);
-
-    if (track.files.length > 1 && part < track.files.length - 1) {
-      console.log("Skipping broken part...");
-      track.currentPart++;
-      swapToBuffer(index, track.currentPart);
-    } else {
-      console.log("No parts left, showing 404 loop.");
-      loadErrorVideo(video, true);
-    }
-  };
-
-  video.volume = vol;
-  video.muted = wasMuted;
-  video.play().catch(() => {});
-
-  preloadNext(index, part);
-
-  const trackName = flat_video_list[index].name;
-  videoTitleEl.textContent = trackName.charAt(0).toUpperCase() + trackName.slice(1);
-}
-
-// Controls 
+// === Controls ===
 function togglePlay() {
   if (video.paused || video.ended) video.play();
   else video.pause();
