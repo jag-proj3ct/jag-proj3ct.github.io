@@ -78,13 +78,6 @@
     transition: all 0.3s ease;
 }
 
-.return-btn:hover,
-.return-btn:active { /* active for touchscreen feedback */
-    transform: scale(1.05);
-    color: #fff;
-    cursor: pointer;
-}
-
 /* MOBILE OPTIMIZATION */
 @media (max-width: 768px) {
     .two-column-layout {
@@ -103,9 +96,5 @@
     .content-right img {
         max-width: 80%; /* keep image large but responsive */
         height: auto;
-    }
-
-    .return-btn {
-        max-width: none;
     }
 }
