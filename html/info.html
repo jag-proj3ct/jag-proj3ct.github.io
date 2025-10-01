@@ -1,42 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../index.css" />
-    <link rel="stylesheet" href="./css/info-layout.css" />
-    <link rel="icon" href="https://d1yjjnpx0p53s8.cloudfront.net/pp840x830-pad1000x1000f8f8f8.jpg?9oPTJs..erd0K9tiddIL4J9OjiCfetIN" />
-    <title>Information about Domingo</title>
-    <script src="js/device-type.js" defer></script> 
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../index.css" />
+  <link rel="stylesheet" href="./css/info-layout.css" />
+  <link rel="icon" href="https://d1yjjnpx0p53s8.cloudfront.net/pp840x830-pad1000x1000f8f8f8.jpg?9oPTJs..erd0K9tiddIL4J9OjiCfetIN" />
+  <title>Information about Domingo</title>
+  <script src="js/device-type.js" defer></script> 
 </head>
 <body>
-    <div class="container">
+  <div class="container">
 
-      <div class="two-column-layout">
-          
-          <div class="content-left">
-              <h2>Basic Information and Background</h2>
-              <p>Domingo is from Quiche Joyabaj ,Guatemala. like Fremont Ne USA!</p>
-              <p>Domingo has been living in the United States since 7 years old and moved to Fremont Nebraska at 9 years old.</p>
-              <p>Domingo is apart of JAG 9th Grade and is also in bookclub.</p>
+    <div class="two-column-layout">
+        
+      <div class="content-left">
+        <h2>Basic Information and Background</h2>
+        <p>Domingo is from Quiche Joyabaj, Guatemala. like Fremont Ne USA!</p>
+        <p>Domingo has been living in the United States since 7 years old and moved to Fremont Nebraska at 9 years old.</p>
+        <p>Domingo is apart of JAG 9th Grade and is also in bookclub.</p>
 
-              <h2>Hobbies</h2>
-              <p>Coding, Drawing, Playing games, Reading, and taking care of my little siblings. 
-                 i have 3 little brothers, and live in with my mom and step-dad.</p>
-          </div>
-          
-          <div class="content-right">
-              <h1>Domingo Gutierrez Ramos</h1>
-              <img src="../images/meee2.png" alt="Profile Image of Domingo" width="40%" height="auto">
-              
-              <h1>What you can expect from Domingo</h1>
-              <p>Public speaking, writting and planning, attending meetings, and helping students feel welcome and pushing for career paths.</p>
-          </div>
+        <h2>Hobbies</h2>
+        <p>Coding, Drawing, Playing games, Reading, and taking care of my little siblings. 
+        I have 3 little brothers, and live in with my mom and step-dad.</p>
       </div>
-      <hr>
+      
+      <div class="content-right">
+        <h1>Domingo Gutierrez Ramos</h1>
+        <img src="../images/meee2.png" alt="Profile Image of Domingo" width="40%" height="auto">
         
-      <a href="../index.html" class="return-btn">Return to Main Page</a>
-        
+        <h1>What you can expect from Domingo</h1>
+        <p>Public speaking, writing and planning, attending meetings, and helping students feel welcome and pushing for career paths.</p>
+      </div>
     </div>
+    <hr>
+      
+    <a href="../index.html" class="return-btn">Return to Main Page</a>
+      
+  </div>
+
+  <!-- 🎵 Background Music Script -->
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const bgMusic = new Audio("./music/batb.mp3");
+    bgMusic.loop = true;
+    bgMusic.volume = 0.5;
+    const tryPlay = () => {
+      bgMusic.play().catch(() => {
+        console.warn("Autoplay blocked. Retrying on click.");
+        document.addEventListener("click", () => bgMusic.play(), { once: true });
+      });
+    };
+    tryPlay();
+  });
+  </script>
 </body>
 </html>
