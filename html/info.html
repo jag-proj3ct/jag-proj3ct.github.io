@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" href="../index.css" />
   <link rel="stylesheet" href="../css/info-layout.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
   <link rel="icon" href="https://d1yjjnpx0p53s8.cloudfront.net/pp840x830-pad1000x1000f8f8f8.jpg?9oPTJs..erd0K9tiddIL4J9OjiCfetIN" />
   <title>Information about Domingo</title>
+
+  <!-- Keep same scripts as main -->
   <script src="../js/device-type.js" defer></script> 
   <script src="../js/info-music.js" defer></script> 
 </head>
@@ -30,47 +32,50 @@
         <p>Coding, Drawing, Playing games, Reading, and taking care of my little siblings. 
           I have 3 little brothers, and live in with my mom and step-dad.</p>
 
-        <!-- 🎵 Music Player -->
-        <div class="music-player card player">
-          <div class="details">
-            <a class="track-name" href="#" target="_blank">Track Name</a>
-            <a class="track-artist" href="#" target="_blank">Track Artist</a>
+        <!-- Music Player -->
+        <div class="player card">
+          <div class="wrapper">
+            <div class="details">
+              <div class="track-art">
+                <div class="cover"></div>
+              </div>
+              <a class="track-name" href="#" target="_blank">Track Name</a>
+              <a class="track-artist" href="#" target="_blank">Track Artist</a>
+            </div>
+
+            <div class="slider_container">
+              <div class="current-time">00:00</div>
+              <input type="range" min="0" max="100" value="0" class="seek_slider" />
+              <div class="total-duration">00:00</div>
+            </div>
+
+            <div class="slider_container">
+              <i class="fa fa-volume-down"></i>
+              <input type="range" min="0" max="100" value="99" class="volume_slider" />
+              <i class="fa fa-volume-up"></i>
+            </div>
+
+            <div class="now-playing">PLAYING x OF y</div>
+
+            <div class="buttons">
+              <div class="random-track" title="Random">
+                <i class="fas fa-random fa-2x"></i>
+              </div>
+              <div class="prev-track" title="Previous">
+                <i class="fa fa-step-backward fa-2x"></i>
+              </div>
+              <div class="playpause-track" title="Play/Pause">
+                <i class="fa fa-play-circle fa-5x"></i>
+              </div>
+              <div class="next-track" title="Next">
+                <i class="fa fa-step-forward fa-2x"></i>
+              </div>
+              <div class="repeat-track" title="Repeat">
+                <i class="fas fa-redo fa-2x"></i>
+              </div>
+            </div>
           </div>
-
-          <div class="slider_container">
-            <div class="current-time">00:00</div>
-            <input type="range" min="0" max="100" value="0" class="seek_slider" />
-            <div class="total-duration">00:00</div>
-          </div>
-
-          <div class="slider_container">
-            <i class="fa fa-volume-down"></i>
-            <input type="range" min="0" max="100" value="99" class="volume_slider" />
-            <i class="fa fa-volume-up"></i>
-          </div>
-
-          <div class="now-playing">PLAYING x OF y</div>
-
-          <!-- Buttons -->
-          <div class="buttons">
-            <div class="random-track" title="Random">
-              <i class="fas fa-random fa-2x"></i>
-            </div>
-            <div class="prev-track" title="Previous">
-              <i class="fa fa-step-backward fa-2x"></i>
-            </div>
-            <div class="playpause-track" title="Play/Pause">
-              <i class="fa fa-play-circle fa-5x"></i>
-            </div>
-            <div class="next-track" title="Next">
-              <i class="fa fa-step-forward fa-2x"></i>
-            </div>
-            <div class="repeat-track" title="Repeat">
-              <i class="fas fa-redo fa-2x"></i>
-            </div>
-          </div>
-
-          <!-- Visualizer -->
+          
           <div id="wave" class="loader">
             <span class="stroke"></span>
             <span class="stroke"></span>
