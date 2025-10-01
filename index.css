@@ -451,7 +451,7 @@ hr { margin: 40px 0; border: 0; border-top: 1px solid #FFD700; opacity: 0.5; wid
 }
 .cupid:hover { transform: scale(1.1); }
 .cupid-first-container { bottom: -40px; right: 30px; }
-.cupid-music-player { bottom: 160px; left: 130px; }
+.cupid-music-player { bottom: 180px; left: 130px; }
 
 /* === MOBILE OPTIMIZATION === */
 @media (max-width: 768px) {
