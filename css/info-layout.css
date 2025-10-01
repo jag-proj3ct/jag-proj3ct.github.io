@@ -1,103 +1,114 @@
 /* === NEW STYLES FOR TWO-COLUMN LAYOUT === */
 .two-column-layout {
     display: flex;
-    justify-content: space-between; /* Space out the columns */
-    gap: 40px; /* Space between the columns */
+    justify-content: space-between;
+    gap: 40px;
     width: 100%;
-    margin-bottom: 40px; /* Space before the <hr> */
+    margin-bottom: 40px;
+    flex-wrap: wrap; /* prevents overflow on smaller screens */
 }
 
-/* LEFT CONTENT STYLES (Header 2 and Paragraphs) */
+/* LEFT CONTENT STYLES */
 .content-left {
-    flex: 2; /* Takes up 2/3 of the space */
+    flex: 2;
     display: flex;
     flex-direction: column;
-    gap: 10px; /* Space between the H2/P blocks */
+    gap: 10px;
 }
 
-/* RIGHT CONTENT STYLES (Header 1 and Image) */
+/* RIGHT CONTENT STYLES */
 .content-right {
-    flex: 1; /* Takes up 1/3 of the space */
+    flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center items horizontally in the column */
+    align-items: center;
     gap: 20px;
 }
 
-/* Styling for the Image */
+/* Image styling */
 .content-right img {
-    width: 60px; /* Image fills its container */
-    height: auto;
-    border-radius: 8px; /* Optional: adds a nice soft edge */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5); /* Optional: adds depth */
+    max-width: 100%;  /* scales to container */
+    height: auto;     /* maintains aspect ratio */
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    object-fit: contain; /* prevents distortion */
 }
 
-/* General H1/H2 and Paragraph Styles for this page */
+/* General H1/H2 and Paragraph Styles */
 .two-column-layout h1,
 .two-column-layout h2 {
     text-align: left;
-    width: 60%; /* Ensures headers align to the left of their column */
+    width: 100%; /* prevent clipping on small screens */
     margin-top: 15px;
     margin-bottom: 5px;
-    color: #FFD700; /* Use your existing gold/yellow color */
-    border-bottom: 2px solid #EDA20C; /* Optional: Separator line */
+    color: #FFD700;
+    border-bottom: 2px solid #EDA20C;
     padding-bottom: 5px;
 }
 
 .content-right h1 {
-    text-align: center; /* Center the main H1 */
+    text-align: center;
     border-bottom: none;
     font-size: 2.5rem;
 }
 
 .two-column-layout p {
-    background: rgba(255, 255, 255, 0.05); /* Very slight background for blocks */
+    background: rgba(255, 255, 255, 0.05);
     padding: 15px;
     border-radius: 8px;
     line-height: 1.6;
     margin-bottom: 10px;
+    word-wrap: break-word; /* prevents overflow on mobile */
 }
 
-/* Style the Return Button to be full-width and centered below the columns */
+/* Return button */
 .return-btn {
     text-align: center;
-    padding: 15px 30px;
+    padding: 18px 30px; /* larger tap target */
     background: #EDA20C;
     color: #111;
     border-radius: 8px;
     text-transform: uppercase;
     font-weight: bold;
     letter-spacing: 1px;
-    display: block; /* Makes it take up its own line */
-    width: 300px; /* Sets a specific width */
-    margin: 20px auto 0; /* Centers it horizontally */
+    display: block;
+    width: 80%; /* fluid width for smaller screens */
+    max-width: 300px;
+    margin: 20px auto 0;
     transition: all 0.3s ease;
 }
 
-.return-btn:hover {
+.return-btn:hover,
+.return-btn:active { /* active for touchscreen feedback */
     background: #c87f00;
     transform: scale(1.05);
     color: #fff;
     cursor: pointer;
 }
 
-/* MOBILE OPTIMIZATION for the new layout */
+/* MOBILE OPTIMIZATION */
 @media (max-width: 768px) {
     .two-column-layout {
-        flex-direction: column; /* Stacks the columns vertically */
+        flex-direction: column;
         gap: 20px;
     }
-    
+
     .content-right {
-        order: -1; /* Puts the right column (H1/Image) at the top on mobile */
+        order: -1;
     }
-    
+
     .content-right h1 {
-        text-align: center;
         font-size: 2rem;
     }
-    
+
     .content-right img {
-        max-width: 60%;
+        max-width: 80%; /* keep image large but responsive */
+        height: auto;
+    }
+
+    .return-btn {
+        width: 100%;
+        max-width: none;
+        font-size: 1rem;
     }
 }
