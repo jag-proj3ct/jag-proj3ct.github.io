@@ -37,7 +37,7 @@
 .two-column-layout h1,
 .two-column-layout h2 {
     text-align: left;
-    width: 100%; /* Ensures headers align to the left of their column */
+    width: 60%; /* Ensures headers align to the left of their column */
     margin-top: 15px;
     margin-bottom: 5px;
     color: #FFD700; /* Use your existing gold/yellow color */
