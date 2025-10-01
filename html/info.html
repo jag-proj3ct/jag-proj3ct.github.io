@@ -1,80 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../index.css" />
-    <link rel="stylesheet" href="../css/info-layout.css" />
-    <link rel="icon" href="https://d1yjjnpx0p53s8.cloudfront.net/pp840x830-pad1000x1000f8f8f8.jpg?9oPTJs..erd0K9tiddIL4J9OjiCfetIN" />
-    <title>Information about Domingo</title>
-    <script src="../js/device-type.js" defer></script> 
-    <script src="../js/info-music.js" defer></script> 
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../index.css" />
+  <link rel="stylesheet" href="../css/info-layout.css" />
+  <link rel="icon" href="https://d1yjjnpx0p53s8.cloudfront.net/pp840x830-pad1000x1000f8f8f8.jpg?9oPTJs..erd0K9tiddIL4J9OjiCfetIN" />
+  <title>Information about Domingo</title>
+  <script src="../js/device-type.js" defer></script> 
+  <script src="../js/info-music.js" defer></script> 
 </head>
 <body>
-    <div class="container">
+  <div class="container">
 
-      <div class="two-column-layout">
-          
-          <div class="content-left">
-              <h2>Basic Information and Background</h2>
-              <p>Domingo is from Quiche Joyabaj ,Guatemala. like Fremont Ne USA!</p>
-              <p>Domingo has been living in the United States since 7 years old and moved to Fremont Nebraska at 9 years old.</p>
-              <p>Domingo is apart of JAG 9th Grade and is also in bookclub.
-              I was apart of JAG last year as well, JAG 2024 JAG 2025!
-              I baby-sat during the summer and started reading more.</p>
+    <!-- Two Column Layout -->
+    <div class="two-column-layout">
 
-              <h2>Hobbies</h2>
-              <p>Coding, Drawing, Playing games, Reading, and taking care of my little siblings. 
-                 i have 3 little brothers, and live in with my mom and step-dad.</p>
+      <!-- LEFT SIDE -->
+      <div class="content-left">
+        <h2>Basic Information and Background</h2>
+        <p>Domingo is from Quiche Joyabaj, Guatemala. like Fremont Ne USA!</p>
+        <p>Domingo has been living in the United States since 7 years old and moved to Fremont Nebraska at 9 years old.</p>
+        <p>Domingo is apart of JAG 9th Grade and is also in bookclub.
+          I was apart of JAG last year as well, JAG 2024 JAG 2025!
+          I baby-sat during the summer and started reading more.</p>
 
-              <!-- 🎵 Music Player + Visualizer -->
-              <div class="music-player">
-                <div class="player card">
-                <div class="buttons">
-                  <div class="random-track" title="Random">
-                    <i class="fas fa-random fa-2x"></i>
-                  </div>
-                  <div class="prev-track" title="Previous">
-                    <i class="fa fa-step-backward fa-2x"></i>
-                  </div>
-                  <div class="playpause-track" title="Play/Pause">
-                    <i class="fa fa-play-circle fa-3x"></i>
-                  </div>
-                  <div class="next-track" title="Next">
-                    <i class="fa fa-step-forward fa-2x"></i>
-                  </div>
-                  <div class="repeat-track" title="Repeat">
-                    <i class="fas fa-redo fa-2x"></i>
-                  </div>
-                </div>
+        <h2>Hobbies</h2>
+        <p>Coding, Drawing, Playing games, Reading, and taking care of my little siblings. 
+          I have 3 little brothers, and live in with my mom and step-dad.</p>
 
-                <!-- Visualizer -->
-                <div id="wave" class="loader">
-                  <span class="stroke"></span>
-                  <span class="stroke"></span>
-                  <span class="stroke"></span>
-                  <span class="stroke"></span>
-                  <span class="stroke"></span>
-                  <span class="stroke"></span>
-                  <span class="stroke"></span>
-                </div>
-                </div>
-                </div>
-              </div>
-          
-          <div class="content-right">
-              <h3>Domingo Gutierrez Ramos</h3>
-              <img src="../images/meee2.png" alt="Profile Image of Domingo" width="50%" height="auto">
-              
-              <h1>What you can expect from Domingo!</h1>
-              <p>Public speaking, writting and planning, attending meetings, and helping students feel welcome and pushing for career paths.</p>
+        <!-- 🎵 Music Player -->
+        <div class="music-player card player">
+          <div class="buttons">
+            <div class="random-track" title="Random">
+              <i class="fas fa-random fa-2x"></i>
+            </div>
+            <div class="prev-track" title="Previous">
+              <i class="fa fa-step-backward fa-2x"></i>
+            </div>
+            <div class="playpause-track" title="Play/Pause">
+              <i class="fa fa-play-circle fa-3x"></i>
+            </div>
+            <div class="next-track" title="Next">
+              <i class="fa fa-step-forward fa-2x"></i>
+            </div>
+            <div class="repeat-track" title="Repeat">
+              <i class="fas fa-redo fa-2x"></i>
+            </div>
           </div>
+
+          <!-- Visualizer -->
+          <div id="wave" class="loader">
+            <span class="stroke"></span>
+            <span class="stroke"></span>
+            <span class="stroke"></span>
+            <span class="stroke"></span>
+            <span class="stroke"></span>
+            <span class="stroke"></span>
+            <span class="stroke"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT SIDE -->
+      <div class="content-right">
+        <h3>Domingo Gutierrez Ramos</h3>
+
+        <img src="../images/meee2.png" alt="Profile Image of Domingo" class="profile" />
+
+        <h1>What you can expect from Domingo!</h1>
+        <p>Public speaking, writing and planning, attending meetings, and helping students feel welcome and pushing for career paths.</p>
       </div>
     </div>
-      <hr>
-                <div class="container" id="musicPlayer">
-        <a href="../index.html" class="return-btn">Return to Main Page</a>
-                </div>
-    </div>
+  </div>
+
+  <hr>
+
+  <!-- Return Button -->
+  <div class="container">
+    <a href="../index.html" class="return-btn">Return to Main Page</a>
+  </div>
 </body>
 </html>
