@@ -30,7 +30,7 @@
         <p>Final Vote Amount: <span id="currentVotes">...Loading...</span></p>
       </div>
 
-      <!-- Disabled button -->
+      <!-- Disabled voting button -->
       <button id="voteBtn" disabled style="background: #888; color: #fff; cursor: not-allowed; border: none; padding: 10px 20px; border-radius: 6px;">
         All votes are in! Thank you for your support :)
       </button>
@@ -42,10 +42,14 @@
     <img src="images/flipped-cupid.png" alt="Cupid" class="cupid cupid-first-container" loading="lazy" decoding="async" width="200" height="200">
   </div>
 
+  <!-- Music Player -->
   <div class="container" id="musicPlayer">
     <div class="player card">
       <div class="wrapper">
         <div class="details">
+          <div class="track-art">
+            <div class="cover"></div>
+          </div>
           <a class="track-name" href="#" target="_blank">Track Name</a>
           <a class="track-artist" href="#" target="_blank">Track Artist</a>
         </div>
@@ -97,6 +101,7 @@
     <img src="images/normal-cupid.png" alt="Flipped Cupid" class="cupid cupid-music-player" loading="lazy" decoding="async" width="200" height="200">
   </div>
 
+  <!-- Footer -->
   <div class="footer" id="footer">
     <a href="https://github.com/jag-proj3ct/jag-proj3ct.github.io/tree/main">Source</a>
     <a href="#">Actual Teacher Voting</a> 
@@ -121,7 +126,7 @@
       }
     }
 
-    // Load once + refresh every 5s just in case
+    // Load once + refresh every 5s
     fetchVotes();
     setInterval(fetchVotes, 5000);
   </script>
