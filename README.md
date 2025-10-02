@@ -1,10 +1,1 @@
-# JAG PROJECT
-### due on tuesday or something
-# including:
-- music player
-- videos
-- and information
-<!-- latest deployment url:https://script.google.com/macros/s/AKfycbyOvr3pR8hmLeLiAZDPQeklwJLKU3mUDFyjT08Q2RIpphzN_1KqurI1HTOzZyczPo56pw/exec
-id:AKfycbyOvr3pR8hmLeLiAZDPQeklwJLKU3mUDFyjT08Q2RIpphzN_1KqurI1HTOzZyczPo56pw
-link:https://docs.google.com/spreadsheets/d/1anGNXbaR9fIlyqXR0eIplGMqoHHDVi9o15o8G0PP30U/edit?usp=sharing
--->
+
